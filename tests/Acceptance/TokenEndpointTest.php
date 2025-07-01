@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
 
 use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
-use Ajgarlag\Bundle\OidcProviderBundle\Tests\TestHelper;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\TokenEndpointTest as LeagueTokenEndpointTest;
+use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
 
-final class TokenEndpointTest extends AbstractAcceptanceTestCase
+final class TokenEndpointTest extends LeagueTokenEndpointTest
 {
+    use AcceptanceTestTrait;
+
     /**
      * @group time-sensitive
      */

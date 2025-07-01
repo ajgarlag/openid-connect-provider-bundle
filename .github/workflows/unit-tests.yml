@@ -44,7 +44,7 @@ jobs:
               run: "dev/bin/docker-compose build --build-arg PHP_VERSION=${{ matrix.php }} --build-arg XDEBUG_VERSION='3.4.0' php"
 
             - name: "require specific Doctrine ORM version"
-              run: "dev/bin/php composer require --ansi ${{ matrix.composer-flags }} --no-install --dev doctrine/orm:${{ matrix.doctrine-orm }}"
+              run: "dev/bin/php composer require --ansi ${{ matrix.composer-flags }} --no-scripts --no-install --dev doctrine/orm:${{ matrix.doctrine-orm }}"
 
             - name: "install dependencies"
               run: "dev/bin/php composer update --ansi ${{ matrix.composer-flags }}"

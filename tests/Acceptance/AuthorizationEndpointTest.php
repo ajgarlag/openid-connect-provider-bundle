@@ -7,15 +7,11 @@ namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
 use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
 use League\Bundle\OAuth2ServerBundle\Event\AuthorizationRequestResolveEvent;
 use League\Bundle\OAuth2ServerBundle\OAuth2Events;
+use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\AuthorizationEndpointTest as LeagueAuthorizationEndpointTest;
 
-final class AuthorizationEndpointTest extends AbstractAcceptanceTestCase
+final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
 {
-    private function loginUser(string $username = FixtureFactory::FIXTURE_USER, string $firewallContext = 'authorization'): void
-    {
-        $userProvider = static::getContainer()->get('security.user_providers');
-        $user = $userProvider->loadUserByIdentifier($username);
-        $this->client->loginUser($user, $firewallContext);
-    }
+    use AcceptanceTestTrait;
 
     public function testSuccessfulCodeRequest(): void
     {

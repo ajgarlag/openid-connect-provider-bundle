@@ -25,6 +25,7 @@
         "ext-pdo_sqlite": "*",
         "doctrine/doctrine-bundle": "^2.11.0",
         "doctrine/orm": "^2.14|^3.0",
+        "stevebauman/unfinalize": "dev-master",
         "symfony/browser-kit": "^6.4|^7.2",
         "symfony/phpunit-bridge": "^7.3"
     },
@@ -47,6 +48,11 @@
         "branch-alias": {
             "dev-master": "0.1.x-dev"
         }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "@php vendor/bin/unfinalize run vendor/league/oauth2-server-bundle/tests"
+        ]
     },
     "minimum-stability": "dev"
 }

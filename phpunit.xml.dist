@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+         convertDeprecationsToExceptions="false"
+>
+
+    <php>
+        <env name="KERNEL_CLASS" value="Ajgarlag\Bundle\OidcProviderBundle\Tests\TestKernel" />
+        <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
+        <env name="SYMFONY_PHPUNIT_REMOVE" value="" />
+    </php>
+
+    <testsuites>
+        <!-- <testsuite name="unit">
+            <directory>./tests/Unit</directory>
+        </testsuite> -->
+        <testsuite name="acceptance">
+            <directory>./tests/Acceptance</directory>
+        </testsuite>
+        <!-- <testsuite name="functional">
+            <directory>./tests/Functional</directory>
+        </testsuite> -->
+        <!-- <testsuite name="integration">
+            <directory>./tests/Integration</directory>
+        </testsuite> -->
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+
+    <extensions>
+    </extensions>
+</phpunit>

@@ -1,0 +1,39 @@
+name: "static analysis"
+
+on:
+    pull_request: ~
+    push: ~
+    schedule:
+        # Do not make it the first of the month and/or midnight since it is a very busy time
+        - cron: "* 10 5 * *"
+
+jobs:
+    static-analysis:
+        name: "static analysis"
+        runs-on: "ubuntu-latest"
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ['8.4']
+                symfony: ['7.3.*']
+                composer-flags: ['--prefer-stable']
+
+        env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}
+
+        steps:
+            - name: "checkout"
+              uses: "actions/checkout@v4"
+
+            - name: "build the environment"
+              run: "dev/bin/docker-compose build --build-arg PHP_VERSION=${{ matrix.php }} php"
+
+            - name: "install dependencies"
+              run: "dev/bin/php composer update --ansi ${{ matrix.composer-flags }}"
+
+            - name: "run phpstan static analysis"
+              run: "dev/bin/php phpstan --memory-limit=256M --ansi"
+
+            - name: clear docker volumes
+              if: ${{ always() }}
+              run: dev/bin/docker-compose down --volumes

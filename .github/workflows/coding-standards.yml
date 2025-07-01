@@ -1,0 +1,26 @@
+name: "coding standards"
+
+on:
+    pull_request: ~
+    push: ~
+    schedule:
+        # Do not make it the first of the month and/or midnight since it is a very busy time
+        - cron: "* 10 5 * *"
+
+jobs:
+    coding-standards:
+        name: "coding standards"
+        runs-on: "ubuntu-latest"
+        steps:
+            - name: "checkout"
+              uses: "actions/checkout@v4"
+
+            - name: "build the environment"
+              run: "dev/bin/docker-compose build"
+
+            - name: "check coding standards"
+              run: "dev/bin/php php-cs-fixer fix --dry-run --diff --ansi"
+
+            - name: clear docker volumes
+              if: ${{ always() }}
+              run: dev/bin/docker-compose down --volumes

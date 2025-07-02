@@ -15,7 +15,7 @@ use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class Response extends IdTokenResponse
+final class Response extends IdTokenResponse
 {
     public function __construct(
         IdentityProviderInterface $identityProvider,
@@ -72,5 +72,15 @@ class Response extends IdTokenResponse
         }
 
         return $extraParams;
+    }
+
+    public function buildIdToken(AccessTokenEntityInterface $accessToken): string
+    {
+        $extraParams = $this->getExtraParams($accessToken);
+        if (!isset($extraParams['id_token'])) {
+            throw new \LogicException();
+        }
+
+        return $extraParams['id_token'];
     }
 }

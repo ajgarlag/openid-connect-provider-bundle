@@ -14,5 +14,9 @@ final class AuthorizationServerCompilerPass implements CompilerPassInterface
     {
         $authorizationServerDefinition = $container->getDefinition('league.oauth2_server.authorization_server');
         $authorizationServerDefinition->setArgument(5, new Reference('ajgarlag.oidc_provider.oidc.response'));
+
+        $authorizationServerDefinition->addMethodCall('enableGrantType', [
+            new Reference('ajgarlag.oidc_provider.grant.id_token'),
+        ]);
     }
 }

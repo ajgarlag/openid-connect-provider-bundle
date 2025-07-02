@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OidcProviderBundle;
 
+use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\AuthCodeGrantCompilerPass;
 use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\AuthorizationServerCompilerPass;
 use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\IdTokenGrantCompilerPass;
 use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\OpenIdScopeCompilerPass;
@@ -15,6 +16,7 @@ final class AjgarlagOidcProviderBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         $container
+            ->addCompilerPass(new AuthCodeGrantCompilerPass())
             ->addCompilerPass(new AuthorizationServerCompilerPass())
             ->addCompilerPass(new IdTokenGrantCompilerPass())
             ->addCompilerPass(new OpenIdScopeCompilerPass())

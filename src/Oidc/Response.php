@@ -6,6 +6,7 @@ namespace Ajgarlag\Bundle\OidcProviderBundle\Oidc;
 
 use Ajgarlag\Bundle\OidcProviderBundle\Event\IdTokenIssuedEvent;
 use Ajgarlag\Bundle\OidcProviderBundle\Model\IdToken;
+use Ajgarlag\Bundle\OidcProviderBundle\OAuth2\IdTokenGrant;
 use Lcobucci\JWT\Builder;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;
@@ -44,6 +45,19 @@ final class Response extends IdTokenResponse
         $issuer = $this->getIssuer();
         if (\is_string($issuer)) {
             $builder = $builder->issuedBy($issuer);
+        }
+
+        if (null === $request = $this->requestStack->getCurrentRequest()) {
+            return $builder;
+        }
+
+        if ('authorization_code' === $request->request->getString('grant_type') && $request->request->has('code')) {
+            $payload = json_decode($this->decrypt($request->request->getString('code')), true, \JSON_THROW_ON_ERROR);
+            if (isset($payload['nonce'])) {
+                $builder = $builder->withClaim('nonce', (string) $payload['nonce']);
+            }
+        } elseif (\in_array($request->query->getString('response_type'), IdTokenGrant::RESPONSE_TYPES, true) && $request->query->has('nonce')) {
+            $builder = $builder->withClaim('nonce', $request->query->getString('nonce'));
         }
 
         return $builder;

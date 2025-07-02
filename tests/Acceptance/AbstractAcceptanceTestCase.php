@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
 
 use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
-use Ajgarlag\Bundle\OidcProviderBundle\Tests\TestHelper;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
@@ -13,6 +12,7 @@ use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\RefreshTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ScopeManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

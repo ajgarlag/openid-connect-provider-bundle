@@ -19,7 +19,7 @@ final class IdTokenGrant extends AbstractAuthorizeGrant
 {
     private const RESPONSE_TYPE_IDTOKEN = 'id_token';
     private const RESPONSE_TYPE_IDTOKEN_TOKEN = 'id_token token';
-    private const RESPONSE_TYPES = [
+    public const RESPONSE_TYPES = [
         self::RESPONSE_TYPE_IDTOKEN,
         self::RESPONSE_TYPE_IDTOKEN_TOKEN,
     ];

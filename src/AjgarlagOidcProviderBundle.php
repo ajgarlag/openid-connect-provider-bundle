@@ -6,6 +6,7 @@ namespace Ajgarlag\Bundle\OidcProviderBundle;
 
 use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\AuthorizationServerCompilerPass;
 use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\IdTokenGrantCompilerPass;
+use Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler\OpenIdScopeCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -16,6 +17,7 @@ final class AjgarlagOidcProviderBundle extends Bundle
         $container
             ->addCompilerPass(new AuthorizationServerCompilerPass())
             ->addCompilerPass(new IdTokenGrantCompilerPass())
+            ->addCompilerPass(new OpenIdScopeCompilerPass())
         ;
     }
 }

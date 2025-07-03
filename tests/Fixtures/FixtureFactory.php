@@ -130,8 +130,6 @@ final class FixtureFactory
     {
         $scopes = [];
 
-        $scopes[] = new Scope(self::FIXTURE_SCOPE_OPENID);
-
         return $scopes;
     }
 }

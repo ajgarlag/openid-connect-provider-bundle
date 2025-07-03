@@ -73,4 +73,14 @@ final class Response extends IdTokenResponse
 
         return $extraParams;
     }
+
+    public function buildIdToken(AccessTokenEntityInterface $accessToken): string
+    {
+        $extraParams = $this->getExtraParams($accessToken);
+        if (!isset($extraParams['id_token'])) {
+            throw new \LogicException();
+        }
+
+        return $extraParams['id_token'];
+    }
 }

@@ -15,7 +15,7 @@ use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class Response extends IdTokenResponse
+final class Response extends IdTokenResponse
 {
     public function __construct(
         IdentityProviderInterface $identityProvider,

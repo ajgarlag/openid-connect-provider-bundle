@@ -8,7 +8,7 @@ use League\OAuth2\Server\Entities\Traits\EntityTrait;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use OpenIDConnectServer\Entities\ClaimSetInterface;
 
-class Identity implements UserEntityInterface, ClaimSetInterface
+final class Identity implements UserEntityInterface, ClaimSetInterface
 {
     use EntityTrait;
 

@@ -9,7 +9,7 @@ use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
-class IdToken implements IdTokenInterface
+final class IdToken implements IdTokenInterface
 {
     private function __construct(
         private readonly Plain $token,

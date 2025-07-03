@@ -6,7 +6,7 @@ namespace Ajgarlag\Bundle\OidcProviderBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class ClaimsResolveEvent extends Event
+final class ClaimsResolveEvent extends Event
 {
     /**
      * @var array<non-empty-string, mixed>

@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "ext-openssl": "*",
         "steverhoades/oauth2-openid-connect-server": "^3.0.1",
         "league/oauth2-server-bundle": "^1"
     },
@@ -25,6 +26,7 @@
         "ext-pdo_sqlite": "*",
         "doctrine/doctrine-bundle": "^2.11.0",
         "doctrine/orm": "^2.14|^3.0",
+        "shipmonk/composer-dependency-analyser": "dev-master",
         "stevebauman/unfinalize": "dev-master",
         "symfony/browser-kit": "^6.4|^7.2",
         "symfony/phpunit-bridge": "^7.3"

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
 
 use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
+use Ajgarlag\Bundle\OidcProviderBundle\Tests\TestHelper;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\TokenEndpointTest as LeagueTokenEndpointTest;
-use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
 
 final class TokenEndpointTest extends LeagueTokenEndpointTest
 {
@@ -31,7 +31,7 @@ final class TokenEndpointTest extends LeagueTokenEndpointTest
             'client_secret' => 'secret_oidc',
             'grant_type' => 'authorization_code',
             'redirect_uri' => 'https://example.org/oidc/redirect-uri',
-            'code' => TestHelper::generateEncryptedAuthCodePayload($authCodeOidc),
+            'code' => TestHelper::generateEncryptedAuthCodePayload($authCodeOidc, 'n0nc3'),
         ]);
 
         $response = $this->client->getResponse();

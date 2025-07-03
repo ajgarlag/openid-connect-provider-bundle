@@ -9,6 +9,7 @@ use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
 use League\Bundle\OAuth2ServerBundle\Event\AuthorizationRequestResolveEvent;
 use League\Bundle\OAuth2ServerBundle\OAuth2Events;
 use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\AuthorizationEndpointTest as LeagueAuthorizationEndpointTest;
+use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
 
 final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
 {
@@ -34,6 +35,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
                 'response_type' => 'code',
                 'state' => 'foobar',
                 'scope' => 'openid',
+                'nonce' => 'n0nc3',
             ]
         );
 
@@ -46,6 +48,9 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
         $query = [];
         parse_str(parse_url((string) $redirectUri, \PHP_URL_QUERY), $query);
         $this->assertArrayHasKey('code', $query);
+        $payload = json_decode(TestHelper::decryptPayload($query['code']), true);
+        $this->assertArrayHasKey('nonce', $payload);
+        $this->assertSame($payload['nonce'], 'n0nc3');
         $this->assertArrayHasKey('state', $query);
         $this->assertEquals('foobar', $query['state']);
     }
@@ -73,6 +78,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
                 'state' => 'foobar',
                 'scope' => 'openid',
                 'redirect_uri' => FixtureFactory::FIXTURE_CLIENT_OIDC_REDIRECT_URI,
+                'nonce' => 'n0nc3',
             ]
         );
 
@@ -88,6 +94,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
         $idToken = IdToken::fromString($fragment['id_token']);
         $this->assertSame('user', $idToken->getSubject());
         $this->assertSame(['client_oidc'], $idToken->getAudience());
+        $this->assertSame('n0nc3', $idToken->getClaim('nonce'));
         $this->assertArrayHasKey('state', $fragment);
         $this->assertEquals('foobar', $fragment['state']);
         $this->assertArrayHasKey('access_token', $fragment);

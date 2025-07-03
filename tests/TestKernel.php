@@ -8,6 +8,7 @@ use League\Bundle\OAuth2ServerBundle\Tests\TestKernel as LeagueTestKernel;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class TestKernel extends LeagueTestKernel
@@ -25,5 +26,18 @@ final class TestKernel extends LeagueTestKernel
         $container->register('nyholm.psr7.psr17_factory', Psr17Factory::class);
         $container->setAlias(ResponseFactoryInterface::class, 'nyholm.psr7.psr17_factory');
         $container->setAlias(UriFactoryInterface::class, 'nyholm.psr7.psr17_factory');
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader): void
+    {
+        parent::registerContainerConfiguration($loader);
+
+        $loader->load(function (ContainerBuilder $container) {
+            $container->loadFromExtension('framework', [
+                'router' => [
+                    'resource' => __DIR__ . '/Fixtures/routes.php',
+                ],
+            ]);
+        });
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+use Ajgarlag\Bundle\OidcProviderBundle\Controller\DiscoveryController;
+use Ajgarlag\Bundle\OidcProviderBundle\Controller\JwksController;
 use Ajgarlag\Bundle\OidcProviderBundle\OAuth2\IdTokenGrant;
 use Ajgarlag\Bundle\OidcProviderBundle\Oidc\Response;
 use Ajgarlag\Bundle\OidcProviderBundle\Repository\IdentityProvider;
@@ -11,6 +13,7 @@ use OpenIDConnectServer\ClaimExtractor;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 return static function (ContainerConfigurator $container): void {
@@ -38,5 +41,24 @@ return static function (ContainerConfigurator $container): void {
                 null,
             ])
         ->alias(IdTokenGrant::class, 'ajgarlag.oidc_provider.grant.id_token')
+
+        ->set('ajgarlag.oidc_provider.controller.discovery', DiscoveryController::class)
+            ->args([
+                service(UrlGeneratorInterface::class),
+                null,
+                null,
+                null,
+                null,
+            ])
+            ->tag('controller.service_arguments')
+        ->alias(DiscoveryController::class, 'ajgarlag.oidc_provider.controller.discovery')
+
+        ->set('ajgarlag.oidc_provider.controller.jwks', JwksController::class)
+            ->args([
+                null,
+            ])
+            ->tag('controller.service_arguments')
+        ->alias(JwksController::class, 'ajgarlag.oidc_provider.controller.jwks')
+
     ;
 };

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OidcProviderBundle\OAuth2;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Oidc\Response;
+use Ajgarlag\Bundle\OidcProviderBundle\Oidc\IdTokenResponse;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Grant\AbstractAuthorizeGrant;
@@ -25,7 +25,7 @@ final class IdTokenGrant extends AbstractAuthorizeGrant
     ];
 
     public function __construct(
-        private Response $idTokenResponse,
+        private IdTokenResponse $idTokenResponse,
         private \DateInterval $accessTokenTTL,
         private string $queryDelimiter = '#',
     ) {

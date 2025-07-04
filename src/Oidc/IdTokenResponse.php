@@ -11,12 +11,12 @@ use Lcobucci\JWT\Builder;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use OpenIDConnectServer\ClaimExtractor;
-use OpenIDConnectServer\IdTokenResponse;
+use OpenIDConnectServer\IdTokenResponse as BaseIdTokenResponse;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class Response extends IdTokenResponse
+final class IdTokenResponse extends BaseIdTokenResponse
 {
     public function __construct(
         IdentityProviderInterface $identityProvider,

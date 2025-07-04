@@ -7,7 +7,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Ajgarlag\Bundle\OidcProviderBundle\Controller\DiscoveryController;
 use Ajgarlag\Bundle\OidcProviderBundle\Controller\JwksController;
 use Ajgarlag\Bundle\OidcProviderBundle\OAuth2\IdTokenGrant;
-use Ajgarlag\Bundle\OidcProviderBundle\Oidc\Response;
+use Ajgarlag\Bundle\OidcProviderBundle\Oidc\IdTokenResponse;
 use Ajgarlag\Bundle\OidcProviderBundle\Repository\IdentityProvider;
 use OpenIDConnectServer\ClaimExtractor;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
@@ -26,14 +26,14 @@ return static function (ContainerConfigurator $container): void {
 
         ->set('ajgarlag.oidc_provider.oidc.claim_extractor', ClaimExtractor::class)
 
-        ->set('ajgarlag.oidc_provider.oidc.response', Response::class)
+        ->set('ajgarlag.oidc_provider.oidc.response', IdTokenResponse::class)
             ->args([
                 service('ajgarlag.oidc_provider.repository.identity_provider'),
                 service('ajgarlag.oidc_provider.oidc.claim_extractor'),
                 service(EventDispatcherInterface::class),
                 service(RequestStack::class),
             ])
-        ->alias(Response::class, 'ajgarlag.oidc_provider.oidc.response')
+        ->alias(IdTokenResponse::class, 'ajgarlag.oidc_provider.oidc.response')
 
         ->set('ajgarlag.oidc_provider.grant.id_token', IdTokenGrant::class)
             ->args([

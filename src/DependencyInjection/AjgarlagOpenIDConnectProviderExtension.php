@@ -11,6 +11,11 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 final class AjgarlagOpenIDConnectProviderExtension extends Extension
 {
+    public function getAlias(): string
+    {
+        return 'ajgarlag_openid_connect_provider';
+    }
+
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));

@@ -33,6 +33,7 @@ final class TestKernel extends LeagueTestKernel
         parent::registerContainerConfiguration($loader);
 
         $loader->load(function (ContainerBuilder $container) {
+            $container->loadFromExtension('ajgarlag_openid_connect_provider', []);
             $container->loadFromExtension('framework', [
                 'router' => [
                     'resource' => __DIR__ . '/Fixtures/routes.php',

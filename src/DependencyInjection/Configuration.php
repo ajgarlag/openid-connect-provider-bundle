@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -12,7 +12,7 @@ final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('ajgarlag_oidc_provider');
+        $treeBuilder = new TreeBuilder('ajgarlag_openid_connect_provider');
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode->append($this->createDiscoveryNode());
@@ -38,7 +38,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('jwks_endpoint_route')
                     ->info('Route name for the jwks endpoint')
-                    ->defaultValue('oidc_jwks')
+                    ->defaultValue('openid_connect_jwks')
                 ->end()
             ->end()
         ;

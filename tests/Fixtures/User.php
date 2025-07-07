@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 

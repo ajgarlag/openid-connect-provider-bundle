@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures;
 
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
@@ -24,11 +24,11 @@ use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;
  */
 final class FixtureFactory
 {
-    public const FIXTURE_AUTH_CODE_OIDC = 'aaa70e8152259988b3c8e9e8cff604019bb986eb226bd126da189829b95a2be631e2506042064e12';
+    public const FIXTURE_AUTH_CODE_OPENID_CONNECT = 'aaa70e8152259988b3c8e9e8cff604019bb986eb226bd126da189829b95a2be631e2506042064e12';
 
-    public const FIXTURE_CLIENT_OIDC = 'client_oidc';
+    public const FIXTURE_CLIENT_OPENID_CONNECT = 'client_openid_connect';
 
-    public const FIXTURE_CLIENT_OIDC_REDIRECT_URI = 'https://example.org/oidc/redirect-uri';
+    public const FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI = 'https://example.org/openid_connect/redirect-uri';
 
     public const FIXTURE_SCOPE_OPENID = 'openid';
 
@@ -99,9 +99,9 @@ final class FixtureFactory
         $authorizationCodes = [];
 
         $authorizationCodes[] = new AuthorizationCode(
-            self::FIXTURE_AUTH_CODE_OIDC,
+            self::FIXTURE_AUTH_CODE_OPENID_CONNECT,
             new \DateTimeImmutable('+2 minute'),
-            $clientManager->find(self::FIXTURE_CLIENT_OIDC),
+            $clientManager->find(self::FIXTURE_CLIENT_OPENID_CONNECT),
             self::FIXTURE_USER,
             []
         );
@@ -116,8 +116,8 @@ final class FixtureFactory
     {
         $clients = [];
 
-        $clients[] = (new Client('name', self::FIXTURE_CLIENT_OIDC, 'secret_oidc'))
-            ->setRedirectUris(new RedirectUri(self::FIXTURE_CLIENT_OIDC_REDIRECT_URI))
+        $clients[] = (new Client('name', self::FIXTURE_CLIENT_OPENID_CONNECT, 'secret_openid_connect'))
+            ->setRedirectUris(new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI))
             ->setScopes(new Scope(self::FIXTURE_SCOPE_OPENID));
 
         return $clients;

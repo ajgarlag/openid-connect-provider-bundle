@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\OAuth2;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Oidc\IdTokenResponse;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\IdTokenResponse;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Grant\AbstractAuthorizeGrant;

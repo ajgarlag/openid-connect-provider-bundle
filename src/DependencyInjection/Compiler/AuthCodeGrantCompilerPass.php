@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler;
 
-use Ajgarlag\Bundle\OidcProviderBundle\OAuth2\AuthCodeGrant;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\AuthCodeGrant;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-/*
- * Copyright (c) 2019-2020 Antonio J. García Lagar <aj@garcialagar.es>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace Ajgarlag\Bundle\OidcProviderBundle\OAuth2;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2;
 
 use League\OAuth2\Server\Grant\AuthCodeGrant as LeagueAuthCodeGrant;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests;
 
 use League\Bundle\OAuth2ServerBundle\Tests\TestKernel as LeagueTestKernel;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -17,7 +17,7 @@ final class TestKernel extends LeagueTestKernel
     {
         return [
             ...parent::registerBundles(),
-            new \Ajgarlag\Bundle\OidcProviderBundle\AjgarlagOidcProviderBundle(),
+            new \Ajgarlag\Bundle\OpenIDConnectProviderBundle\AjgarlagOpenIDConnectProviderBundle(),
         ];
     }
 

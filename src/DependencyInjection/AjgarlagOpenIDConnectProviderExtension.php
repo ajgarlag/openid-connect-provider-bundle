@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
-final class AjgarlagOidcProviderExtension extends Extension
+final class AjgarlagOpenIDConnectProviderExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -26,7 +26,7 @@ final class AjgarlagOidcProviderExtension extends Extension
      */
     private function configureDiscovery(ContainerBuilder $container, array $config): void
     {
-        $container->getDefinition('ajgarlag.oidc_provider.controller.discovery')
+        $container->getDefinition('ajgarlag.openid_connect_provider.controller.discovery')
             ->replaceArgument(2, $config['authorization_endpoint_route'])
             ->replaceArgument(3, $config['token_endpoint_route'])
             ->replaceArgument(4, $config['jwks_endpoint_route'])

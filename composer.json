@@ -1,9 +1,9 @@
 {
-    "name": "ajgarlag/oidc-provider-bundle",
+    "name": "ajgarlag/openid-connect-provider-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony bundle for OIDC provider.",
-    "keywords": ["oidc", "provider", "authorization", "bundle", "auth", "bundle"],
-    "homepage": "https://github.com/ajgarlag/oidc-provider-bundle",
+    "description": "Symfony bundle for OpenID Connect provider.",
+    "keywords": ["openid", "connect", "oidc", "provider", "authentication", "bundle", "auth", "bundle"],
+    "homepage": "https://github.com/ajgarlag/openid-connect-provider-bundle",
     "license": "MIT",
     "authors": [
         {
@@ -12,7 +12,7 @@
         },
         {
             "name": "All contributors",
-            "homepage": "https://github.com/ajgarlag/oidc-provider-bundle/graphs/contributors"
+            "homepage": "https://github.com/ajgarlag/openid-connect-provider-bundle/graphs/contributors"
         }
     ],
     "require": {
@@ -32,11 +32,11 @@
         "symfony/phpunit-bridge": "^7.3"
     },
     "autoload": {
-        "psr-4": { "Ajgarlag\\Bundle\\OidcProviderBundle\\": "src/" }
+        "psr-4": { "Ajgarlag\\Bundle\\OpenIDConnectProviderBundle\\": "src/" }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ajgarlag\\Bundle\\OidcProviderBundle\\Tests\\": "tests/",
+            "Ajgarlag\\Bundle\\OpenIDConnectProviderBundle\\Tests\\": "tests/",
             "League\\Bundle\\OAuth2ServerBundle\\Tests\\": "vendor/league/oauth2-server-bundle/tests/"
         }
     },

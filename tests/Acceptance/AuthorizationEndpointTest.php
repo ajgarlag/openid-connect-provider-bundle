@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Acceptance;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Model\IdToken;
-use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
 use League\Bundle\OAuth2ServerBundle\Event\AuthorizationRequestResolveEvent;
 use League\Bundle\OAuth2ServerBundle\OAuth2Events;
 use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\AuthorizationEndpointTest as LeagueAuthorizationEndpointTest;
@@ -17,7 +17,6 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
 
     public function testSuccessfulCodeRequest(): void
     {
-        $this->assertTrue(true);
         $this->client
             ->getContainer()
             ->get('event_dispatcher')
@@ -31,7 +30,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
             'GET',
             '/authorize',
             [
-                'client_id' => FixtureFactory::FIXTURE_CLIENT_OIDC,
+                'client_id' => FixtureFactory::FIXTURE_CLIENT_OPENID_CONNECT,
                 'response_type' => 'code',
                 'state' => 'foobar',
                 'scope' => 'openid',
@@ -44,7 +43,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
         $this->assertSame(302, $response->getStatusCode());
         $redirectUri = $response->headers->get('Location');
 
-        $this->assertStringStartsWith(FixtureFactory::FIXTURE_CLIENT_OIDC_REDIRECT_URI, $redirectUri);
+        $this->assertStringStartsWith(FixtureFactory::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI, $redirectUri);
         $query = [];
         parse_str(parse_url((string) $redirectUri, \PHP_URL_QUERY), $query);
         $this->assertArrayHasKey('code', $query);
@@ -73,11 +72,11 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
             'GET',
             '/authorize',
             [
-                'client_id' => FixtureFactory::FIXTURE_CLIENT_OIDC,
+                'client_id' => FixtureFactory::FIXTURE_CLIENT_OPENID_CONNECT,
                 'response_type' => 'id_token token',
                 'state' => 'foobar',
                 'scope' => 'openid',
-                'redirect_uri' => FixtureFactory::FIXTURE_CLIENT_OIDC_REDIRECT_URI,
+                'redirect_uri' => FixtureFactory::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI,
                 'nonce' => 'n0nc3',
             ]
         );
@@ -87,13 +86,13 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
         $this->assertSame(302, $response->getStatusCode());
         $redirectUri = $response->headers->get('Location');
 
-        $this->assertStringStartsWith(FixtureFactory::FIXTURE_CLIENT_OIDC_REDIRECT_URI, $redirectUri);
+        $this->assertStringStartsWith(FixtureFactory::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI, $redirectUri);
         $fragment = [];
         parse_str(parse_url($redirectUri, \PHP_URL_FRAGMENT), $fragment);
         $this->assertArrayHasKey('id_token', $fragment);
         $idToken = IdToken::fromString($fragment['id_token']);
         $this->assertSame('user', $idToken->getSubject());
-        $this->assertSame(['client_oidc'], $idToken->getAudience());
+        $this->assertSame(['client_openid_connect'], $idToken->getAudience());
         $this->assertSame('n0nc3', $idToken->getClaim('nonce'));
         $this->assertArrayHasKey('state', $fragment);
         $this->assertEquals('foobar', $fragment['state']);

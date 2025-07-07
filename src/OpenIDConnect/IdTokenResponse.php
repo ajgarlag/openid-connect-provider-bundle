@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Oidc;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Event\IdTokenIssuedEvent;
-use Ajgarlag\Bundle\OidcProviderBundle\Model\IdToken;
-use Ajgarlag\Bundle\OidcProviderBundle\OAuth2\IdTokenGrant;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event\IdTokenIssuedEvent;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\IdTokenGrant;
 use Lcobucci\JWT\Builder;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;

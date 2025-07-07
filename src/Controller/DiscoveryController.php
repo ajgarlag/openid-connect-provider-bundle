@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Controller;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller;
 
-use Ajgarlag\Bundle\OidcProviderBundle\OAuth2\AuthorizationServer;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\AuthorizationServer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

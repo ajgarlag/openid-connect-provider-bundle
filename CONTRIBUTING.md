@@ -2,7 +2,7 @@
 
 All contributions are **welcome** and **very much appreciated**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/ajgarlag/oidc-provider-bundle).
+We accept contributions via Pull Requests on [Github](https://github.com/ajgarlag/openid-connect-provider-bundle).
 
 ## Pull Request guidelines
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Acceptance;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;

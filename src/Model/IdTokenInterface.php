@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Model;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model;
 
 interface IdTokenInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests;
 
 use Defuse\Crypto\Crypto;
 use League\Bundle\OAuth2ServerBundle\Model\AuthorizationCode;

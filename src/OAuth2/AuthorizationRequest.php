@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\OAuth2;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2;
 
 use League\OAuth2\Server\RequestTypes\AuthorizationRequest as LeagueAuthorizationRequest;
 

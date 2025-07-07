@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Event;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Tests\Acceptance;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Acceptance;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Tests\Fixtures\FixtureFactory;
-use Ajgarlag\Bundle\OidcProviderBundle\Tests\TestHelper;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\TestHelper;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
@@ -21,17 +21,17 @@ final class TokenEndpointTest extends LeagueTokenEndpointTest
      */
     public function testSuccessfulIdTokenRequest(): void
     {
-        $authCodeOidc = $this->client
+        $authCodeOpenID = $this->client
             ->getContainer()
             ->get(AuthorizationCodeManagerInterface::class)
-            ->find(FixtureFactory::FIXTURE_AUTH_CODE_OIDC);
+            ->find(FixtureFactory::FIXTURE_AUTH_CODE_OPENID_CONNECT);
 
         $this->client->request('POST', '/token', [
-            'client_id' => 'client_oidc',
-            'client_secret' => 'secret_oidc',
+            'client_id' => 'client_openid_connect',
+            'client_secret' => 'secret_openid_connect',
             'grant_type' => 'authorization_code',
-            'redirect_uri' => 'https://example.org/oidc/redirect-uri',
-            'code' => TestHelper::generateEncryptedAuthCodePayload($authCodeOidc, 'n0nc3'),
+            'redirect_uri' => 'https://example.org/openid_connect/redirect-uri',
+            'code' => TestHelper::generateEncryptedAuthCodePayload($authCodeOpenID, 'n0nc3'),
         ]);
 
         $response = $this->client->getResponse();

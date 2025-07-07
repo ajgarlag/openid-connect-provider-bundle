@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Repository;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Repository;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Event\ClaimsResolveEvent;
-use Ajgarlag\Bundle\OidcProviderBundle\Model\Identity;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event\ClaimsResolveEvent;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\Identity;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 

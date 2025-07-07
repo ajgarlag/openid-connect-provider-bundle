@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Controller;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller;
 
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\CryptKeyInterface;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\Event;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event;
 
-use Ajgarlag\Bundle\OidcProviderBundle\Model\IdTokenInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdTokenInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 final class IdTokenIssuedEvent extends Event

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OidcProviderBundle\DependencyInjection\Compiler;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler;
 
 use League\Bundle\OAuth2ServerBundle\Manager\ScopeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;

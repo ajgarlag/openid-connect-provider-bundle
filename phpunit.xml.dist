@@ -9,7 +9,7 @@
 >
 
     <php>
-        <env name="KERNEL_CLASS" value="Ajgarlag\Bundle\OidcProviderBundle\Tests\TestKernel" />
+        <env name="KERNEL_CLASS" value="Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\TestKernel" />
         <env name="SHELL_VERBOSITY" value="-1" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
         <env name="SYMFONY_PHPUNIT_REMOVE" value="" />

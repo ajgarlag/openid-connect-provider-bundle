@@ -53,8 +53,8 @@ final class ShowClientExtensionCommand extends Command
 
     private function drawTable(OutputStyle $io, ClientExtensionInterface $clientExtension): void
     {
-        $columns = ['name', 'identifier', 'post logout redirect uri'];
-        $rows = [array_combine($columns, [$clientExtension->getClient()->getName(), $clientExtension->getClient()->getIdentifier(), implode(', ', $clientExtension->getPostLogoutRedirectUris())])];
+        $columns = ['name', 'identifier', 'post logout redirect uri', 'front channel logout uri'];
+        $rows = [array_combine($columns, [$clientExtension->getClient()->getName(), $clientExtension->getClient()->getIdentifier(), implode(', ', $clientExtension->getPostLogoutRedirectUris()), $clientExtension->getFrontChannelLogoutUri() ?? ''])];
         $io->table($columns, $rows);
     }
 }

@@ -7,9 +7,11 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\AjgarlagOpenIDConnectProviderExtension;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\AuthCodeGrantCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\AuthorizationServerCompilerPass;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\EndSessionControllerCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\IdTokenGrantCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\JwksControllerCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\OpenIdScopeCompilerPass;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\StorageCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -26,9 +28,11 @@ final class AjgarlagOpenIDConnectProviderBundle extends Bundle
         $container
             ->addCompilerPass(new AuthCodeGrantCompilerPass())
             ->addCompilerPass(new AuthorizationServerCompilerPass())
+            ->addCompilerPass(new EndSessionControllerCompilerPass())
             ->addCompilerPass(new IdTokenGrantCompilerPass())
             ->addCompilerPass(new JwksControllerCompilerPass())
             ->addCompilerPass(new OpenIdScopeCompilerPass())
+            ->addCompilerPass(new StorageCompilerPass())
         ;
     }
 

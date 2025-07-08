@@ -35,6 +35,7 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
             ->replaceArgument(2, $config['authorization_endpoint_route'])
             ->replaceArgument(3, $config['token_endpoint_route'])
             ->replaceArgument(4, $config['jwks_endpoint_route'])
+            ->replaceArgument(5, $config['end_session_endpoint_route'])
         ;
     }
 }

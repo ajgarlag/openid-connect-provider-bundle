@@ -1,12 +1,12 @@
 name: "coding standards"
 
 on:
-    pull_request: ~
-    push: ~
+    # pull_request: ~
+    # push: ~
     workflow_dispatch: ~
-    schedule:
-        # Do not make it the first of the month and/or midnight since it is a very busy time
-        - cron: "* 10 5 * *"
+    # schedule:
+    #     # Do not make it the first of the month and/or midnight since it is a very busy time
+    #     - cron: "* 10 5 * *"
 
 jobs:
     coding-standards:
@@ -26,14 +26,13 @@ jobs:
             - name: "build and push the PHP environment"
               uses: docker/build-push-action@v6
               with:
-                context: .
-                file: compose.yaml
-                push: false
+                context: ./dev/docker
                 build-args: |
                   PHP_VERSION=${{ matrix.php }}
+                push: false
                 tags: user/php:${{ matrix.php }}
-                cache-from: type=registry,ref=user/php:buildcache
-                cache-to: type=registry,ref=user/php:buildcache,mode=max
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
 
             - name: "check coding standards"
               run: "dev/bin/php php-cs-fixer fix --dry-run --diff --ansi"

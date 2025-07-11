@@ -2,4 +2,4 @@ services:
     php:
         build:
             cache_from:
-                - .cache/docker
+                - type=gha

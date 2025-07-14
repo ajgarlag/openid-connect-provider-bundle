@@ -1,26 +1,37 @@
-name: "coding standards"
+name: coding standards
 
 on:
-    pull_request: ~
-    push: ~
-    schedule:
-        # Do not make it the first of the month and/or midnight since it is a very busy time
-        - cron: "* 10 5 * *"
+  pull_request: ~
+  push: ~
+  schedule:
+      # Do not make it the first of the month and/or midnight since it is a very busy time
+      - cron: '* 10 5 * *'
+  workflow_dispatch: ~
 
 jobs:
-    coding-standards:
-        name: "coding standards"
-        runs-on: "ubuntu-latest"
-        steps:
-            - name: "checkout"
-              uses: "actions/checkout@v4"
+  coding-standards:
+    name: coding standards
+    runs-on: ubuntu-latest
 
-            - name: "build the environment"
-              run: "dev/bin/docker-compose build"
+    strategy:
+      matrix:
+        symfony: ['7.3.*']
 
-            - name: "check coding standards"
-              run: "dev/bin/php php-cs-fixer fix --dry-run --diff --ansi"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
 
-            - name: clear docker volumes
-              if: ${{ always() }}
-              run: dev/bin/docker-compose down --volumes
+      - name: set up php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: latest
+          tools: composer, flex
+
+      - name: install composer dependencies
+        env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}
+          COMPOSER_PREFER_STABLE: 1
+        uses: ramsey/composer-install@v3
+
+      - name: check coding standards
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --ansi

@@ -26,7 +26,9 @@
         "ext-pdo_sqlite": "*",
         "doctrine/doctrine-bundle": "^2.11.0",
         "doctrine/orm": "^2.14|^3.0",
-        "shipmonk/composer-dependency-analyser": "dev-master",
+        "php-cs-fixer/shim": "^3.38",
+        "phpstan/phpstan": "^2",
+        "phpstan/phpstan-symfony": "2",
         "stevebauman/unfinalize": "dev-master",
         "symfony/browser-kit": "^6.4|^7.2",
         "symfony/phpunit-bridge": "^7.3"

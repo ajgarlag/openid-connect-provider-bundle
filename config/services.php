@@ -15,6 +15,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStor
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\IdTokenGrant;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\IdTokenResponse;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidManager;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Repository\IdentityProvider;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use OpenIDConnectServer\ClaimExtractor;
@@ -34,12 +35,19 @@ return static function (ContainerConfigurator $container): void {
 
         ->set('ajgarlag.openid_connect_provider.openid_connect.claim_extractor', ClaimExtractor::class)
 
+        ->set('ajgarlag.openid_connect_provider.openid_connect.session_sid_manager', SessionSidManager::class)
+            ->args([
+                service(RequestStack::class),
+                service('security.helper'),
+            ])
+
         ->set('ajgarlag.openid_connect_provider.openid_connect.response', IdTokenResponse::class)
             ->args([
                 service('ajgarlag.openid_connect_provider.repository.identity_provider'),
                 service('ajgarlag.openid_connect_provider.openid_connect.claim_extractor'),
                 service(EventDispatcherInterface::class),
                 service(RequestStack::class),
+                service('ajgarlag.openid_connect_provider.openid_connect.session_sid_manager'),
             ])
         ->alias(IdTokenResponse::class, 'ajgarlag.openid_connect_provider.openid_connect.response')
 
@@ -94,6 +102,7 @@ return static function (ContainerConfigurator $container): void {
                 null,
                 service(PostLogoutRedirectUriStorageInterface::class),
                 service('security.helper'),
+                service('ajgarlag.openid_connect_provider.openid_connect.session_sid_manager'),
                 service('twig'),
                 service('security.http_utils'),
                 null,

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `SessionSidManager` class
+
+### Removed
+
+- Remove `SessionSidTrait`
+
 ## [0.2.4] - 2026-02-19
 
 ### Removed

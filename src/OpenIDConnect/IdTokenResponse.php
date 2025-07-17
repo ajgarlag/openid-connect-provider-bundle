@@ -18,13 +18,12 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class IdTokenResponse extends BaseIdTokenResponse
 {
-    use SessionSidTrait;
-
     public function __construct(
         IdentityProviderInterface $identityProvider,
         ClaimExtractor $claimExtractor,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly RequestStack $requestStack,
+        private readonly SessionSidManager $sessionSidManager,
     ) {
         parent::__construct($identityProvider, $claimExtractor);
     }
@@ -72,7 +71,7 @@ final class IdTokenResponse extends BaseIdTokenResponse
                 $builder = $builder->withClaim('nonce', $request->query->getString('nonce'));
             }
             if ($request->hasSession()) {
-                $builder = $builder->withClaim('sid', $this->getOrGenerateSid($request->getSession()));
+                $builder = $builder->withClaim('sid', $this->sessionSidManager->getOrGenerateSid());
             }
         }
 

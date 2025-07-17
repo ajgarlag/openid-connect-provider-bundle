@@ -40,6 +40,10 @@ final class Configuration implements ConfigurationInterface
                     ->info('Route name for the jwks endpoint')
                     ->defaultValue('openid_connect_jwks')
                 ->end()
+                ->scalarNode('end_session_endpoint_route')
+                    ->info('Route name for the end session endpoint')
+                    ->defaultValue('openid_connect_end_session')
+                ->end()
             ->end()
         ;
 

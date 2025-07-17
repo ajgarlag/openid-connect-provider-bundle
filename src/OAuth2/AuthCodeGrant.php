@@ -38,7 +38,7 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
             return $response;
         }
 
-        if (!$request->query->has('nonce')) {
+        if (!$request->query->has('nonce') && !$request->hasSession()) {
             return $response;
         }
 
@@ -53,6 +53,9 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
 
         $payload = json_decode($this->decrypt($queryParams['code']), true, \JSON_THROW_ON_ERROR);
         $payload['nonce'] = $request->query->getString('nonce');
+        if ($request->hasSession()) {
+            $payload['sid'] = $request->getSession()->getId();
+        }
         $queryParams['code'] = $this->encrypt(json_encode($payload, \JSON_THROW_ON_ERROR));
         $response->setRedirectUri($psr7Uri->withQuery(http_build_query($queryParams))->__toString());
 

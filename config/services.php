@@ -92,6 +92,7 @@ return static function (ContainerConfigurator $container): void {
                 service('cache.app'),
                 service('twig'),
                 service('security.http_utils'),
+                null,
             ])
             ->tag('controller.service_arguments')
         ->alias(EndSessionController::class, 'ajgarlag.openid_connect_provider.controller.end_session')

@@ -51,6 +51,7 @@ return static function (ContainerConfigurator $container): void {
          ->set('ajgarlag.openid_connect_provider.listener.post_logout_redirect', PostLogoutRedirectListener::class)
             ->args([
                 service('cache.app'),
+                service('security.helper'),
             ])
             ->tag('kernel.event_subscriber')
         ->alias(PostLogoutRedirectListener::class, 'ajgarlag.openid_connect_provider.listener.post_logout_redirect')
@@ -90,6 +91,7 @@ return static function (ContainerConfigurator $container): void {
                 service(ClientExtensionManagerInterface::class),
                 null,
                 service('cache.app'),
+                service('security.helper'),
                 service('twig'),
                 service('security.http_utils'),
                 null,

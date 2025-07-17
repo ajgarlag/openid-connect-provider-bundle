@@ -46,7 +46,7 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
     private function configureEndSession(ContainerBuilder $container, array $config): void
     {
         $container->getDefinition('ajgarlag.openid_connect_provider.controller.end_session')
-            ->replaceArgument(7, $config['cancel_logout_default_path'])
+            ->replaceArgument(8, $config['cancel_logout_default_path'])
         ;
     }
 }

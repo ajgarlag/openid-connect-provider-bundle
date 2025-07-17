@@ -16,6 +16,7 @@ final class LeagueTestKernel extends TestKernel
     {
         return [
             ...parent::registerBundles(),
+            new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Ajgarlag\Bundle\OpenIDConnectProviderBundle\AjgarlagOpenIDConnectProviderBundle(),
         ];
     }

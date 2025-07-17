@@ -65,8 +65,20 @@ final class IdToken implements IdTokenInterface
         return $this->token->claims()->get('auth_time');
     }
 
+    public function getAuthorizedParty(): ?string
+    {
+        $authorizedParty = $this->token->claims()->get('azp');
+
+        return \is_string($authorizedParty) ? $authorizedParty : null;
+    }
+
     public function getClaim(string $name, mixed $default = null): mixed
     {
         return $this->token->claims()->get($name);
+    }
+
+    public function __toString(): string
+    {
+        return $this->token->toString();
     }
 }

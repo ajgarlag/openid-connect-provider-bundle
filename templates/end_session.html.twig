@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Logout confirmation</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    </head>
+    <body>
+        <dialog id="modal" open>
+            <h1>Logout confirmation</h1>
+            <p>Do you want to logout from this OpenID Connect Provider?</p>
+            <p>
+                <a href="{{ cancel_logout_uri }}">No</a>
+                <a href="{{ logout_url() }}"><strong>Yes</strong></a>
+            </p>
+        </dialog>
+    </body>
+</html>

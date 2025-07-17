@@ -8,7 +8,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStor
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdTokenInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidTrait;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidManager;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,8 +35,6 @@ use Twig\Environment;
 
 final readonly class EndSessionController
 {
-    use SessionSidTrait;
-
     public function __construct(
         private LogoutUrlGenerator $logoutUrlGenerator,
         private ClientManagerInterface $clientManager,
@@ -45,6 +42,7 @@ final readonly class EndSessionController
         private CryptKeyInterface $publicKey,
         private PostLogoutRedirectUriStorageInterface $redirectUriStorage,
         private Security $security,
+        private SessionSidManager $sessionSidManager,
         private Environment $twigEnvironment,
         private HttpUtils $httpUtils,
         private string $cancelLogoutDefaultPath,
@@ -84,7 +82,7 @@ final readonly class EndSessionController
 
         if (
             $this->isConfirmationNeeded($clientId, $idToken, $client, $validatedRedirectUri)
-            || $this->shouldForceConfirmation($clientId, $idToken, $client, $logoutHint, $request->hasSession() ? $request->getSession() : null)
+            || $this->shouldForceConfirmation($clientId, $idToken, $client, $logoutHint, $request)
         ) {
             return new Response($this->twigEnvironment->render('@AjgarlagOpenIDConnectProvider/end_session.html.twig', ['cancel_logout_uri' => $cancelLogoutUri]));
         }
@@ -131,17 +129,21 @@ final readonly class EndSessionController
         return null;
     }
 
-    private function shouldForceConfirmation(?string $clientId, ?IdTokenInterface $idToken, ?ClientInterface $client, ?string $logoutHint, ?SessionInterface $session): bool
+    private function shouldForceConfirmation(?string $clientId, ?IdTokenInterface $idToken, ?ClientInterface $client, ?string $logoutHint, Request $request): bool
     {
         if (\is_string($clientId) && null === $client) {
             return true;
         }
 
-        if (null === $session) {
+        if (!$request->hasSession()) {
             return false;
         }
 
-        $sid = $this->getSid($session);
+        if (null === $firewallConfig = $this->security->getFirewallConfig($request)) {
+            return false;
+        }
+
+        $sid = $this->sessionSidManager->getSid($firewallConfig);
 
         if (\is_string($logoutHint) && $sid !== $logoutHint) {
             return true;

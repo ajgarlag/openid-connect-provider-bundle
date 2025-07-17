@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,6 +46,9 @@ final class EndSessionController
     ) {
     }
 
+    /**
+     * @param string|null $logoutHint session ID to logout
+     */
     public function __invoke(
         Request $request,
         #[MapQueryParameter('id_token_hint')] ?string $idTokenHint,
@@ -54,86 +58,157 @@ final class EndSessionController
         #[MapQueryParameter('state')] ?string $state,
         ?UserInterface $user,
     ): Response {
-        if (\is_string($postLogoutRedirectUri) && null === $idTokenHint && null === $clientId) {
-            throw new BadRequestException('Either the parameter "client_id" or the parameter "id_token_hint" is required when "post_logout_redirect_uri" is used.');
-        }
+        $this->assertPostLogoutRedirectUriRequirements($postLogoutRedirectUri, $idTokenHint, $clientId);
 
-        $confirmationNeeded = true;
-        $forcedConfirmation = false;
-
-        $client = \is_string($clientId) ? $this->clientManager->find($clientId) : null;
-        if (null === $client) {
-            $forcedConfirmation = true;
-        }
-
-        $idToken = \is_string($idTokenHint) && '' !== $idTokenHint ? IdToken::fromString($idTokenHint) : null;
+        $idToken = $this->resolveIdToken($idTokenHint);
         if ($idToken instanceof IdTokenInterface) {
-            $this->validateIdToken($request, $idToken);
+            $this->assertIdTokenIsValid($request, $idToken);
         }
 
-        $authorizedParty = $idToken instanceof IdTokenInterface ? ($idToken->getAuthorizedParty() ?? (1 === \count($idToken->getAudience()) ? current($idToken->getAudience()) : null)) : null;
-        if (null === $clientId) {
-            if (\is_string($authorizedParty)) {
-                $client = $this->clientManager->find($authorizedParty);
-                if ($client instanceof ClientInterface) {
-                    $forcedConfirmation = true;
-                }
-            }
-        } elseif (\is_string($authorizedParty)) {
-            if ($authorizedParty === $clientId) {
-                $confirmationNeeded = false;
-            } else {
-                throw new BadRequestException('Parameter client_id is different than the client for which ID Token was issued.');
-            }
-        }
+        $client = $this->resolveClient($clientId, $idToken);
+        $validatedRedirectUri = $this->resolveRedirectUriForClient($postLogoutRedirectUri, $client);
 
-        $validatedRedirectUri = null;
-        if (\is_string($postLogoutRedirectUri) && $client instanceof ClientInterface) {
-            $clientExtension = $this->clientExtensionManager->get($client);
-            $validator = new RedirectUriValidator(array_map(fn (RedirectUri $redirectUri) => $redirectUri->__toString(), $clientExtension->getPostLogoutRedirectUris()));
-            if ($validator->validateRedirectUri($postLogoutRedirectUri)) {
-                $validatedRedirectUri = $postLogoutRedirectUri;
-            } else {
-                throw new BadRequestException('Invalid "post_logout_redirect_uri" parameter.');
-            }
-        }
+        $validatedRedirectUriWithState = $this->appendStateToRedirectUri($validatedRedirectUri, $state);
+        $this->cacheRedirectUri($validatedRedirectUriWithState, $request);
 
-        if ($user instanceof UserInterface && $request->hasSession()) {
-            if (
-                ($idToken instanceof IdTokenInterface && $request->getSession()->getId() !== $idToken->getClaim('sid'))
-                || \is_string($logoutHint) && $request->getSession()->getId() !== $logoutHint
-            ) {
-                $forcedConfirmation = true;
-            }
-        } elseif (null === $idToken && $client instanceof ClientInterface && \is_string($validatedRedirectUri)) {
-            $confirmationNeeded = false;
-        }
-
-        if (\is_string($validatedRedirectUri)) {
-            if (\is_string($state)) {
-                $validatedRedirectUri .= (!str_contains('?', $validatedRedirectUri) ? '?' : '&') . http_build_query(['state' => $state]);
-            }
-
-            $item = $this->cache->getItem('ajgarlag.openid-connect-provider.logout.' . $request->attributes->get('_firewall_context'));
-            $item->set($validatedRedirectUri);
-            $item->expiresAfter(60);
-            $this->cache->save($item);
-        }
-
-        $cancelLogoutUrl = \is_string($validatedRedirectUri) ? $validatedRedirectUri : $this->httpUtils->generateUri($request, $this->cancelLogoutPath);
+        $cancelLogoutUri = $this->getCancelLogoutUrl($validatedRedirectUriWithState, $request);
 
         if (null === $user) {
-            return new RedirectResponse($cancelLogoutUrl);
+            return new RedirectResponse($cancelLogoutUri);
         }
 
-        if ($confirmationNeeded || $forcedConfirmation) {
-            return new Response($this->twigEnvironment->render('@AjgarlagOpenIDConnectProvider/end_session.html.twig', ['cancel_logout_url' => $cancelLogoutUrl]));
+        if (
+            $this->isConfirmationNeeded($clientId, $idToken, $client, $validatedRedirectUri)
+            || $this->shouldForceConfirmation($clientId, $idToken, $client, $logoutHint, $request->hasSession() ? $request->getSession() : null)
+        ) {
+            return new Response($this->twigEnvironment->render('@AjgarlagOpenIDConnectProvider/end_session.html.twig', ['cancel_logout_uri' => $cancelLogoutUri]));
         }
 
         return new RedirectResponse($this->logoutUrlGenerator->getLogoutPath());
     }
 
-    private function validateIdToken(Request $request, IdTokenInterface $idToken): void
+    private function assertPostLogoutRedirectUriRequirements(?string $postLogoutRedirectUri, ?string $idTokenHint, ?string $clientId): void
+    {
+        if (\is_string($postLogoutRedirectUri) && null === $idTokenHint && null === $clientId) {
+            throw new BadRequestException('Either the parameter "client_id" or the parameter "id_token_hint" is required when "post_logout_redirect_uri" is used.');
+        }
+    }
+
+    private function resolveClient(?string $clientId, ?IdTokenInterface $idToken): ?ClientInterface
+    {
+        if ($idToken instanceof IdTokenInterface) {
+            $authorizedParty = $this->resolveAuthorizedParty($idToken);
+            if (\is_string($clientId) && \is_string($authorizedParty) && $authorizedParty !== $clientId) {
+                throw new BadRequestException('Parameter client_id is different than the client for which ID Token was issued.');
+            }
+            if (null === $clientId && \is_string($authorizedParty)) {
+                return $this->clientManager->find($authorizedParty);
+            }
+        }
+        if (\is_string($clientId)) {
+            return $this->clientManager->find($clientId);
+        }
+
+        return null;
+    }
+
+    private function resolveIdToken(?string $idTokenHint): ?IdTokenInterface
+    {
+        return \is_string($idTokenHint) && '' !== $idTokenHint ? IdToken::fromString($idTokenHint) : null;
+    }
+
+    private function resolveAuthorizedParty(?IdTokenInterface $idToken): ?string
+    {
+        if ($idToken instanceof IdTokenInterface) {
+            return $idToken->getAuthorizedParty() ?? (1 === \count($idToken->getAudience()) ? current($idToken->getAudience()) : null);
+        }
+
+        return null;
+    }
+
+    private function shouldForceConfirmation(?string $clientId, ?IdTokenInterface $idToken, ?ClientInterface $client, ?string $logoutHint, ?SessionInterface $session): bool
+    {
+        if (\is_string($clientId)) {
+            return null === $client;
+        }
+
+        if ($client instanceof ClientInterface) {
+            return true;
+        }
+
+        if (null === $session) {
+            return false;
+        }
+
+        if ($idToken instanceof IdTokenInterface && $session->getId() !== $idToken->getClaim('sid')) {
+            return true;
+        }
+
+        if (\is_string($logoutHint) && $session->getId() !== $logoutHint) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isConfirmationNeeded(?string $clientId, ?IdTokenInterface $idToken, ?ClientInterface $client, ?string $validatedRedirectUri): bool
+    {
+        if ($idToken instanceof IdTokenInterface && \is_string($clientId) && $clientId === $this->resolveAuthorizedParty($idToken) && $clientId === $client?->getIdentifier()) {
+            return false;
+        }
+
+        if (null === $idToken && $client instanceof ClientInterface && \is_string($validatedRedirectUri)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function resolveRedirectUriForClient(?string $postLogoutRedirectUri, ?ClientInterface $client): ?string
+    {
+        if (null === $postLogoutRedirectUri || null === $client) {
+            return null;
+        }
+        $clientExtension = $this->clientExtensionManager->get($client);
+        $validator = new RedirectUriValidator(array_map(fn (RedirectUri $redirectUri) => $redirectUri->__toString(), $clientExtension->getPostLogoutRedirectUris()));
+        if (!$validator->validateRedirectUri($postLogoutRedirectUri)) {
+            throw new BadRequestException('Invalid "post_logout_redirect_uri" parameter.');
+        }
+
+        return $postLogoutRedirectUri;
+    }
+
+    private function appendStateToRedirectUri(?string $validatedRedirectUri, ?string $state): ?string
+    {
+        if (null === $validatedRedirectUri || null === $state) {
+            return $validatedRedirectUri;
+        }
+
+        return $validatedRedirectUri . (!str_contains($validatedRedirectUri, '?') ? '?' : '&') . http_build_query(['state' => $state]);
+    }
+
+    private function cacheRedirectUri(?string $validatedRedirectUri, Request $request): void
+    {
+        if (null === $validatedRedirectUri) {
+            return;
+        }
+
+        $item = $this->cache->getItem('ajgarlag.openid-connect-provider.logout.' . $request->attributes->get('_firewall_context'));
+        $item->set($validatedRedirectUri);
+        $item->expiresAfter(60);
+        $this->cache->save($item);
+    }
+
+    private function getCancelLogoutUrl(?string $validatedRedirectUri, Request $request): string
+    {
+        if (\is_string($validatedRedirectUri)) {
+            return $validatedRedirectUri;
+        }
+
+        return $this->httpUtils->generateUri($request, $this->cancelLogoutPath);
+    }
+
+    private function assertIdTokenIsValid(Request $request, IdTokenInterface $idToken): void
     {
         $jwtConfiguration = $this->getJwtConfiguration($request);
 

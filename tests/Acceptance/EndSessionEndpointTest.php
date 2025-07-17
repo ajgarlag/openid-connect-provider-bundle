@@ -33,7 +33,10 @@ final class EndSessionEndpointTest extends AbstractAcceptanceTestCase
         $client->followRedirect();
 
         $this->assertNull($client->getContainer()->get(TokenStorageInterface::class)->getToken());
-        $this->assertResponseRedirects('https://example.org/openid_connect/bye');
+        $redirectLocation = $client->getResponse()->headers->get('Location');
+        $this->assertSame('http://localhost/front-channel-logout', parse_url($redirectLocation, \PHP_URL_SCHEME) . '://' . parse_url($redirectLocation, \PHP_URL_HOST) . parse_url($redirectLocation, \PHP_URL_PATH));
+        parse_str(parse_url($redirectLocation, \PHP_URL_QUERY), $queryParams);
+        $this->assertSame('https://example.org/openid_connect/bye', $queryParams['redirect_uri'] ?? '');
     }
 
     public function testLogoutConfirmationRequest(): void
@@ -54,7 +57,10 @@ final class EndSessionEndpointTest extends AbstractAcceptanceTestCase
         $client->click($link);
 
         $this->assertNull($client->getContainer()->get(Security::class)->getUser());
-        $this->assertResponseRedirects('http://localhost/');
+        $redirectLocation = $client->getResponse()->headers->get('Location');
+        $this->assertSame('http://localhost/front-channel-logout', parse_url($redirectLocation, \PHP_URL_SCHEME) . '://' . parse_url($redirectLocation, \PHP_URL_HOST) . parse_url($redirectLocation, \PHP_URL_PATH));
+        parse_str(parse_url($redirectLocation, \PHP_URL_QUERY), $queryParams);
+        $this->assertSame('http://localhost/', $queryParams['redirect_uri'] ?? '');
     }
 
     public function testLogoutCancelationRequest(): void

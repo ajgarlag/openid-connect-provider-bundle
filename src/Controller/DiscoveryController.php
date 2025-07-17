@@ -17,6 +17,7 @@ final class DiscoveryController
         private readonly string $authorizationEndpointRoute,
         private readonly string $tokenEndpointRoute,
         private readonly string $jwksEndpointRoute,
+        private readonly string $endSessionEndpointRoute,
     ) {
     }
 
@@ -28,6 +29,7 @@ final class DiscoveryController
                 'authorization_endpoint' => $this->urlGenerator->generate($this->authorizationEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
                 'token_endpoint' => $this->urlGenerator->generate($this->tokenEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
                 'jwks_uri' => $this->urlGenerator->generate($this->jwksEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'end_session_endpoint' => $this->urlGenerator->generate($this->endSessionEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
                 'response_types_supported' => $this->authorizationServer->getResponseTypesSupported(),
                 'subject_types_supported' => ['public'],
                 'id_token_signing_alg_values_supported' => ['RS256'],

@@ -1,0 +1,13 @@
+league_oauth2_server:
+    authorization_server:
+        private_key: '%kernel.project_dir%/tests/Fixtures/private.key'
+        encryption_key: !php/const League\Bundle\OAuth2ServerBundle\Tests\TestHelper::ENCRYPTION_KEY
+    resource_server:
+        public_key: '%kernel.project_dir%/tests/Fixtures/public.key'
+    scopes:
+        available:
+            - openid
+        default:
+            - openid
+    persistence:
+        in_memory: ~

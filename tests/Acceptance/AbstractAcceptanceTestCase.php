@@ -5,51 +5,39 @@ declare(strict_types=1);
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Acceptance;
 
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\WebTestCaseTrait;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\RefreshTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ScopeManagerInterface;
-use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractAcceptanceTestCase extends WebTestCase
 {
-    /**
-     * @var Application
-     */
-    protected $application;
+    use WebTestCaseTrait;
 
-    /**
-     * @var KernelBrowser
-     */
-    protected $client;
-
-    protected function setUp(): void
+    protected static function bootKernel(array $options = []): KernelInterface
     {
-        $this->client = self::createClient();
-
-        $this->application = new Application($this->client->getKernel());
-
-        TestHelper::initializeDoctrineSchema($this->application);
-
-        /** @var Connection $connection */
-        $connection = $this->client->getContainer()->get('database_connection');
-        if ($connection->getDriver() instanceof AbstractSQLiteDriver) {
-            // https://www.sqlite.org/foreignkeys.html
-            $connection->executeQuery('PRAGMA foreign_keys = ON');
-        }
+        $kernel = parent::bootKernel($options);
 
         FixtureFactory::initializeFixtures(
-            $this->client->getContainer()->get(ScopeManagerInterface::class),
-            $this->client->getContainer()->get(ClientManagerInterface::class),
-            $this->client->getContainer()->get(AccessTokenManagerInterface::class),
-            $this->client->getContainer()->get(RefreshTokenManagerInterface::class),
-            $this->client->getContainer()->get(AuthorizationCodeManagerInterface::class)
+            self::getContainer()->get(ScopeManagerInterface::class),
+            self::getContainer()->get(ClientManagerInterface::class),
+            self::getContainer()->get(AccessTokenManagerInterface::class),
+            self::getContainer()->get(RefreshTokenManagerInterface::class),
+            self::getContainer()->get(AuthorizationCodeManagerInterface::class)
         );
+
+        return $kernel;
+    }
+
+    protected function getUser(string $userIdentifier = 'user'): UserInterface
+    {
+        $userProvider = static::getContainer()->get('security.user_providers');
+
+        return $userProvider->loadUserByIdentifier($userIdentifier);
     }
 }

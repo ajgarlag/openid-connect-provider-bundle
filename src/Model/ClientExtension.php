@@ -12,6 +12,9 @@ class ClientExtension implements ClientExtensionInterface
     /** @var list<RedirectUri> */
     private array $postLogoutRedirectUris = [];
 
+    /** @var non-empty-string */
+    private ?string $frontChannelLogoutUri = null;
+
     /**
      * @param non-empty-string $identifier
      */
@@ -43,6 +46,18 @@ class ClientExtension implements ClientExtensionInterface
     {
         /** @var list<RedirectUri> $postLogoutRedirectUris */
         $this->postLogoutRedirectUris = $postLogoutRedirectUris;
+
+        return $this;
+    }
+
+    public function getFrontChannelLogoutUri(): ?string
+    {
+        return $this->frontChannelLogoutUri;
+    }
+
+    public function setFrontChannelLogoutUri(?string $frontChannelLogoutUri): ClientExtensionInterface
+    {
+        $this->frontChannelLogoutUri = $frontChannelLogoutUri;
 
         return $this;
     }

@@ -62,3 +62,6 @@ jobs:
 
       - name: run unit tests
         run: vendor/bin/simple-phpunit --colors=always
+
+      - name: run league integration tests
+        run: vendor/bin/simple-phpunit --colors=always -c phpunit.league.xml

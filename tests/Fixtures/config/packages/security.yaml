@@ -1,0 +1,17 @@
+security:
+    providers:
+        users:
+            memory:
+                users:
+                    user:
+                        roles: ['ROLE_USER']
+    firewalls:
+        token:
+            pattern: ^/token
+            security: false
+        main:
+            pattern: ^/
+            provider: users
+            form_login: ~
+    access_control:
+        - { path: '^/authorize', roles: 'ROLE_USER' }

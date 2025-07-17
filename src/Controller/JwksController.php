@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class JwksController
 {
-    private CryptKeyInterface $publicKey;
+    private readonly CryptKeyInterface $publicKey;
 
     public function __construct(
         CryptKeyInterface|string $publicKey,
@@ -35,8 +35,8 @@ final class JwksController
             [
                 'keys' => [[
                     'kty' => 'RSA',
-                    'n' => rtrim(strtr(base64_encode($keyDetails['rsa']['n']), '+/', '-_'), '='),
-                    'e' => rtrim(strtr(base64_encode($keyDetails['rsa']['e']), '+/', '-_'), '='),
+                    'n' => rtrim(strtr(base64_encode((string) $keyDetails['rsa']['n']), '+/', '-_'), '='),
+                    'e' => rtrim(strtr(base64_encode((string) $keyDetails['rsa']['e']), '+/', '-_'), '='),
                 ]],
             ],
             JsonResponse::HTTP_OK,

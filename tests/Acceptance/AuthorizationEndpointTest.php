@@ -47,7 +47,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
         $query = [];
         parse_str(parse_url((string) $redirectUri, \PHP_URL_QUERY), $query);
         $this->assertArrayHasKey('code', $query);
-        $payload = json_decode(TestHelper::decryptPayload($query['code']), true);
+        $payload = json_decode((string) TestHelper::decryptPayload($query['code']), true);
         $this->assertArrayHasKey('nonce', $payload);
         $this->assertSame($payload['nonce'], 'n0nc3');
         $this->assertArrayHasKey('state', $query);
@@ -88,7 +88,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
 
         $this->assertStringStartsWith(FixtureFactory::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI, $redirectUri);
         $fragment = [];
-        parse_str(parse_url($redirectUri, \PHP_URL_FRAGMENT), $fragment);
+        parse_str(parse_url((string) $redirectUri, \PHP_URL_FRAGMENT), $fragment);
         $this->assertArrayHasKey('id_token', $fragment);
         $idToken = IdToken::fromString($fragment['id_token']);
         $this->assertSame('user', $idToken->getSubject());

@@ -18,7 +18,7 @@ final class TestHelper
             return $encryptedAuthCodePayload;
         }
 
-        $payload = json_decode(LeagueTestHelper::decryptPayload($encryptedAuthCodePayload), true, \JSON_THROW_ON_ERROR);
+        $payload = json_decode((string) LeagueTestHelper::decryptPayload($encryptedAuthCodePayload), true, \JSON_THROW_ON_ERROR);
         $payload['nonce'] = $nonce;
 
         return Crypto::encryptWithPassword(json_encode($payload, \JSON_THROW_ON_ERROR), LeagueTestHelper::ENCRYPTION_KEY);

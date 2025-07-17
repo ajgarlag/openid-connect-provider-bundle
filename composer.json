@@ -29,6 +29,7 @@
         "php-cs-fixer/shim": "^3.38",
         "phpstan/phpstan": "^2",
         "phpstan/phpstan-symfony": "2",
+        "rector/rector": "^2.1",
         "stevebauman/unfinalize": "dev-master",
         "symfony/browser-kit": "^6.4|^7.2",
         "symfony/phpunit-bridge": "^7.3"

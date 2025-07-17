@@ -26,6 +26,14 @@ Download all the needed packages required to develop the project:
 composer update --prefer-stable
 ```
 
+### Automated refactoring
+
+You can apply automated refactoring using [Rector](https://getrector.com) utility. Before committing any code, you can run the utility to fix any potential rule violations:
+
+```sh
+vendor/bin/rector
+```
+
 ### Code linting
 
 This bundle enforces the PER-CS and Symfony code standards during development by using the [PHP CS Fixer](https://cs.symfony.com/) utility. Before committing any code, you can run the utility to fix any potential rule violations:

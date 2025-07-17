@@ -25,9 +25,9 @@ final class IdTokenGrant extends AbstractAuthorizeGrant
     ];
 
     public function __construct(
-        private IdTokenResponse $idTokenResponse,
-        private \DateInterval $accessTokenTTL,
-        private string $queryDelimiter = '#',
+        private readonly IdTokenResponse $idTokenResponse,
+        private readonly \DateInterval $accessTokenTTL,
+        private readonly string $queryDelimiter = '#',
     ) {
     }
 

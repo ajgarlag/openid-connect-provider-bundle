@@ -31,8 +31,6 @@ abstract class AbstractAcceptanceTestCase extends WebTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->client = self::createClient();
 
         $this->application = new Application($this->client->getKernel());

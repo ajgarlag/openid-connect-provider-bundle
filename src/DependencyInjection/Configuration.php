@@ -16,6 +16,7 @@ final class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode->append($this->createDiscoveryNode());
+        $rootNode->append($this->createEndSessionNode());
 
         return $treeBuilder;
     }
@@ -43,6 +44,24 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('end_session_endpoint_route')
                     ->info('Route name for the end session endpoint')
                     ->defaultValue('openid_connect_end_session')
+                ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function createEndSessionNode(): NodeDefinition
+    {
+        $treeBuilder = new TreeBuilder('end_session');
+        $node = $treeBuilder->getRootNode();
+
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('cancel_logout_default_path')
+                    ->info('URL or route names to redirect user on session ending if no post logout redirect URI is given.')
+                    ->defaultValue('/')
                 ->end()
             ->end()
         ;

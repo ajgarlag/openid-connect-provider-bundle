@@ -42,7 +42,7 @@ final class EndSessionController
         private readonly CacheItemPoolInterface $cache,
         private readonly Environment $twigEnvironment,
         private readonly HttpUtils $httpUtils,
-        private readonly string $cancelLogoutPath = '/',
+        private readonly string $cancelLogoutDefaultPath,
     ) {
     }
 
@@ -205,7 +205,7 @@ final class EndSessionController
             return $validatedRedirectUri;
         }
 
-        return $this->httpUtils->generateUri($request, $this->cancelLogoutPath);
+        return $this->httpUtils->generateUri($request, $this->cancelLogoutDefaultPath);
     }
 
     private function assertIdTokenIsValid(Request $request, IdTokenInterface $idToken): void

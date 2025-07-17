@@ -35,14 +35,6 @@ final class FixtureFactory
     public const FIXTURE_USER = 'user';
     public const FIXTURE_PASSWORD = 'password';
 
-    public static function createUser(array $roles = []): User
-    {
-        $user = new User();
-        $user['roles'] = $roles;
-
-        return $user;
-    }
-
     public static function initializeFixtures(
         ScopeManagerInterface $scopeManager,
         ClientManagerInterface $clientManager,

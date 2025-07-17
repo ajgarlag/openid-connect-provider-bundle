@@ -58,4 +58,10 @@ You can run the whole test suite using the following command:
 vendor/bin/simple-phpunit
 ```
 
+There is a special test suite to ensure that the original behavior of the `league/oauth2-server-bundle` remains unchanged. You can run this special test suite using the following command:
+
+```sh
+vendor/bin/simple-phpunit -c phpunit.league.xml
+```
+
 **Happy coding**!

@@ -24,13 +24,14 @@
     "require-dev": {
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*",
+        "dg/bypass-finals": "^1.9",
         "doctrine/doctrine-bundle": "^2.11.0",
         "doctrine/orm": "^2.14|^3.0",
+        "nyholm/symfony-bundle-test": "^3.0",
         "php-cs-fixer/shim": "^3.38",
         "phpstan/phpstan": "^2",
         "phpstan/phpstan-symfony": "2",
         "rector/rector": "^2.1",
-        "stevebauman/unfinalize": "dev-master",
         "symfony/browser-kit": "^6.4|^7.2",
         "symfony/phpunit-bridge": "^7.3"
     },
@@ -53,11 +54,6 @@
         "branch-alias": {
             "dev-master": "0.1.x-dev"
         }
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "@php vendor/bin/unfinalize run vendor/league/oauth2-server-bundle/tests"
-        ]
     },
     "minimum-stability": "dev"
 }

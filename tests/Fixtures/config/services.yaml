@@ -1,0 +1,7 @@
+services:
+    nyholm.psr7.psr17_factory:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+    Psr\Http\Message\ResponseFactoryInterface:
+        alias: nyholm.psr7.psr17_factory
+    Psr\Http\Message\UriFactoryInterface:
+        alias: nyholm.psr7.psr17_factory

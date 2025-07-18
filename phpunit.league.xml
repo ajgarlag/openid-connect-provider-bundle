@@ -4,32 +4,21 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/League/bootstrap.php"
          convertDeprecationsToExceptions="false"
 >
 
     <php>
+        <env name="KERNEL_CLASS" value="Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\League\LeagueTestKernel" />
         <env name="SHELL_VERBOSITY" value="-1" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
         <env name="SYMFONY_PHPUNIT_REMOVE" value="" />
     </php>
 
     <testsuites>
-        <testsuite name="default">
-            <file>./tests/BundleInitializationTest.php</file>
+        <testsuite name="league">
+            <directory>./tests/League</directory>
         </testsuite>
-        <!-- <testsuite name="unit">
-            <directory>./tests/Unit</directory>
-        </testsuite> -->
-        <testsuite name="acceptance">
-            <directory>./tests/Acceptance</directory>
-        </testsuite>
-        <testsuite name="functional">
-            <directory>./tests/Functional</directory>
-        </testsuite>
-        <!-- <testsuite name="integration">
-            <directory>./tests/Integration</directory>
-        </testsuite> -->
     </testsuites>
 
     <coverage processUncoveredFiles="true">

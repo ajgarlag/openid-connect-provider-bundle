@@ -8,25 +8,25 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
 use League\Bundle\OAuth2ServerBundle\Event\AuthorizationRequestResolveEvent;
 use League\Bundle\OAuth2ServerBundle\OAuth2Events;
-use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\AuthorizationEndpointTest as LeagueAuthorizationEndpointTest;
 use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
 
-final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
+final class AuthorizationEndpointTest extends AbstractAcceptanceTestCase
 {
-    use AcceptanceTestTrait;
-
     public function testSuccessfulCodeRequest(): void
     {
-        $this->client
+        $client = self::createClient();
+
+        $client
             ->getContainer()
             ->get('event_dispatcher')
             ->addListener(OAuth2Events::AUTHORIZATION_REQUEST_RESOLVE, static function (AuthorizationRequestResolveEvent $event): void {
                 $event->resolveAuthorization(AuthorizationRequestResolveEvent::AUTHORIZATION_APPROVED);
-            });
+            })
+        ;
 
-        $this->loginUser();
+        $client->loginUser($this->getUser());
 
-        $this->client->request(
+        $client->request(
             'GET',
             '/authorize',
             [
@@ -38,7 +38,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
             ]
         );
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
 
         $this->assertSame(302, $response->getStatusCode());
         $redirectUri = $response->headers->get('Location');
@@ -59,16 +59,17 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
      */
     public function testSuccessfulImplicitRequest(): void
     {
-        $this->client
+        $client = self::createClient();
+        $client
             ->getContainer()
             ->get('event_dispatcher')
             ->addListener(OAuth2Events::AUTHORIZATION_REQUEST_RESOLVE, static function (AuthorizationRequestResolveEvent $event): void {
                 $event->resolveAuthorization(AuthorizationRequestResolveEvent::AUTHORIZATION_APPROVED);
             });
 
-        $this->loginUser();
+        $client->loginUser($this->getUser());
 
-        $this->client->request(
+        $client->request(
             'GET',
             '/authorize',
             [
@@ -81,7 +82,7 @@ final class AuthorizationEndpointTest extends LeagueAuthorizationEndpointTest
             ]
         );
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
 
         $this->assertSame(302, $response->getStatusCode());
         $redirectUri = $response->headers->get('Location');

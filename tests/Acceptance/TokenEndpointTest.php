@@ -10,23 +10,23 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
-use League\Bundle\OAuth2ServerBundle\Tests\Acceptance\TokenEndpointTest as LeagueTokenEndpointTest;
 
-final class TokenEndpointTest extends LeagueTokenEndpointTest
+final class TokenEndpointTest extends AbstractAcceptanceTestCase
 {
-    use AcceptanceTestTrait;
-
     /**
      * @group time-sensitive
      */
     public function testSuccessfulIdTokenRequest(): void
     {
-        $authCodeOpenID = $this->client
+        $client = self::createClient();
+
+        $authCodeOpenID = $client
             ->getContainer()
             ->get(AuthorizationCodeManagerInterface::class)
-            ->find(FixtureFactory::FIXTURE_AUTH_CODE_OPENID_CONNECT);
+            ->find(FixtureFactory::FIXTURE_AUTH_CODE_OPENID_CONNECT)
+        ;
 
-        $this->client->request('POST', '/token', [
+        $client->request('POST', '/token', [
             'client_id' => 'client_openid_connect',
             'client_secret' => 'secret_openid_connect',
             'grant_type' => 'authorization_code',
@@ -34,7 +34,7 @@ final class TokenEndpointTest extends LeagueTokenEndpointTest
             'code' => TestHelper::generateEncryptedAuthCodePayload($authCodeOpenID, 'n0nc3'),
         ]);
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));

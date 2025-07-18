@@ -13,5 +13,6 @@ security:
             pattern: ^/
             provider: users
             form_login: ~
+            logout: ~
     access_control:
         - { path: '^/authorize', roles: 'ROLE_USER' }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Acceptance;
 
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\WebTestCaseTrait;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
@@ -26,6 +27,7 @@ abstract class AbstractAcceptanceTestCase extends WebTestCase
         FixtureFactory::initializeFixtures(
             self::getContainer()->get(ScopeManagerInterface::class),
             self::getContainer()->get(ClientManagerInterface::class),
+            self::getContainer()->get(ClientExtensionManagerInterface::class),
             self::getContainer()->get(AccessTokenManagerInterface::class),
             self::getContainer()->get(RefreshTokenManagerInterface::class),
             self::getContainer()->get(AuthorizationCodeManagerInterface::class)

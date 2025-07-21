@@ -1,7 +1,7 @@
 {
     "name": "ajgarlag/openid-connect-provider-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony bundle for OpenID Connect provider.",
+    "description": "OpenID Connect provider Symfony bundle",
     "keywords": ["openid", "connect", "oidc", "provider", "authentication", "bundle", "auth", "bundle"],
     "homepage": "https://github.com/ajgarlag/openid-connect-provider-bundle",
     "license": "MIT",

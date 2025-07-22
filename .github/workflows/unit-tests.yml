@@ -9,7 +9,7 @@ on:
   workflow_dispatch: ~
 
 jobs:
-  tests:
+  unit-tests:
     name: PHP ${{ matrix.php }} - Doctrine ${{ matrix.doctrine-orm }} - Symfony ${{ matrix.symfony }}${{ matrix.composer-flags != '' && format(' - Composer {0}', matrix.composer-flags) || '' }}
     runs-on: ubuntu-latest
 
@@ -60,7 +60,7 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependency-versions }}
 
-      - name: run unit tests
+      - name: run tests
         run: vendor/bin/simple-phpunit --colors=always
 
       - name: run league integration tests

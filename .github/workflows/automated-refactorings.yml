@@ -1,4 +1,4 @@
-name: rector
+name: automated refactorings
 
 on:
   pull_request: ~
@@ -9,8 +9,8 @@ on:
   workflow_dispatch: ~
 
 jobs:
-  static-analysis:
-    name: rector
+  automated-refactorings:
+    name: automated-refactorings
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,5 +35,5 @@ jobs:
           COMPOSER_PREFER_STABLE: 1
         uses: ramsey/composer-install@v3
 
-      - name: "run rector"
-        run: "vendor/bin/rector --dry-run --ansi"
+      - name: check automated refactorings
+        run: vendor/bin/rector --dry-run --ansi

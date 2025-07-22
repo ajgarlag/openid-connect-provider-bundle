@@ -18,20 +18,12 @@ We accept contributions via Pull Requests on [Github](https://github.com/ajgarla
 
 You need an environment with PHP 8.1 or higher with Composer to develop this bundle.
 
-### Building the environment
+### Installing dependencies
 
 Download all the needed packages required to develop the project:
 
 ```sh
 composer update --prefer-stable
-```
-
-### Automated refactoring
-
-You can apply automated refactoring using [Rector](https://getrector.com) utility. Before committing any code, you can run the utility to fix any potential rule violations:
-
-```sh
-vendor/bin/rector
 ```
 
 ### Code linting
@@ -42,9 +34,17 @@ This bundle enforces the PER-CS and Symfony code standards during development by
 vendor/bin/php-cs-fixer fix
 ```
 
+### Automated refactoring
+
+You can apply automated refactoring using [Rector](https://getrector.com) utility. Before committing any code, you can run the utility to fix any potential rule violations:
+
+```sh
+vendor/bin/rector
+```
+
 ### Running static analysis
 
-You can run static anaysis of code using the following command:
+You can run static anaysis of code using [PHPStan](https://phpstan.org/):
 
 ```sh
 vendor/bin/phpstan
@@ -52,7 +52,7 @@ vendor/bin/phpstan
 
 ### Testing
 
-You can run the whole test suite using the following command:
+You can run the test suite using [PHPUnit](https://phpunit.de) with the through the [Symfony PHPUnit Bridge]([symfony/phpunit-bridge](https://symfony.com/packages/PHPUnit%20Bridge)):
 
 ```sh
 vendor/bin/simple-phpunit

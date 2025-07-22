@@ -33,5 +33,5 @@ jobs:
           COMPOSER_PREFER_STABLE: 1
         uses: ramsey/composer-install@v3
 
-      - name: "run phpstan static analysis"
-        run: "vendor/bin/phpstan --ansi"
+      - name: run static analysis
+        run: vendor/bin/phpstan --ansi

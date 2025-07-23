@@ -18,6 +18,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class IdTokenResponse extends BaseIdTokenResponse
 {
+    use SessionSidTrait;
+
     public function __construct(
         IdentityProviderInterface $identityProvider,
         ClaimExtractor $claimExtractor,
@@ -53,11 +55,25 @@ final class IdTokenResponse extends BaseIdTokenResponse
 
         if ('authorization_code' === $request->request->getString('grant_type') && $request->request->has('code')) {
             $payload = json_decode($this->decrypt($request->request->getString('code')), true, \JSON_THROW_ON_ERROR);
+            if (isset($payload['client_id'])) {
+                $builder = $builder->withClaim('azp', (string) $payload['client_id']);
+            }
             if (isset($payload['nonce'])) {
                 $builder = $builder->withClaim('nonce', (string) $payload['nonce']);
             }
-        } elseif (\in_array($request->query->getString('response_type'), IdTokenGrant::RESPONSE_TYPES, true) && $request->query->has('nonce')) {
-            $builder = $builder->withClaim('nonce', $request->query->getString('nonce'));
+            if (isset($payload['sid'])) {
+                $builder = $builder->withClaim('sid', (string) $payload['sid']);
+            }
+        } elseif (\in_array($request->query->getString('response_type'), IdTokenGrant::RESPONSE_TYPES, true)) {
+            if ($request->query->has('client_id')) {
+                $builder = $builder->withClaim('azp', $request->query->getString('client_id'));
+            }
+            if ($request->query->has('nonce')) {
+                $builder = $builder->withClaim('nonce', $request->query->getString('nonce'));
+            }
+            if ($request->hasSession()) {
+                $builder = $builder->withClaim('sid', $this->getOrGenerateSid($request->getSession()));
+            }
         }
 
         return $builder;

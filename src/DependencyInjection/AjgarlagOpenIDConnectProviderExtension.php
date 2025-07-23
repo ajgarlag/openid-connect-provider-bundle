@@ -24,6 +24,7 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $this->configureDiscovery($container, $config['discovery']);
+        $this->configureEndSession($container, $config['end_session']);
     }
 
     /**
@@ -35,6 +36,17 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
             ->replaceArgument(2, $config['authorization_endpoint_route'])
             ->replaceArgument(3, $config['token_endpoint_route'])
             ->replaceArgument(4, $config['jwks_endpoint_route'])
+            ->replaceArgument(5, $config['end_session_endpoint_route'])
+        ;
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    private function configureEndSession(ContainerBuilder $container, array $config): void
+    {
+        $container->getDefinition('ajgarlag.openid_connect_provider.controller.end_session')
+            ->replaceArgument(8, $config['cancel_logout_default_path'])
         ;
     }
 }

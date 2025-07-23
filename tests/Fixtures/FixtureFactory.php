@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures;
 
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientExtension;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
@@ -30,6 +32,8 @@ final class FixtureFactory
 
     public const FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI = 'https://example.org/openid_connect/redirect-uri';
 
+    public const FIXTURE_CLIENT_OPENID_CONNECT_POST_LOGOUT_REDIRECT_URI = 'https://example.org/openid_connect/bye';
+
     public const FIXTURE_SCOPE_OPENID = 'openid';
 
     public const FIXTURE_USER = 'user';
@@ -38,6 +42,7 @@ final class FixtureFactory
     public static function initializeFixtures(
         ScopeManagerInterface $scopeManager,
         ClientManagerInterface $clientManager,
+        ClientExtensionManagerInterface $clientExtensionManager,
         AccessTokenManagerInterface $accessTokenManager,
         RefreshTokenManagerInterface $refreshTokenManager,
         AuthorizationCodeManagerInterface $authCodeManager,
@@ -48,6 +53,7 @@ final class FixtureFactory
 
         foreach (self::createClients() as $client) {
             $clientManager->save($client);
+            $clientExtensionManager->save(self::createClientExtension($client));
         }
 
         foreach (self::createAccessTokens($scopeManager, $clientManager) as $accessToken) {
@@ -113,6 +119,19 @@ final class FixtureFactory
             ->setScopes(new Scope(self::FIXTURE_SCOPE_OPENID));
 
         return $clients;
+    }
+
+    private static function createClientExtension(Client $client): ClientExtension
+    {
+        $clientExtension = new ClientExtension($client->getIdentifier(), $client);
+
+        if (self::FIXTURE_CLIENT_OPENID_CONNECT !== $client->getIdentifier()) {
+            return $clientExtension;
+        }
+
+        return $clientExtension->setPostLogoutRedirectUris(
+            new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_POST_LOGOUT_REDIRECT_URI)
+        );
     }
 
     /**

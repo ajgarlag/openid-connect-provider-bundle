@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\Doctrine\ClientExtensionManager;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\Doctrine\ClientDataManager;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Persistence\Mapping\Driver;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -16,11 +16,11 @@ return static function (ContainerConfigurator $container): void {
             ])
         ->alias(Driver::class, 'ajgarlag.openid_connect_provider.persistence.driver')
 
-        ->set('ajgarlag.openid_connect_provider.manager.doctrine.client_extension', ClientExtensionManager::class)
+        ->set('ajgarlag.openid_connect_provider.manager.doctrine.client_data', ClientDataManager::class)
             ->args([
                 null,
             ])
-        ->alias(ClientExtensionManagerInterface::class, 'ajgarlag.openid_connect_provider.manager.doctrine.client_extension')
-        ->alias(ClientExtensionManager::class, 'ajgarlag.openid_connect_provider.manager.doctrine.client_extension')
+        ->alias(ClientDataManagerInterface::class, 'ajgarlag.openid_connect_provider.manager.doctrine.client_data')
+        ->alias(ClientDataManager::class, 'ajgarlag.openid_connect_provider.manager.doctrine.client_data')
     ;
 };

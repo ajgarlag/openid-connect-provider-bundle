@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientExtensionInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientDataInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -15,12 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'ajgarlag:openid-connect-provider:show-client-extension', description: 'Show OpenID Connect client extension')]
-final class ShowClientExtensionCommand extends Command
+#[AsCommand(name: 'ajgarlag:openid-connect-provider:show-client-data', description: 'Show OpenID Connect client data')]
+final class ShowClientDataCommand extends Command
 {
     public function __construct(
         private readonly ClientManagerInterface $clientManager,
-        private readonly ClientExtensionManagerInterface $clientExtensionManager,
+        private readonly ClientDataManagerInterface $clientDataManager,
     ) {
         parent::__construct();
     }
@@ -28,7 +28,7 @@ final class ShowClientExtensionCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Show OpenID Connect client extension')
+            ->setDescription('Show OpenID Connect client data')
 
             ->addArgument('identifier', InputArgument::REQUIRED, 'The client identifier')
         ;
@@ -44,17 +44,17 @@ final class ShowClientExtensionCommand extends Command
             return 1;
         }
 
-        $clientExtension = $this->clientExtensionManager->get($client);
+        $clientData = $this->clientDataManager->get($client);
 
-        $this->drawTable($io, $clientExtension);
+        $this->drawTable($io, $clientData);
 
         return 0;
     }
 
-    private function drawTable(OutputStyle $io, ClientExtensionInterface $clientExtension): void
+    private function drawTable(OutputStyle $io, ClientDataInterface $clientData): void
     {
         $columns = ['name', 'identifier', 'post logout redirect uri'];
-        $rows = [array_combine($columns, [$clientExtension->getClient()->getName(), $clientExtension->getClient()->getIdentifier(), implode(', ', $clientExtension->getPostLogoutRedirectUris())])];
+        $rows = [array_combine($columns, [$clientData->getClient()->getName(), $clientData->getClient()->getIdentifier(), implode(', ', $clientData->getPostLogoutRedirectUris())])];
         $io->table($columns, $rows);
     }
 }

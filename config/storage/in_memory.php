@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\InMemory\ClientExtensionManager;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\InMemory\ClientDataManager;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
     $container->services()
 
-        ->set('ajgarlag.openid_connect_provider.manager.in_memory.client_extension', ClientExtensionManager::class)
-        ->alias(ClientExtensionManagerInterface::class, 'ajgarlag.openid_connect_provider.manager.in_memory.client_extension')
-        ->alias(ClientExtensionManager::class, 'ajgarlag.openid_connect_provider.manager.in_memory.client_extension')
+        ->set('ajgarlag.openid_connect_provider.manager.in_memory.client_data', ClientDataManager::class)
+        ->alias(ClientDataManagerInterface::class, 'ajgarlag.openid_connect_provider.manager.in_memory.client_data')
+        ->alias(ClientDataManager::class, 'ajgarlag.openid_connect_provider.manager.in_memory.client_data')
 
     ;
 };

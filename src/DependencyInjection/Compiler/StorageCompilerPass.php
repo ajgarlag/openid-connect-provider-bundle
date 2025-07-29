@@ -27,7 +27,7 @@ final class StorageCompilerPass implements CompilerPassInterface
 
         if ($container->hasParameter('league.oauth2_server.persistence.doctrine.enabled') && true === $container->getParameter('league.oauth2_server.persistence.doctrine.enabled')) {
             $loader->load('doctrine.php');
-            $clientManagerDefinition = $container->getDefinition('ajgarlag.openid_connect_provider.manager.doctrine.client_extension');
+            $clientManagerDefinition = $container->getDefinition('ajgarlag.openid_connect_provider.manager.doctrine.client_data');
             $clientManagerDefinition->setArgument(0, new Reference(\sprintf('doctrine.orm.%s_entity_manager', $container->getParameter('league.oauth2_server.persistence.doctrine.manager')))); // @phpstan-ignore argument.type
         } else {
             $loader->load('in_memory.php');

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -15,12 +15,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'ajgarlag:openid-connect-provider:save-client-extension', description: 'Saves an OpenID Connect client extension')]
-final class SaveClientExtensionCommand extends Command
+#[AsCommand(name: 'ajgarlag:openid-connect-provider:save-client-data', description: 'Saves an OpenID Connect client data')]
+final class SaveClientDataCommand extends Command
 {
     public function __construct(
         private readonly ClientManagerInterface $clientManager,
-        private readonly ClientExtensionManagerInterface $clientExtensionManager,
+        private readonly ClientDataManagerInterface $clientDataManager,
     ) {
         parent::__construct();
     }
@@ -28,7 +28,7 @@ final class SaveClientExtensionCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Saves an OpenID Connect client extension')
+            ->setDescription('Saves an OpenID Connect client data')
 
             ->addOption('add-post-logout-redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Add allowed post logout redirect uri to the client.', [])
             ->addOption('remove-post-logout-redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Remove allowed post logout redirect uri to the client.', [])
@@ -47,13 +47,13 @@ final class SaveClientExtensionCommand extends Command
             return 1;
         }
 
-        $clientExtension = $this->clientExtensionManager->get($client);
+        $clientData = $this->clientDataManager->get($client);
 
-        $clientExtension->setPostLogoutRedirectUris(...$this->getClientRelatedModelsFromInput($input, RedirectUri::class, $clientExtension->getPostLogoutRedirectUris(), 'post-logout-redirect-uri'));
+        $clientData->setPostLogoutRedirectUris(...$this->getClientRelatedModelsFromInput($input, RedirectUri::class, $clientData->getPostLogoutRedirectUris(), 'post-logout-redirect-uri'));
 
-        $this->clientExtensionManager->save($clientExtension);
+        $this->clientDataManager->save($clientData);
 
-        $io->success('OpenID Connect client extension saved successfully.');
+        $io->success('OpenID Connect client data saved successfully.');
 
         return 0;
     }

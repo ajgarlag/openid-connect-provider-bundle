@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Persistence\Mapping;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientExtension;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientData;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata as ORMClassMetadata;
 use Doctrine\Persistence\Mapping\ClassMetadata;
@@ -24,7 +24,7 @@ final class Driver implements MappingDriver
         }
 
         match ($className) {
-            ClientExtension::class => $this->buildClientExtensionMetadata($metadata),
+            ClientData::class => $this->buildClientDataMetadata($metadata),
             default => throw new \RuntimeException(\sprintf('%s cannot load metadata for class %s', self::class, $className)),
         };
     }
@@ -32,7 +32,7 @@ final class Driver implements MappingDriver
     public function getAllClassNames(): array
     {
         return [
-            ClientExtension::class,
+            ClientData::class,
         ];
     }
 
@@ -42,12 +42,12 @@ final class Driver implements MappingDriver
     }
 
     /**
-     * @param ORMClassMetadata<ClientExtension> $metadata
+     * @param ORMClassMetadata<ClientData> $metadata
      */
-    private function buildClientExtensionMetadata(ORMClassMetadata $metadata): void
+    private function buildClientDataMetadata(ORMClassMetadata $metadata): void
     {
         (new ClassMetadataBuilder($metadata))
-            ->setTable($this->tablePrefix . 'client_extension')
+            ->setTable($this->tablePrefix . 'client_data')
             ->createField('identifier', 'string')->makePrimaryKey()->length(80)->option('fixed', true)->build()
             ->createField('postLogoutRedirectUris', 'oauth2_redirect_uri')->nullable(true)->build()
             ->createManyToOne('client', Client::class)->addJoinColumn('client', 'identifier', false, false, 'CASCADE')->build()

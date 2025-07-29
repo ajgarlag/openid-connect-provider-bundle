@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller;
 
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStorageInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdTokenInterface;
 use Lcobucci\JWT\Configuration;
@@ -38,7 +38,7 @@ final class EndSessionController
     public function __construct(
         private readonly LogoutUrlGenerator $logoutUrlGenerator,
         private readonly ClientManagerInterface $clientManager,
-        private readonly ClientExtensionManagerInterface $clientExtensionManager,
+        private readonly ClientDataManagerInterface $clientDataManager,
         private readonly CryptKeyInterface $publicKey,
         private readonly PostLogoutRedirectUriStorageInterface $redirectUriStorage,
         private readonly Security $security,
@@ -171,8 +171,8 @@ final class EndSessionController
         if (null === $postLogoutRedirectUri || null === $client) {
             return null;
         }
-        $clientExtension = $this->clientExtensionManager->get($client);
-        $validator = new RedirectUriValidator(array_map(fn (RedirectUri $redirectUri) => $redirectUri->__toString(), $clientExtension->getPostLogoutRedirectUris()));
+        $clientData = $this->clientDataManager->get($client);
+        $validator = new RedirectUriValidator(array_map(fn (RedirectUri $redirectUri) => $redirectUri->__toString(), $clientData->getPostLogoutRedirectUris()));
         if (!$validator->validateRedirectUri($postLogoutRedirectUri)) {
             throw new BadRequestException('Invalid "post_logout_redirect_uri" parameter.');
         }

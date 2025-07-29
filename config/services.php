@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command\SaveClientExtensionCommand;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command\ShowClientExtensionCommand;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command\SaveClientDataCommand;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command\ShowClientDataCommand;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\DiscoveryController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\EndSessionController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\JwksController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\PostLogoutRedirectListener;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\CachePostLogoutRedirectUriStorage;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStorageInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\IdTokenGrant;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\IdTokenResponse;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Repository\IdentityProvider;
@@ -58,21 +58,21 @@ return static function (ContainerConfigurator $container): void {
             ->tag('kernel.event_subscriber')
         ->alias(PostLogoutRedirectListener::class, 'ajgarlag.openid_connect_provider.listener.post_logout_redirect')
 
-        ->set('ajgarlag.openid_connect_provider.command.show_client_extension', ShowClientExtensionCommand::class)
+        ->set('ajgarlag.openid_connect_provider.command.show_client_data', ShowClientDataCommand::class)
             ->args([
                 service(ClientManagerInterface::class),
-                service(ClientExtensionManagerInterface::class),
+                service(ClientDataManagerInterface::class),
             ])
-            ->tag('console.command', ['command' => 'ajgarlag:openid-connect-provider:show-client-extension'])
-        ->alias(ShowClientExtensionCommand::class, 'ajgarlag.openid_connect_provider.command.show_client_extension')
+            ->tag('console.command', ['command' => 'ajgarlag:openid-connect-provider:show-client-data'])
+        ->alias(ShowClientDataCommand::class, 'ajgarlag.openid_connect_provider.command.show_client_data')
 
-        ->set('ajgarlag.openid_connect_provider.command.save_client_extension', SaveClientExtensionCommand::class)
+        ->set('ajgarlag.openid_connect_provider.command.save_client_data', SaveClientDataCommand::class)
             ->args([
                 service(ClientManagerInterface::class),
-                service(ClientExtensionManagerInterface::class),
+                service(ClientDataManagerInterface::class),
             ])
-            ->tag('console.command', ['command' => 'ajgarlag:openid-connect-provider:save-client-extension'])
-        ->alias(SaveClientExtensionCommand::class, 'ajgarlag.openid_connect_provider.command.save_client_extension')
+            ->tag('console.command', ['command' => 'ajgarlag:openid-connect-provider:save-client-data'])
+        ->alias(SaveClientDataCommand::class, 'ajgarlag.openid_connect_provider.command.save_client_data')
 
         ->set('ajgarlag.openid_connect_provider.controller.discovery', DiscoveryController::class)
             ->args([
@@ -90,7 +90,7 @@ return static function (ContainerConfigurator $container): void {
             ->args([
                 service('security.logout_url_generator'),
                 service(ClientManagerInterface::class),
-                service(ClientExtensionManagerInterface::class),
+                service(ClientDataManagerInterface::class),
                 null,
                 service(PostLogoutRedirectUriStorageInterface::class),
                 service('security.helper'),

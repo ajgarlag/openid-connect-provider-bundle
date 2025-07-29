@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model;
 
-interface IdTokenInterface
+interface IdTokenInterface extends \Stringable
 {
     /**
      * @return non-empty-string
@@ -27,8 +27,15 @@ interface IdTokenInterface
 
     public function getAuthenticatedAtTime(): ?\DateTimeImmutable;
 
+    public function getAuthorizedParty(): ?string;
+
     /**
      * @param non-empty-string $name
      */
     public function getClaim(string $name, mixed $default = null): mixed;
+
+    /**
+     * @return non-empty-string
+     */
+    public function __toString(): string;
 }

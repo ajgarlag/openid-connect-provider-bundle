@@ -18,7 +18,7 @@ AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenI
 
 2. Setup the `league/oauth2-server-bundle`, which is required for this bundle to function properly. Follow the [README](https://github.com/thephpleague/oauth2-server-bundle/blob/master/README.md) file to complete the setup.
 
-3. To enable [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) support, add the file `config/routes/ajgarlag_openid_connect_provider.yaml`:
+3. To enable [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) and [RP Initiated Logout](https://openid.net/specs/openid-connect-rpinitiated-1_0.html) support, add the file `config/routes/ajgarlag_openid_connect_provider.yaml`:
 
     ```yaml
     ajgarlag_openid_connect_provider:
@@ -26,7 +26,7 @@ AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenI
         type: php
     ```
 
-4. Tweak the discovery configuration in your `config/packages/ajgarlag_openid_connect_provider.yaml` if needed. These are the default values:
+4. Tweak the configuration in your `config/packages/ajgarlag_openid_connect_provider.yaml` if needed. These are the default values:
 
     ```yaml
     ajgarlag_openid_connect_provider:
@@ -34,6 +34,9 @@ AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenI
             authorization_endpoint_route: 'oauth2_authorize'
             token_endpoint_route: 'oauth2_token'
             jwks_endpoint_route: 'openid_connect_jwks'
+            end_session_endpoint_route: 'openid_connect_end_session'
+        end_session:
+            cancel_logout_default_path: '/'
     ```
 
 ## Documentation

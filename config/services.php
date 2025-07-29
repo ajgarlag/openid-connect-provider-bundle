@@ -10,6 +10,8 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\DiscoveryController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\EndSessionController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\JwksController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\PostLogoutRedirectListener;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\CachePostLogoutRedirectUriStorage;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStorageInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\IdTokenGrant;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\IdTokenResponse;
@@ -50,7 +52,7 @@ return static function (ContainerConfigurator $container): void {
 
          ->set('ajgarlag.openid_connect_provider.listener.post_logout_redirect', PostLogoutRedirectListener::class)
             ->args([
-                service('cache.app'),
+                service(PostLogoutRedirectUriStorageInterface::class),
                 service('security.helper'),
             ])
             ->tag('kernel.event_subscriber')
@@ -90,7 +92,7 @@ return static function (ContainerConfigurator $container): void {
                 service(ClientManagerInterface::class),
                 service(ClientExtensionManagerInterface::class),
                 null,
-                service('cache.app'),
+                service(PostLogoutRedirectUriStorageInterface::class),
                 service('security.helper'),
                 service('twig'),
                 service('security.http_utils'),
@@ -105,5 +107,13 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('controller.service_arguments')
         ->alias(JwksController::class, 'ajgarlag.openid_connect_provider.controller.jwks')
+
+        ->set('ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache', CachePostLogoutRedirectUriStorage::class)
+            ->args([
+                service('cache.app'),
+                60,
+            ])
+        ->alias(CachePostLogoutRedirectUriStorage::class, 'ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache')
+        ->alias(PostLogoutRedirectUriStorageInterface::class, 'ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache')
     ;
 };

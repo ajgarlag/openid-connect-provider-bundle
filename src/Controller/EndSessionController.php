@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\PostLogoutRedirectListener;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStorageInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientExtensionManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdTokenInterface;
@@ -20,7 +20,6 @@ use League\Bundle\OAuth2ServerBundle\Model\ClientInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 use League\OAuth2\Server\CryptKeyInterface;
 use League\OAuth2\Server\RedirectUriValidators\RedirectUriValidator;
-use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,7 +40,7 @@ final class EndSessionController
         private readonly ClientManagerInterface $clientManager,
         private readonly ClientExtensionManagerInterface $clientExtensionManager,
         private readonly CryptKeyInterface $publicKey,
-        private readonly CacheItemPoolInterface $cache,
+        private readonly PostLogoutRedirectUriStorageInterface $redirectUriStorage,
         private readonly Security $security,
         private readonly Environment $twigEnvironment,
         private readonly HttpUtils $httpUtils,
@@ -200,10 +199,7 @@ final class EndSessionController
             return;
         }
 
-        $item = $this->cache->getItem(PostLogoutRedirectListener::CACHE_KEY_PREFIX . $firewallConfig->getName());
-        $item->set($validatedRedirectUri);
-        $item->expiresAfter(60);
-        $this->cache->save($item);
+        $this->redirectUriStorage->save($firewallConfig->getName(), $validatedRedirectUri);
     }
 
     private function getCancelLogoutUrl(?string $validatedRedirectUri, Request $request): string

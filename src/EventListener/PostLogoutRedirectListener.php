@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStorageInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,10 +12,8 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 final class PostLogoutRedirectListener implements EventSubscriberInterface
 {
-    public const CACHE_KEY_PREFIX = 'ajgarlag.openid-connect-provider.logout.';
-
     public function __construct(
-        private readonly CacheItemPoolInterface $cache,
+        private readonly PostLogoutRedirectUriStorageInterface $redirectUriStorage,
         private readonly Security $security,
     ) {
     }
@@ -31,14 +29,14 @@ final class PostLogoutRedirectListener implements EventSubscriberInterface
             return;
         }
 
-        $item = $this->cache->getItem(self::CACHE_KEY_PREFIX . $firewallConfig->getName());
-        if (!$item->isHit()) {
+        $redirectUri = $this->redirectUriStorage->get($firewallConfig->getName());
+        if (null === $redirectUri) {
             return;
         }
 
-        $this->cache->deleteItem(self::CACHE_KEY_PREFIX . $firewallConfig->getName());
+        $this->redirectUriStorage->delete($firewallConfig->getName());
 
-        $event->setResponse(new RedirectResponse($item->get()));
+        $event->setResponse(new RedirectResponse($redirectUri));
     }
 
     public static function getSubscribedEvents(): array

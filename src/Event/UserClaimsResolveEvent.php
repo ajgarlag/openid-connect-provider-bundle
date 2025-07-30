@@ -6,7 +6,7 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-final class ClaimsResolveEvent extends Event
+final class UserClaimsResolveEvent extends Event
 {
     /**
      * @var array<non-empty-string, mixed>

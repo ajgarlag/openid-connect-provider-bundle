@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Repository;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event\ClaimsResolveEvent;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event\UserClaimsResolveEvent;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\Identity;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -26,9 +26,9 @@ final class IdentityProvider implements IdentityProviderInterface
         $user = new Identity();
         $user->setIdentifier($identifier);
 
-        /** @var ClaimsResolveEvent $event */
+        /** @var UserClaimsResolveEvent $event */
         $event = $this->eventDispatcher->dispatch(
-            new ClaimsResolveEvent($identifier)
+            new UserClaimsResolveEvent($identifier)
         );
 
         $user->setClaims($event->getClaims());

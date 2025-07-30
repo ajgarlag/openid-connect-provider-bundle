@@ -7,7 +7,7 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model;
 use League\Bundle\OAuth2ServerBundle\Model\ClientInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 
-class ClientData implements ClientDataInterface
+class RelyingParty implements RelyingPartyInterface
 {
     /** @var list<RedirectUri> */
     private array $postLogoutRedirectUris = [];

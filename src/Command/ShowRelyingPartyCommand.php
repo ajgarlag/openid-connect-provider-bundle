@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientDataInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\RelyingPartyInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -15,12 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'ajgarlag:openid-connect-provider:show-client-data', description: 'Show OpenID Connect client data')]
-final class ShowClientDataCommand extends Command
+#[AsCommand(name: 'ajgarlag:openid-connect-provider:show-relying-party', description: 'Show OpenID Connect relying party')]
+final class ShowRelyingPartyCommand extends Command
 {
     public function __construct(
         private readonly ClientManagerInterface $clientManager,
-        private readonly ClientDataManagerInterface $clientDataManager,
+        private readonly RelyingPartyManagerInterface $relyingPartyManager,
     ) {
         parent::__construct();
     }
@@ -28,7 +28,7 @@ final class ShowClientDataCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Show OpenID Connect client data')
+            ->setDescription('Show OpenID Connect relying party')
 
             ->addArgument('identifier', InputArgument::REQUIRED, 'The client identifier')
         ;
@@ -44,17 +44,17 @@ final class ShowClientDataCommand extends Command
             return 1;
         }
 
-        $clientData = $this->clientDataManager->get($client);
+        $relyingParty = $this->relyingPartyManager->get($client);
 
-        $this->drawTable($io, $clientData);
+        $this->drawTable($io, $relyingParty);
 
         return 0;
     }
 
-    private function drawTable(OutputStyle $io, ClientDataInterface $clientData): void
+    private function drawTable(OutputStyle $io, RelyingPartyInterface $relyingParty): void
     {
         $columns = ['name', 'identifier', 'post logout redirect uri'];
-        $rows = [array_combine($columns, [$clientData->getClient()->getName(), $clientData->getClient()->getIdentifier(), implode(', ', $clientData->getPostLogoutRedirectUris())])];
+        $rows = [array_combine($columns, [$relyingParty->getClient()->getName(), $relyingParty->getClient()->getIdentifier(), implode(', ', $relyingParty->getPostLogoutRedirectUris())])];
         $io->table($columns, $rows);
     }
 }

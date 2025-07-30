@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -15,12 +15,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'ajgarlag:openid-connect-provider:save-client-data', description: 'Saves an OpenID Connect client data')]
-final class SaveClientDataCommand extends Command
+#[AsCommand(name: 'ajgarlag:openid-connect-provider:save-relying-party', description: 'Saves an OpenID Connect relying party')]
+final class SaveRelyingPartyCommand extends Command
 {
     public function __construct(
         private readonly ClientManagerInterface $clientManager,
-        private readonly ClientDataManagerInterface $clientDataManager,
+        private readonly RelyingPartyManagerInterface $relyingPartyManager,
     ) {
         parent::__construct();
     }
@@ -28,7 +28,7 @@ final class SaveClientDataCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Saves an OpenID Connect client data')
+            ->setDescription('Saves an OpenID Connect relying party')
 
             ->addOption('add-post-logout-redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Add allowed post logout redirect uri to the client.', [])
             ->addOption('remove-post-logout-redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Remove allowed post logout redirect uri to the client.', [])
@@ -47,13 +47,13 @@ final class SaveClientDataCommand extends Command
             return 1;
         }
 
-        $clientData = $this->clientDataManager->get($client);
+        $relyingParty = $this->relyingPartyManager->get($client);
 
-        $clientData->setPostLogoutRedirectUris(...$this->getClientRelatedModelsFromInput($input, RedirectUri::class, $clientData->getPostLogoutRedirectUris(), 'post-logout-redirect-uri'));
+        $relyingParty->setPostLogoutRedirectUris(...$this->getClientRelatedModelsFromInput($input, RedirectUri::class, $relyingParty->getPostLogoutRedirectUris(), 'post-logout-redirect-uri'));
 
-        $this->clientDataManager->save($clientData);
+        $this->relyingPartyManager->save($relyingParty);
 
-        $io->success('OpenID Connect client data saved successfully.');
+        $io->success('OpenID Connect relying party saved successfully.');
 
         return 0;
     }

@@ -7,7 +7,7 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model;
 use League\Bundle\OAuth2ServerBundle\Model\ClientInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 
-interface ClientDataInterface
+interface RelyingPartyInterface
 {
     /**
      * @return non-empty-string

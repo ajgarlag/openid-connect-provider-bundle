@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\ClientDataManagerInterface;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\ClientData;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\RelyingParty;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
@@ -42,7 +42,7 @@ final class FixtureFactory
     public static function initializeFixtures(
         ScopeManagerInterface $scopeManager,
         ClientManagerInterface $clientManager,
-        ClientDataManagerInterface $clientDataManager,
+        RelyingPartyManagerInterface $relyingPartyManager,
         AccessTokenManagerInterface $accessTokenManager,
         RefreshTokenManagerInterface $refreshTokenManager,
         AuthorizationCodeManagerInterface $authCodeManager,
@@ -53,7 +53,7 @@ final class FixtureFactory
 
         foreach (self::createClients() as $client) {
             $clientManager->save($client);
-            $clientDataManager->save(self::createClientData($client));
+            $relyingPartyManager->save(self::createRelyingParty($client));
         }
 
         foreach (self::createAccessTokens($scopeManager, $clientManager) as $accessToken) {
@@ -121,15 +121,15 @@ final class FixtureFactory
         return $clients;
     }
 
-    private static function createClientData(Client $client): ClientData
+    private static function createRelyingParty(Client $client): RelyingParty
     {
-        $clientData = new ClientData($client->getIdentifier(), $client);
+        $relyingParty = new RelyingParty($client->getIdentifier(), $client);
 
         if (self::FIXTURE_CLIENT_OPENID_CONNECT !== $client->getIdentifier()) {
-            return $clientData;
+            return $relyingParty;
         }
 
-        return $clientData->setPostLogoutRedirectUris(
+        return $relyingParty->setPostLogoutRedirectUris(
             new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_POST_LOGOUT_REDIRECT_URI)
         );
     }

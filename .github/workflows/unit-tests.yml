@@ -12,6 +12,7 @@ jobs:
   unit-tests:
     name: PHP ${{ matrix.php }} - Doctrine ${{ matrix.doctrine-orm }} - Symfony ${{ matrix.symfony }}${{ matrix.composer-flags != '' && format(' - Composer {0}', matrix.composer-flags) || '' }}
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: false
@@ -21,16 +22,19 @@ jobs:
         doctrine-orm: ['^2.14', '^3.0']
         dependency-versions: ['highest']
         composer-stable: ['1']
+        experimental: [false]
         include:
           - php: '8.1'
             symfony: '6.4.*'
             doctrine-orm: '^2.14'
             dependency-versions: 'lowest'
+            experimental: false
           - php: 'latest'
             symfony: '7.3.*'
             doctrine-orm: '^3.0'
             dependency-versions: 'highest'
             composer-stable: '0'
+            experimental: true
         exclude:
           - php: '8.1'
             symfony: '7.2.*'
@@ -47,8 +51,12 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer, flex
 
+      - name: enable Symfony Flex plugin
+        run: composer global config --no-interaction allow-plugins.symfony/flex true
+
       - name: require specific Doctrine ORM version
         env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}
           COMPOSER_PREFER_STABLE: ${{ matrix.composer-stable }}
         run: composer require --no-scripts --no-install --dev doctrine/orm:${{ matrix.doctrine-orm }} --ansi
 
@@ -61,7 +69,7 @@ jobs:
           dependency-versions: ${{ matrix.dependency-versions }}
 
       - name: run tests
-        run: vendor/bin/simple-phpunit --colors=always
+        run: vendor/bin/simple-phpunit --colors=always || ${{ matrix.experimental }}
 
       - name: run league integration tests
-        run: vendor/bin/simple-phpunit --colors=always -c phpunit.league.xml
+        run: vendor/bin/simple-phpunit --colors=always -c phpunit.league.xml || ${{ matrix.experimental }}

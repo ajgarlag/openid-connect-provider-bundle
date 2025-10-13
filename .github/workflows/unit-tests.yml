@@ -47,8 +47,12 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer, flex
 
+      - name: enable Symfony Flex plugin
+        run: composer global config --no-interaction allow-plugins.symfony/flex true
+
       - name: require specific Doctrine ORM version
         env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}
           COMPOSER_PREFER_STABLE: ${{ matrix.composer-stable }}
         run: composer require --no-scripts --no-install --dev doctrine/orm:${{ matrix.doctrine-orm }} --ansi
 

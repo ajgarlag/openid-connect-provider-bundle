@@ -29,6 +29,9 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer, flex
 
+      - name: enable Symfony Flex plugin
+        run: composer global config --no-interaction allow-plugins.symfony/flex true
+
       - name: install composer dependencies
         env:
           SYMFONY_REQUIRE: ${{ matrix.symfony }}

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2025-10-16
+
 ### Added
 
 - Add `SessionSidTrait::getSid` method to retrieve the session ID if it exists without generating a new one
@@ -34,5 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenID Connect Discovery
 
 
-[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.1.0...HEAD
+[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.1...HEAD
+[0.2.1]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.1
+[0.2.0]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.0
 [0.1.0]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.1.0

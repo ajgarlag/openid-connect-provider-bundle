@@ -8,6 +8,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStor
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdToken;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\IdTokenInterface;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidTrait;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -35,6 +36,8 @@ use Twig\Environment;
 
 final class EndSessionController
 {
+    use SessionSidTrait;
+
     public function __construct(
         private readonly LogoutUrlGenerator $logoutUrlGenerator,
         private readonly ClientManagerInterface $clientManager,
@@ -130,11 +133,7 @@ final class EndSessionController
 
     private function shouldForceConfirmation(?string $clientId, ?IdTokenInterface $idToken, ?ClientInterface $client, ?string $logoutHint, ?SessionInterface $session): bool
     {
-        if (\is_string($clientId)) {
-            return null === $client;
-        }
-
-        if ($client instanceof ClientInterface) {
+        if (\is_string($clientId) && null === $client) {
             return true;
         }
 
@@ -142,12 +141,14 @@ final class EndSessionController
             return false;
         }
 
-        if ($idToken instanceof IdTokenInterface && $session->getId() !== $idToken->getClaim('sid')) {
+        $sid = $this->getSid($session);
+
+        if (\is_string($logoutHint) && $sid !== $logoutHint) {
             return true;
         }
 
-        if (\is_string($logoutHint) && $session->getId() !== $logoutHint) {
-            return true;
+        if ($idToken instanceof IdTokenInterface && null !== $idTokenSid = $idToken->getClaim('sid')) {
+            return $sid !== $idTokenSid;
         }
 
         return false;

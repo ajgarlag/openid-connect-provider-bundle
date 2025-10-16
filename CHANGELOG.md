@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `SessionSidTrait::getSid` method to retrieve the session ID if it exists without generating a new one
+
 ### Fixed
 
 - Fix `sid` comparison while ending session

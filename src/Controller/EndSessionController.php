@@ -141,7 +141,7 @@ final class EndSessionController
             return false;
         }
 
-        $sid = $this->getOrGenerateSid($session);
+        $sid = $this->getSid($session);
 
         if (\is_string($logoutHint) && $sid !== $logoutHint) {
             return true;

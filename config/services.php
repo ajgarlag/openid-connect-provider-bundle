@@ -28,6 +28,7 @@ return static function (ContainerConfigurator $container): void {
             ->args([service('event_dispatcher')])
         ->alias(IdentityProviderInterface::class, 'ajgarlag.openid_connect_provider.repository.identity_provider')
         ->alias(IdentityProvider::class, 'ajgarlag.openid_connect_provider.repository.identity_provider')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.repository.identity_provider" instead.')
 
         ->set('ajgarlag.openid_connect_provider.openid_connect.claim_extractor', ClaimExtractor::class)
 
@@ -39,6 +40,7 @@ return static function (ContainerConfigurator $container): void {
                 service('request_stack'),
             ])
         ->alias(IdTokenResponse::class, 'ajgarlag.openid_connect_provider.openid_connect.response')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.openid_connect.response" instead.')
 
         ->set('ajgarlag.openid_connect_provider.grant.id_token', IdTokenGrant::class)
             ->args([
@@ -46,6 +48,7 @@ return static function (ContainerConfigurator $container): void {
                 null,
             ])
         ->alias(IdTokenGrant::class, 'ajgarlag.openid_connect_provider.grant.id_token')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.grant.id_token" instead.')
 
          ->set('ajgarlag.openid_connect_provider.listener.post_logout_redirect', PostLogoutRedirectListener::class)
             ->args([
@@ -54,6 +57,7 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('kernel.event_subscriber')
         ->alias(PostLogoutRedirectListener::class, 'ajgarlag.openid_connect_provider.listener.post_logout_redirect')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.listener.post_logout_redirect" instead.')
 
         ->set('ajgarlag.openid_connect_provider.command.show_relying_party', ShowRelyingPartyCommand::class)
             ->args([
@@ -62,6 +66,7 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('console.command', ['command' => 'ajgarlag:openid-connect-provider:show-relying-party'])
         ->alias(ShowRelyingPartyCommand::class, 'ajgarlag.openid_connect_provider.command.show_relying_party')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.command.show_relying_party" instead.')
 
         ->set('ajgarlag.openid_connect_provider.command.save_relying_party', SaveRelyingPartyCommand::class)
             ->args([
@@ -70,6 +75,7 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('console.command', ['command' => 'ajgarlag:openid-connect-provider:save-relying-party'])
         ->alias(SaveRelyingPartyCommand::class, 'ajgarlag.openid_connect_provider.command.save_relying_party')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.command.save_relying_party" instead.')
 
         ->set('ajgarlag.openid_connect_provider.controller.discovery', DiscoveryController::class)
             ->args([
@@ -82,6 +88,7 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('controller.service_arguments')
         ->alias(DiscoveryController::class, 'ajgarlag.openid_connect_provider.controller.discovery')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.controller.discovery" instead.')
 
         ->set('ajgarlag.openid_connect_provider.controller.end_session', EndSessionController::class)
             ->args([
@@ -97,6 +104,7 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('controller.service_arguments')
         ->alias(EndSessionController::class, 'ajgarlag.openid_connect_provider.controller.end_session')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.controller.end_session" instead.')
 
         ->set('ajgarlag.openid_connect_provider.controller.jwks', JwksController::class)
             ->args([
@@ -104,6 +112,7 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('controller.service_arguments')
         ->alias(JwksController::class, 'ajgarlag.openid_connect_provider.controller.jwks')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.controller.jwks" instead.')
 
         ->set('ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache', CachePostLogoutRedirectUriStorage::class)
             ->args([
@@ -111,6 +120,7 @@ return static function (ContainerConfigurator $container): void {
                 60,
             ])
         ->alias(CachePostLogoutRedirectUriStorage::class, 'ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache')
+            ->deprecate('ajgarlag/openid-connect-provider-bundle', '0.2.2', 'The "%alias_id%" alias is deprecated, use "ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache" instead.')
         ->alias(PostLogoutRedirectUriStorageInterface::class, 'ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache')
     ;
 };

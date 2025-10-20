@@ -18,7 +18,7 @@ final class AuthCodeGrantCompilerPass implements CompilerPassInterface
     {
         $authCodeGrantDefinition = $container->getDefinition('league.oauth2_server.grant.auth_code');
         $authCodeGrantDefinition->setClass(AuthCodeGrant::class)
-            ->setArgument(3, new Reference(RequestStack::class))
+            ->setArgument(3, new Reference('request_stack'))
             ->setArgument(4, new Reference(ResponseFactoryInterface::class))
             ->setArgument(5, new Reference(UriFactoryInterface::class))
         ;

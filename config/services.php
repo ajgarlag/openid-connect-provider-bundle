@@ -20,15 +20,12 @@ use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use OpenIDConnectServer\ClaimExtractor;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 return static function (ContainerConfigurator $container): void {
     $container->services()
 
         ->set('ajgarlag.openid_connect_provider.repository.identity_provider', IdentityProvider::class)
-            ->args([service(EventDispatcherInterface::class)])
+            ->args([service('event_dispatcher')])
         ->alias(IdentityProviderInterface::class, 'ajgarlag.openid_connect_provider.repository.identity_provider')
         ->alias(IdentityProvider::class, 'ajgarlag.openid_connect_provider.repository.identity_provider')
 
@@ -38,8 +35,8 @@ return static function (ContainerConfigurator $container): void {
             ->args([
                 service('ajgarlag.openid_connect_provider.repository.identity_provider'),
                 service('ajgarlag.openid_connect_provider.openid_connect.claim_extractor'),
-                service(EventDispatcherInterface::class),
-                service(RequestStack::class),
+                service('event_dispatcher'),
+                service('request_stack'),
             ])
         ->alias(IdTokenResponse::class, 'ajgarlag.openid_connect_provider.openid_connect.response')
 
@@ -77,7 +74,7 @@ return static function (ContainerConfigurator $container): void {
         ->set('ajgarlag.openid_connect_provider.controller.discovery', DiscoveryController::class)
             ->args([
                 service('league.oauth2_server.authorization_server'),
-                service(UrlGeneratorInterface::class),
+                service('router'),
                 null,
                 null,
                 null,

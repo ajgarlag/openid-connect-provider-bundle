@@ -17,5 +17,10 @@ return static function (RoutingConfigurator $routes): void {
         ->add('openid_connect_end_session', '/end-session')
         ->controller(['ajgarlag.openid_connect_provider.controller.end_session', '__invoke'])
         ->methods(['GET', 'POST'])
+
+        ->add('openid_connect_front_channel_logout', '/front-channel-logout/{sid}')
+        ->controller(['ajgarlag.openid_connect_provider.controller.front_channel_logout', '__invoke'])
+        ->requirements(['sid' => '[0-9a-f]{32}'])
+        ->methods(['GET'])
     ;
 };

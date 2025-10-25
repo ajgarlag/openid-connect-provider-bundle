@@ -53,6 +53,7 @@ final readonly class Driver implements MappingDriver
             ->setTable($this->tablePrefix . 'relying_party')
             ->createField('identifier', 'string')->makePrimaryKey()->length(80)->option('fixed', true)->build()
             ->createField('postLogoutRedirectUris', 'oauth2_redirect_uri')->nullable(true)->build()
+            ->createField('frontChannelLogoutUri', 'text')->nullable(true)->build()
             ->createManyToOne('client', $this->clientClass)->addJoinColumn('client', 'identifier', false, false, 'CASCADE')->build()
         ;
     }

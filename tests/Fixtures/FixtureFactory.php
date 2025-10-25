@@ -34,6 +34,8 @@ final class FixtureFactory
 
     public const FIXTURE_CLIENT_OPENID_CONNECT_POST_LOGOUT_REDIRECT_URI = 'https://example.org/openid_connect/bye';
 
+    public const FIXTURE_CLIENT_OPENID_CONNECT_FRONT_CHANNEL_LOGOUT_URI = 'https://example.org/openid_connect/front-channel-logout';
+
     public const FIXTURE_SCOPE_OPENID = 'openid';
 
     public const FIXTURE_USER = 'user';
@@ -129,9 +131,11 @@ final class FixtureFactory
             return $relyingParty;
         }
 
-        return $relyingParty->setPostLogoutRedirectUris(
-            new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_POST_LOGOUT_REDIRECT_URI)
-        );
+        return $relyingParty
+            ->setPostLogoutRedirectUris(
+                new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_POST_LOGOUT_REDIRECT_URI)
+            )
+            ->setFrontChannelLogoutUri(self::FIXTURE_CLIENT_OPENID_CONNECT_FRONT_CHANNEL_LOGOUT_URI);
     }
 
     /**

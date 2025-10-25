@@ -1,4 +1,5 @@
 framework:
+    secret: '$ecretf0rt3st'
     http_method_override: false
     handle_all_throwables: true
     php_errors:

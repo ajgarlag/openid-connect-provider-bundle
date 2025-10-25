@@ -33,6 +33,8 @@ final readonly class DiscoveryController
                 'response_types_supported' => $this->authorizationServer->getResponseTypesSupported(),
                 'subject_types_supported' => ['public'],
                 'id_token_signing_alg_values_supported' => ['RS256'],
+                'frontchannel_logout_supported' => true,
+                'frontchannel_logout_session_supported' => true,
             ],
             JsonResponse::HTTP_OK,
             [

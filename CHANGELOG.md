@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2025-11-05
+
 ### Fixed
 
 - Avoid trying to issue an `id_token` with client credentials grant
@@ -40,7 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenID Connect Discovery
 
 
-[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.1...HEAD
+[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.2...HEAD
+[0.2.2]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.2
 [0.2.1]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.1
 [0.2.0]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.0
 [0.1.0]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.1.0

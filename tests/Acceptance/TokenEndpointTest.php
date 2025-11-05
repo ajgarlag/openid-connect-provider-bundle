@@ -55,4 +55,29 @@ final class TokenEndpointTest extends AbstractAcceptanceTestCase
         $this->assertNotEmpty($token->claims()->get('exp'));
         $this->assertNotEmpty($token->claims()->get('iat'));
     }
+
+    public function testClientCredentialsFlowOmitsIdToken(): void
+    {
+        $client = self::createClient();
+
+        $client->request('POST', '/token', [
+            'client_id' => 'client_openid_connect',
+            'client_secret' => 'secret_openid_connect',
+            'grant_type' => 'client_credentials',
+            'scope' => 'openid',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));
+
+        $jsonResponse = json_decode($response->getContent(), true);
+
+        $this->assertSame('Bearer', $jsonResponse['token_type']);
+        $this->assertEqualsWithDelta(3600, $jsonResponse['expires_in'], 1.0);
+        $this->assertNotEmpty($jsonResponse['access_token']);
+
+        $this->assertArrayNotHasKey('id_token', $jsonResponse);
+    }
 }

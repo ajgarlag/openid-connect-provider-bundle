@@ -93,6 +93,10 @@ final class IdTokenResponse extends BaseIdTokenResponse
      */
     protected function getExtraParams(AccessTokenEntityInterface $accessToken): array
     {
+        if (null === $accessToken->getUserIdentifier()) {
+            return [];
+        }
+
         /** @var array{id_token?: non-empty-string} $extraParams */
         $extraParams = parent::getExtraParams($accessToken);
 

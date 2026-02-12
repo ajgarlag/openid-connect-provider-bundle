@@ -17,13 +17,15 @@ final class StorageCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../config/storage'));
-        $ormCompilerPass = new DoctrineOrmMappingsPass(
-            new Reference(Driver::class),
-            ['Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model'],
-            ['league.oauth2_server.persistence.doctrine.manager'],
-            'league.oauth2_server.persistence.doctrine.enabled',
-        );
-        $ormCompilerPass->process($container);
+        if (class_exists(DoctrineOrmMappingsPass::class)) {
+            $ormCompilerPass = new DoctrineOrmMappingsPass(
+                new Reference(Driver::class),
+                ['Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model'],
+                ['league.oauth2_server.persistence.doctrine.manager'],
+                'league.oauth2_server.persistence.doctrine.enabled',
+            );
+            $ormCompilerPass->process($container);
+        }
 
         if ($container->hasParameter('league.oauth2_server.persistence.doctrine.enabled') && true === $container->getParameter('league.oauth2_server.persistence.doctrine.enabled')) {
             $loader->load('doctrine.php');

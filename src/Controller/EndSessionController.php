@@ -173,7 +173,7 @@ final class EndSessionController
             return null;
         }
         $relyingParty = $this->relyingPartyManager->get($client);
-        $validator = new RedirectUriValidator(array_map(fn (RedirectUri $redirectUri) => $redirectUri->__toString(), $relyingParty->getPostLogoutRedirectUris()));
+        $validator = new RedirectUriValidator(array_map(static fn (RedirectUri $redirectUri) => $redirectUri->__toString(), $relyingParty->getPostLogoutRedirectUris()));
         if (!$validator->validateRedirectUri($postLogoutRedirectUri)) {
             throw new BadRequestException('Invalid "post_logout_redirect_uri" parameter.');
         }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-return function (RoutingConfigurator $routes): void {
+return static function (RoutingConfigurator $routes): void {
     $routes
         ->add('openid_connect_discovery', '.well-known/openid-configuration')
         ->controller(['ajgarlag.openid_connect_provider.controller.discovery', '__invoke'])

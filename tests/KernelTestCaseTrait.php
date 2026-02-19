@@ -9,6 +9,9 @@ use League\Bundle\OAuth2ServerBundle\LeagueOAuth2ServerBundle;
 use Nyholm\BundleTest\TestKernel;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 trait KernelTestCaseTrait
@@ -25,6 +28,21 @@ trait KernelTestCaseTrait
         $kernel->addTestBundle(LeagueOAuth2ServerBundle::class);
         $kernel->addTestBundle(AjgarlagOpenIDConnectProviderBundle::class);
         $kernel->addTestBundle(TwigBundle::class);
+        if (Kernel::VERSION_ID >= 70400 && Kernel::VERSION_ID < 80000) {
+            $kernel->addTestCompilerPass(
+                new class implements CompilerPassInterface {
+                    public function process(ContainerBuilder $container): void
+                    {
+                        if (!$container->has('uri_signer')) {
+                            return;
+                        }
+
+                        $definition = $container->findDefinition('uri_signer');
+                        $definition->setLazy(false);
+                    }
+                }
+            );
+        }
         $kernel->handleOptions($options);
 
         return $kernel;

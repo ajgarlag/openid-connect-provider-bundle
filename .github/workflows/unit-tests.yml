@@ -5,7 +5,7 @@ on:
   push: ~
   schedule:
       # Do not make it the first of the month and/or midnight since it is a very busy time
-      - cron: '* 10 5 * *'
+      - cron: '42 10 5 * *'
   workflow_dispatch: ~
 
 jobs:

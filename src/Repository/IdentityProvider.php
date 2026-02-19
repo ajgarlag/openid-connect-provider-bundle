@@ -9,10 +9,10 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\Identity;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class IdentityProvider implements IdentityProviderInterface
+final readonly class IdentityProvider implements IdentityProviderInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

@@ -10,10 +10,10 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Model\RelyingPartyInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Model\ClientInterface;
 
-final class RelyingPartyManager implements RelyingPartyManagerInterface
+final readonly class RelyingPartyManager implements RelyingPartyManagerInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 

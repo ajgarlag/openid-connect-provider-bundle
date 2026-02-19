@@ -10,11 +10,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
-final class PostLogoutRedirectListener implements EventSubscriberInterface
+final readonly class PostLogoutRedirectListener implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly PostLogoutRedirectUriStorageInterface $redirectUriStorage,
-        private readonly Security $security,
+        private PostLogoutRedirectUriStorageInterface $redirectUriStorage,
+        private Security $security,
     ) {
     }
 

@@ -34,20 +34,20 @@ use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 use Twig\Environment;
 
-final class EndSessionController
+final readonly class EndSessionController
 {
     use SessionSidTrait;
 
     public function __construct(
-        private readonly LogoutUrlGenerator $logoutUrlGenerator,
-        private readonly ClientManagerInterface $clientManager,
-        private readonly RelyingPartyManagerInterface $relyingPartyManager,
-        private readonly CryptKeyInterface $publicKey,
-        private readonly PostLogoutRedirectUriStorageInterface $redirectUriStorage,
-        private readonly Security $security,
-        private readonly Environment $twigEnvironment,
-        private readonly HttpUtils $httpUtils,
-        private readonly string $cancelLogoutDefaultPath,
+        private LogoutUrlGenerator $logoutUrlGenerator,
+        private ClientManagerInterface $clientManager,
+        private RelyingPartyManagerInterface $relyingPartyManager,
+        private CryptKeyInterface $publicKey,
+        private PostLogoutRedirectUriStorageInterface $redirectUriStorage,
+        private Security $security,
+        private Environment $twigEnvironment,
+        private HttpUtils $httpUtils,
+        private string $cancelLogoutDefaultPath,
     ) {
     }
 

@@ -16,7 +16,7 @@ We accept contributions via Pull Requests on [Github](https://github.com/ajgarla
 
 ## Development
 
-You need an environment with PHP 8.1 or higher with Composer to develop this bundle.
+You need an environment with PHP 8.2 or higher with Composer to develop this bundle.
 
 ### Installing dependencies
 

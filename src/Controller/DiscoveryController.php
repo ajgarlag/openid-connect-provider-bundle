@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class DiscoveryController
+final readonly class DiscoveryController
 {
     public function __construct(
-        private readonly AuthorizationServer $authorizationServer,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly string $authorizationEndpointRoute,
-        private readonly string $tokenEndpointRoute,
-        private readonly string $jwksEndpointRoute,
-        private readonly string $endSessionEndpointRoute,
+        private AuthorizationServer $authorizationServer,
+        private UrlGeneratorInterface $urlGenerator,
+        private string $authorizationEndpointRoute,
+        private string $tokenEndpointRoute,
+        private string $jwksEndpointRoute,
+        private string $endSessionEndpointRoute,
     ) {
     }
 

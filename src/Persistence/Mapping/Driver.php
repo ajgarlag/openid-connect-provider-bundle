@@ -11,9 +11,9 @@ use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use League\Bundle\OAuth2ServerBundle\Model\Client;
 
-final class Driver implements MappingDriver
+final readonly class Driver implements MappingDriver
 {
-    public function __construct(private readonly string $tablePrefix = 'openid_connect_')
+    public function __construct(private string $tablePrefix = 'openid_connect_')
     {
     }
 

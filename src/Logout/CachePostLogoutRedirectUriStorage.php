@@ -6,13 +6,13 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout;
 
 use Psr\Cache\CacheItemPoolInterface;
 
-final class CachePostLogoutRedirectUriStorage implements PostLogoutRedirectUriStorageInterface
+final readonly class CachePostLogoutRedirectUriStorage implements PostLogoutRedirectUriStorageInterface
 {
     private const CACHE_KEY_PREFIX = 'ajgarlag.openid-connect-provider.logout.';
 
     public function __construct(
-        private readonly CacheItemPoolInterface $cache,
-        private readonly int $ttl,
+        private CacheItemPoolInterface $cache,
+        private int $ttl,
     ) {
     }
 

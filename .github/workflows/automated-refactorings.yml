@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        symfony: ['7.3.*']
+        symfony: ['8.0.*']
 
     steps:
       - name: checkout

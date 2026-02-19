@@ -10,7 +10,7 @@ on:
 
 jobs:
   unit-tests:
-    name: PHP ${{ matrix.php }} - Doctrine ${{ matrix.doctrine-orm }} - Symfony ${{ matrix.symfony }}${{ matrix.composer-flags != '' && format(' - Composer {0}', matrix.composer-flags) || '' }}
+    name: PHP ${{ matrix.php }} - Doctrine ${{ matrix.doctrine-orm }} - Symfony ${{ matrix.symfony }}
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
 
@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
-        symfony: ['6.4.*', '7.2.*', '7.3.*', '7.4.*']
+        symfony: ['6.4.*', '7.2.*', '7.3.*', '7.4.*', '8.0.*']
         doctrine-orm: ['^2.14', '^3.0']
         dependency-versions: ['highest']
         composer-stable: ['1']
@@ -30,11 +30,18 @@ jobs:
             dependency-versions: 'lowest'
             experimental: false
           - php: 'latest'
-            symfony: '7.4.*'
+            symfony: '8.0.*'
             doctrine-orm: '^3.0'
             dependency-versions: 'highest'
             composer-stable: '0'
             experimental: true
+        exclude:
+          - php: '8.2'
+            symfony: '8.0.*'
+          - php: '8.3'
+            symfony: '8.0.*'
+          - doctrine-orm: '^2.14'
+            symfony: '8.0.*'
 
     steps:
       - name: checkout

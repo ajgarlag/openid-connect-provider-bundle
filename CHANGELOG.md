@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add support for PHP 8.5
+
 ## [0.2.2] - 2025-11-05
 
 ### Fixed

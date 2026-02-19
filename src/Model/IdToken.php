@@ -9,10 +9,10 @@ use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 
-final class IdToken implements IdTokenInterface
+final readonly class IdToken implements IdTokenInterface
 {
     private function __construct(
-        private readonly Plain $token,
+        private Plain $token,
     ) {
     }
 

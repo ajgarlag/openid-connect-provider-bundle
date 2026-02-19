@@ -9,9 +9,9 @@ use League\OAuth2\Server\CryptKeyInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class JwksController
+final readonly class JwksController
 {
-    private readonly CryptKeyInterface $publicKey;
+    private CryptKeyInterface $publicKey;
 
     public function __construct(
         CryptKeyInterface|string $publicKey,

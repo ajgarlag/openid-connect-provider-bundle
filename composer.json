@@ -20,21 +20,21 @@
         "ext-openssl": "*",
         "league/oauth2-server-bundle": "^1",
         "steverhoades/oauth2-openid-connect-server": "^3.0.1",
-        "symfony/twig-bundle": "^6.4|^7.2"
+        "symfony/twig-bundle": "^6.4|^7.2|^8.0"
     },
     "require-dev": {
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*",
         "dg/bypass-finals": "^1.9",
-        "doctrine/doctrine-bundle": "^2.11.0",
+        "doctrine/doctrine-bundle": "^2.11.0|^3.2",
         "doctrine/orm": "^2.14|^3.0",
         "nyholm/symfony-bundle-test": "^3.0",
         "php-cs-fixer/shim": "^3.38",
         "phpstan/phpstan": "^2",
         "phpstan/phpstan-symfony": "^2",
         "rector/rector": "^2.1",
-        "symfony/browser-kit": "^6.4|^7.2",
-        "symfony/phpunit-bridge": "^7.4"
+        "symfony/browser-kit": "^6.4|^7.2|^8.0",
+        "symfony/phpunit-bridge": "^8.0"
     },
     "autoload": {
         "psr-4": { "Ajgarlag\\Bundle\\OpenIDConnectProviderBundle\\": "src/" }

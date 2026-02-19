@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        symfony: ['7.4.*']
+        symfony: ['8.0.*']
 
     steps:
       - name: checkout

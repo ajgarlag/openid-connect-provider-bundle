@@ -39,6 +39,17 @@ AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenI
             cancel_logout_default_path: '/'
     ```
 
+5. Fix the security configuration to include the oAuth2 token endpoint in the same firewall context that secures the oauth2 authorization endpoint.
+
+    ```yaml
+    security:
+        firewalls:
+            api_token:
+                pattern: ^/token$
+                security: true
+                context: main
+    ```
+
 ## Documentation
 
 TBD

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2;
 
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidTrait;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidManager;
 use League\OAuth2\Server\Grant\AuthCodeGrant as LeagueAuthCodeGrant;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class AuthCodeGrant extends LeagueAuthCodeGrant
 {
-    use SessionSidTrait;
-
     public function __construct(
         AuthCodeRepositoryInterface $authCodeRepository,
         RefreshTokenRepositoryInterface $refreshTokenRepository,
@@ -26,6 +24,7 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
         private readonly RequestStack $requestStack,
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly UriFactoryInterface $uriFactory,
+        private readonly SessionSidManager $sessionSidManager,
     ) {
         parent::__construct($authCodeRepository, $refreshTokenRepository, $authCodeTTL);
     }
@@ -57,7 +56,7 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
         $payload = json_decode($this->decrypt($queryParams['code']), true, \JSON_THROW_ON_ERROR);
         $payload['nonce'] = $request->query->getString('nonce');
         if ($request->hasSession()) {
-            $payload['sid'] = $this->getOrGenerateSid($request->getSession());
+            $payload['sid'] = $this->sessionSidManager->getOrGenerateSid();
         }
         $queryParams['code'] = $this->encrypt(json_encode($payload, \JSON_THROW_ON_ERROR));
         $response->setRedirectUri($psr7Uri->withQuery(http_build_query($queryParams))->__toString());

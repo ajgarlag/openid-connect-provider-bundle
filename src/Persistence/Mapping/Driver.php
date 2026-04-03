@@ -9,12 +9,15 @@ use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata as ORMClassMetadata;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
-use League\Bundle\OAuth2ServerBundle\Model\Client;
+use League\Bundle\OAuth2ServerBundle\Model\ClientInterface;
 
 final readonly class Driver implements MappingDriver
 {
-    public function __construct(private string $tablePrefix = 'openid_connect_')
-    {
+    public function __construct(
+        /** @param class-string<ClientInterface> $clientClass */
+        private string $clientClass,
+        private string $tablePrefix = 'openid_connect_',
+    ) {
     }
 
     public function loadMetadataForClass($className, ClassMetadata $metadata): void
@@ -50,7 +53,7 @@ final readonly class Driver implements MappingDriver
             ->setTable($this->tablePrefix . 'relying_party')
             ->createField('identifier', 'string')->makePrimaryKey()->length(80)->option('fixed', true)->build()
             ->createField('postLogoutRedirectUris', 'oauth2_redirect_uri')->nullable(true)->build()
-            ->createManyToOne('client', Client::class)->addJoinColumn('client', 'identifier', false, false, 'CASCADE')->build()
+            ->createManyToOne('client', $this->clientClass)->addJoinColumn('client', 'identifier', false, false, 'CASCADE')->build()
         ;
     }
 }

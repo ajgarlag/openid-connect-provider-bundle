@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix `IdToken::getClaim` method to return default value if claim is not found
+- Fix `nonce` handling in `AuthCodeGrant` to only set if present in request
+- Fix error messages in `EndSessionController` for ID token verification
+
 ## [0.2.4] - 2026-02-19
 
 ### Removed

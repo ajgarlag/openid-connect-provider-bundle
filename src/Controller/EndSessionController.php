@@ -227,11 +227,11 @@ final readonly class EndSessionController
             $constraints = $jwtConfiguration->validationConstraints();
             $jwtConfiguration->validator()->assert($token, ...$constraints);
         } catch (RequiredConstraintsViolated $exception) {
-            throw new BadRequestHttpException('Access token could not be verified', $exception);
+            throw new BadRequestHttpException('ID token could not be verified', $exception);
         }
 
         if (!$token instanceof UnencryptedToken) {
-            throw new BadRequestHttpException('Access token is not an instance of UnencryptedToken');
+            throw new BadRequestHttpException('ID token is not an instance of UnencryptedToken');
         }
     }
 

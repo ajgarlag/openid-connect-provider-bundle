@@ -55,7 +55,9 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
         }
 
         $payload = json_decode($this->decrypt($queryParams['code']), true, \JSON_THROW_ON_ERROR);
-        $payload['nonce'] = $request->query->getString('nonce');
+        if ($request->query->has('nonce')) {
+            $payload['nonce'] = $request->query->getString('nonce');
+        }
         if ($request->hasSession()) {
             $payload['sid'] = $this->getOrGenerateSid($request->getSession());
         }

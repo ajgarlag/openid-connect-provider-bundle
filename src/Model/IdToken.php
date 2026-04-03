@@ -74,7 +74,7 @@ final readonly class IdToken implements IdTokenInterface
 
     public function getClaim(string $name, mixed $default = null): mixed
     {
-        return $this->token->claims()->get($name);
+        return $this->token->claims()->get($name, $default);
     }
 
     public function __toString(): string

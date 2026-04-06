@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add autoregistration of `offline_access` scope
 - Add `$refreshTokenRequireOfflineAccess` to `AuthCodeGrant`
 - Add `refresh_token_require_offline_access_scope` configuration parameter with a default value of `false`
+- Add `RefreshTokenOfflineAccessExpiryListener` to immediately expire refresh tokens
 
 ### Changed
 

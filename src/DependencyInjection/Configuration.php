@@ -79,7 +79,7 @@ final class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->booleanNode('refresh_token_require_offline_access_scope')
-                    ->info('Whether refresh tokens require the offline_access scope to be requested')
+                    ->info('Whether refresh tokens require the offline_access scope to be requested. If true, refresh tokens will not be issued or will be issued with immediate expiry if offline_access is not requested.')
                     ->defaultFalse()
                 ->end()
             ->end()

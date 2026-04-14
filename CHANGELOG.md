@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a new `$clientClass` parameter to `Driver` to support custom clients
+
+### Changed
+
+- Change `$tablePrefix` parameter for `Driver` class position
+
 ## [0.2.5] - 2026-04-03
 
 ### Fixed

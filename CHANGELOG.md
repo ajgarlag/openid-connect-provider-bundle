@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Change `$tablePrefix` parameter for `Driver` class position
+- Change the position of the `$tablePrefix` parameter in the `Driver` class
 
 ## [0.2.5] - 2026-04-03
 

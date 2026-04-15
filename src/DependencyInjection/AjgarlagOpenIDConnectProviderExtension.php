@@ -25,6 +25,7 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
 
         $this->configureDiscovery($container, $config['discovery']);
         $this->configureEndSession($container, $config['end_session']);
+        $this->configureAuthorizationServer($container, $config['authorization_server']);
     }
 
     /**
@@ -48,5 +49,16 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
         $container->getDefinition('ajgarlag.openid_connect_provider.controller.end_session')
             ->replaceArgument(8, $config['cancel_logout_default_path'])
         ;
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    private function configureAuthorizationServer(ContainerBuilder $container, array $config): void
+    {
+        $container->setParameter(
+            'ajgarlag_openid_connect_provider.authorization_server.refresh_token_require_offline_access_scope',
+            $config['refresh_token_require_offline_access_scope']
+        );
     }
 }

@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add a new `$clientClass` parameter to `Driver` to support custom clients
 - Add `kid` value in JWKS
 - Add autoregistration of `offline_access` scope
+- Add `$refreshTokenRequireOfflineAccess` to `AuthCodeGrant`
+- Add `refresh_token_require_offline_access_scope` configuration parameter with a default value of `false`
 
 ### Changed
 

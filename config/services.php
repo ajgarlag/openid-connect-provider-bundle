@@ -82,6 +82,7 @@ return static function (ContainerConfigurator $container): void {
                 null,
                 null,
                 null,
+                null,
             ])
             ->tag('controller.service_arguments')
         ->alias(DiscoveryController::class, 'ajgarlag.openid_connect_provider.controller.discovery')

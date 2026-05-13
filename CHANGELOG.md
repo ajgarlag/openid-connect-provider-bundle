@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add a new `$clientClass` parameter to `Driver` to support custom clients
 - Add `kid` value in JWKS
+- Add `userinfo_endpoint_route` option to OpenID Connect Discovery configuration
+- Add a new optional `$userinfoEndpointRoute` parameter to `DiscoveryController` to support custom userinfo endpoint route
 
 ### Changed
 

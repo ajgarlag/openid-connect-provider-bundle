@@ -18,22 +18,29 @@ final readonly class DiscoveryController
         private string $tokenEndpointRoute,
         private string $jwksEndpointRoute,
         private string $endSessionEndpointRoute,
+        private ?string $userinfoEndpointRoute = null,
     ) {
     }
 
     public function __invoke(Request $request): JsonResponse
     {
+        $data = [
+            'issuer' => $request->getSchemeAndHttpHost() . $request->getBasePath(),
+            'authorization_endpoint' => $this->urlGenerator->generate($this->authorizationEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'token_endpoint' => $this->urlGenerator->generate($this->tokenEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'jwks_uri' => $this->urlGenerator->generate($this->jwksEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'end_session_endpoint' => $this->urlGenerator->generate($this->endSessionEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'response_types_supported' => $this->authorizationServer->getResponseTypesSupported(),
+            'subject_types_supported' => ['public'],
+            'id_token_signing_alg_values_supported' => ['RS256'],
+        ];
+
+        if (\is_string($this->userinfoEndpointRoute)) {
+            $data['userinfo_endpoint'] = $this->urlGenerator->generate($this->userinfoEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+
         return new JsonResponse(
-            [
-                'issuer' => $request->getSchemeAndHttpHost() . $request->getBasePath(),
-                'authorization_endpoint' => $this->urlGenerator->generate($this->authorizationEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'token_endpoint' => $this->urlGenerator->generate($this->tokenEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'jwks_uri' => $this->urlGenerator->generate($this->jwksEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'end_session_endpoint' => $this->urlGenerator->generate($this->endSessionEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'response_types_supported' => $this->authorizationServer->getResponseTypesSupported(),
-                'subject_types_supported' => ['public'],
-                'id_token_signing_alg_values_supported' => ['RS256'],
-            ],
+            $data,
             JsonResponse::HTTP_OK,
             [
                 'Access-Control-Allow-Origin' => '*',

@@ -35,6 +35,7 @@ final readonly class JwksController
             [
                 'keys' => [[
                     'kty' => 'RSA',
+                    'kid' => sha1($this->publicKey->getKeyContents()),
                     'n' => rtrim(strtr(base64_encode((string) $keyDetails['rsa']['n']), '+/', '-_'), '='),
                     'e' => rtrim(strtr(base64_encode((string) $keyDetails['rsa']['e']), '+/', '-_'), '='),
                 ]],

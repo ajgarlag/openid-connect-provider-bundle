@@ -10,6 +10,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\Aut
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\EndSessionControllerCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\IdTokenGrantCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\JwksControllerCompilerPass;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\KidCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\OpenIdScopeCompilerPass;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection\Compiler\StorageCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,6 +32,7 @@ final class AjgarlagOpenIDConnectProviderBundle extends Bundle
             ->addCompilerPass(new EndSessionControllerCompilerPass())
             ->addCompilerPass(new IdTokenGrantCompilerPass())
             ->addCompilerPass(new JwksControllerCompilerPass())
+            ->addCompilerPass(new KidCompilerPass())
             ->addCompilerPass(new OpenIdScopeCompilerPass())
             ->addCompilerPass(new StorageCompilerPass())
         ;

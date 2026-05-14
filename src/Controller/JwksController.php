@@ -15,6 +15,7 @@ final readonly class JwksController
 
     public function __construct(
         CryptKeyInterface|string $publicKey,
+        private string|\Stringable $keyIdentifier,
     ) {
         $this->publicKey = \is_string($publicKey) ? new CryptKey($publicKey) : $publicKey;
     }
@@ -35,7 +36,7 @@ final readonly class JwksController
             [
                 'keys' => [[
                     'kty' => 'RSA',
-                    'kid' => sha1($this->publicKey->getKeyContents()),
+                    'kid' => (string) $this->keyIdentifier,
                     'n' => rtrim(strtr(base64_encode((string) $keyDetails['rsa']['n']), '+/', '-_'), '='),
                     'e' => rtrim(strtr(base64_encode((string) $keyDetails['rsa']['e']), '+/', '-_'), '='),
                 ]],

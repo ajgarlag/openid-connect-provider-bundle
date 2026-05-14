@@ -45,6 +45,15 @@ final class Configuration implements ConfigurationInterface
                     ->info('Route name for the end session endpoint')
                     ->defaultValue('openid_connect_end_session')
                 ->end()
+                ->scalarNode('userinfo_endpoint_route')
+                    ->info('Route name for the userinfo endpoint')
+                    ->defaultNull()
+                ->end()
+                ->arrayNode('extra_supported_claims')
+                    ->info('Extra supported claims')
+                    ->defaultValue([])
+                    ->scalarPrototype()->end()
+                ->end()
             ->end()
         ;
 

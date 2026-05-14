@@ -9,6 +9,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Command\ShowRelyingPartyCommand;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\DiscoveryController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\EndSessionController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\JwksController;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\CoreRecommendedProviderMetadataListener;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\CoreRequiredProviderMetadataListener;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\PostLogoutRedirectListener;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\RpInitiatedLogoutProviderMetadataListener;
@@ -92,6 +93,16 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('kernel.event_subscriber')
         ->alias(CoreRequiredProviderMetadataListener::class, 'ajgarlag.openid_connect_provider.provider_metadata_listener.core_required')
+
+        ->set('ajgarlag.openid_connect_provider.provider_metadata_listener.core_recommended', CoreRecommendedProviderMetadataListener::class)
+            ->args([
+                service('router'),
+                null,
+                null,
+                null,
+            ])
+            ->tag('kernel.event_subscriber')
+        ->alias(CoreRecommendedProviderMetadataListener::class, 'ajgarlag.openid_connect_provider.provider_metadata_listener.core_recommended')
 
         ->set('ajgarlag.openid_connect_provider.provider_metadata_listener.rp_initiated_logout', RpInitiatedLogoutProviderMetadataListener::class)
             ->args([

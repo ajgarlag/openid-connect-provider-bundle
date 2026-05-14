@@ -4,36 +4,27 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller;
 
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Event\ProviderMetadataResolveEvent;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\AuthorizationServer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class DiscoveryController
 {
     public function __construct(
         private AuthorizationServer $authorizationServer,
-        private UrlGeneratorInterface $urlGenerator,
-        private string $authorizationEndpointRoute,
-        private string $tokenEndpointRoute,
-        private string $jwksEndpointRoute,
-        private string $endSessionEndpointRoute,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
     public function __invoke(Request $request): JsonResponse
     {
+        $event = new ProviderMetadataResolveEvent($request, $this->authorizationServer);
+        $this->eventDispatcher->dispatch($event);
+
         return new JsonResponse(
-            [
-                'issuer' => $request->getSchemeAndHttpHost() . $request->getBasePath(),
-                'authorization_endpoint' => $this->urlGenerator->generate($this->authorizationEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'token_endpoint' => $this->urlGenerator->generate($this->tokenEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'jwks_uri' => $this->urlGenerator->generate($this->jwksEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'end_session_endpoint' => $this->urlGenerator->generate($this->endSessionEndpointRoute, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'response_types_supported' => $this->authorizationServer->getResponseTypesSupported(),
-                'subject_types_supported' => ['public'],
-                'id_token_signing_alg_values_supported' => ['RS256'],
-            ],
+            $event->getMetadata(),
             JsonResponse::HTTP_OK,
             [
                 'Access-Control-Allow-Origin' => '*',

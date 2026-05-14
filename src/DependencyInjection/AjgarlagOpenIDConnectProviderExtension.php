@@ -32,11 +32,14 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
      */
     private function configureDiscovery(ContainerBuilder $container, array $config): void
     {
-        $container->getDefinition('ajgarlag.openid_connect_provider.controller.discovery')
-            ->replaceArgument(2, $config['authorization_endpoint_route'])
-            ->replaceArgument(3, $config['token_endpoint_route'])
-            ->replaceArgument(4, $config['jwks_endpoint_route'])
-            ->replaceArgument(5, $config['end_session_endpoint_route'])
+        $container->getDefinition('ajgarlag.openid_connect_provider.provider_metadata_listener.core_required')
+            ->replaceArgument(1, $config['authorization_endpoint_route'])
+            ->replaceArgument(2, $config['token_endpoint_route'])
+            ->replaceArgument(3, $config['jwks_endpoint_route'])
+        ;
+
+        $container->getDefinition('ajgarlag.openid_connect_provider.provider_metadata_listener.rp_initiated_logout')
+            ->replaceArgument(1, $config['end_session_endpoint_route'])
         ;
     }
 

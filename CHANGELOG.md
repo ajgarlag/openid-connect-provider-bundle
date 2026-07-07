@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenID Connect Discovery
 
 
-[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.5...HEAD
+[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.x...0.3.x
 [0.2.5]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.5
 [0.2.4]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.4
 [0.2.3]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.3

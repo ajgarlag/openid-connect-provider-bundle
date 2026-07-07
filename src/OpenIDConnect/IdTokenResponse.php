@@ -54,7 +54,7 @@ final class IdTokenResponse extends BaseIdTokenResponse
         }
 
         if ('authorization_code' === $request->request->getString('grant_type') && $request->request->has('code')) {
-            $payload = json_decode($this->decrypt($request->request->getString('code')), true, \JSON_THROW_ON_ERROR);
+            $payload = json_decode($this->decrypt($request->request->getString('code')), true, flags: \JSON_THROW_ON_ERROR);
             if (isset($payload['client_id'])) {
                 $builder = $builder->withClaim('azp', (string) $payload['client_id']);
             }

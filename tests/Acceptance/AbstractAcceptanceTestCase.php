@@ -6,7 +6,6 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Acceptance;
 
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
-use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\WebTestCaseTrait;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
@@ -18,8 +17,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractAcceptanceTestCase extends WebTestCase
 {
-    use WebTestCaseTrait;
-
     protected static function bootKernel(array $options = []): KernelInterface
     {
         $kernel = parent::bootKernel($options);

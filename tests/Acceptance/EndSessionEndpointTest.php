@@ -15,7 +15,6 @@ final class EndSessionEndpointTest extends AbstractAcceptanceTestCase
     public function testSuccessfulLogoutRequest(): void
     {
         $client = self::createClient();
-        $client->getKernel()->setClearCacheAfterShutdown(false);
 
         $client->loginUser($this->getUser());
 
@@ -39,7 +38,6 @@ final class EndSessionEndpointTest extends AbstractAcceptanceTestCase
     public function testLogoutConfirmationRequest(): void
     {
         $client = self::createClient();
-        $client->getKernel()->setClearCacheAfterShutdown(false);
 
         $client->loginUser($this->getUser());
 
@@ -60,7 +58,6 @@ final class EndSessionEndpointTest extends AbstractAcceptanceTestCase
     public function testLogoutCancelationRequest(): void
     {
         $client = self::createClient();
-        $client->getKernel()->setClearCacheAfterShutdown(false);
 
         $client->loginUser($this->getUser());
 

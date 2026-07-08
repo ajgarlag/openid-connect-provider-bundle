@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-07-08
+
 ### Fixed
 
 - Fix `json_decode` passed flags
@@ -73,7 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenID Connect Discovery
 
 
-[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.5...0.2.x
+[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.6...0.2.x
+[0.2.6]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.6
 [0.2.5]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.5
 [0.2.4]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.4
 [0.2.3]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.3

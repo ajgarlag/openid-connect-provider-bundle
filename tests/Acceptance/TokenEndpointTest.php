@@ -39,7 +39,7 @@ final class TokenEndpointTest extends AbstractAcceptanceTestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));
 
-        $jsonResponse = json_decode($response->getContent(), true);
+        $jsonResponse = json_decode($response->getContent(), true, flags: \JSON_THROW_ON_ERROR);
 
         $this->assertSame('Bearer', $jsonResponse['token_type']);
         $this->assertEqualsWithDelta(3600, $jsonResponse['expires_in'], 1.0);
@@ -72,7 +72,7 @@ final class TokenEndpointTest extends AbstractAcceptanceTestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));
 
-        $jsonResponse = json_decode($response->getContent(), true);
+        $jsonResponse = json_decode($response->getContent(), true, flags: \JSON_THROW_ON_ERROR);
 
         $this->assertSame('Bearer', $jsonResponse['token_type']);
         $this->assertEqualsWithDelta(3600, $jsonResponse['expires_in'], 1.0);

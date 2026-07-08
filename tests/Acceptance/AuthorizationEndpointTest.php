@@ -47,7 +47,7 @@ final class AuthorizationEndpointTest extends AbstractAcceptanceTestCase
         $query = [];
         parse_str(parse_url((string) $redirectUri, \PHP_URL_QUERY), $query);
         $this->assertArrayHasKey('code', $query);
-        $payload = json_decode((string) TestHelper::decryptPayload($query['code']), true);
+        $payload = json_decode((string) TestHelper::decryptPayload($query['code']), true, flags: \JSON_THROW_ON_ERROR);
         $this->assertArrayHasKey('nonce', $payload);
         $this->assertSame($payload['nonce'], 'n0nc3');
         $this->assertArrayHasKey('state', $query);

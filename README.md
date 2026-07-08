@@ -8,6 +8,9 @@
 
 AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenID Connect Provider (OP) into Symfony applications, extending the capabilities of the [league/oauth2-server-bundle](https://github.com/thephpleague/oauth2-server-bundle) to provides endpoints and utilities to implement a standards-compliant OpenID Connect Provider.
 
+> [!CAUTION]
+> Version 0.1 is no longer supported. Please upgrade your application to a supported version of the bundle.
+
 ## Quick Start
 
 1. Install the bundle using Composer:

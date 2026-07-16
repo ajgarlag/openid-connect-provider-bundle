@@ -9,15 +9,11 @@
 >
 
     <php>
-        <env name="SHELL_VERBOSITY" value="-1" />
+        <server name="KERNEL_CLASS" value="Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\TestKernel" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
-        <env name="SYMFONY_PHPUNIT_REMOVE" value="" />
     </php>
 
     <testsuites>
-        <testsuite name="default">
-            <file>./tests/BundleInitializationTest.php</file>
-        </testsuite>
         <!-- <testsuite name="unit">
             <directory>./tests/Unit</directory>
         </testsuite> -->
@@ -27,9 +23,9 @@
         <testsuite name="functional">
             <directory>./tests/Functional</directory>
         </testsuite>
-        <!-- <testsuite name="integration">
+        <testsuite name="integration">
             <directory>./tests/Integration</directory>
-        </testsuite> -->
+        </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">

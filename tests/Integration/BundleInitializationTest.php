@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests;
+namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Integration;
 
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\DiscoveryController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\JwksController;
@@ -15,11 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class BundleInitializationTest extends KernelTestCase
 {
-    use KernelTestCaseTrait;
-
     public function testInitBundle(): void
     {
-        self::bootKernel(self::getDefaultKernelOptions());
+        self::bootKernel();
         $container = self::getContainer();
 
         $this->assertTrue($container->has('ajgarlag.openid_connect_provider.repository.identity_provider'));

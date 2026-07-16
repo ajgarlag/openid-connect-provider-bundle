@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'test' => true,
+        'secret' => '$ecretf0rt3st',
+        'http_method_override' => false,
+        'handle_all_throwables' => true,
+        'php_errors' => [
+            'log' => true,
+        ],
+        'session' => [
+            'handler_id' => null,
+            'cookie_secure' => 'auto',
+            'cookie_samesite' => 'lax',
+            'storage_factory_id' => 'session.storage.factory.mock_file',
+        ],
+    ]);
+};

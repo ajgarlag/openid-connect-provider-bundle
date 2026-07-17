@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Logout confirmation</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    </head>
+    <body>
+        <dialog id="modal" open>
+            <h1>Logging out from relying parties</h1>
+            <script>
+                const clients = [];
+            </script>
+            <ul>
+                {% for client_id, uri in front_channel_logout_uris %}
+                    <li>Logging out from <strong>{{ client_id }}</strong>: <span id="{{ client_id }}_indicator">⚙️</span></li>
+                    <iframe id="{{ client_id }}" name="{{ client_id }}" src="{{ uri }}" style="display:none;" width="0" height="0"></iframe>
+                    <script>
+                        clients.push('{{ client_id }}');
+
+                        document.getElementById('{{ client_id }}').addEventListener('load', () => {
+                            document.getElementById('{{ client_id }}_indicator').innerText = '👍';
+                            clients.splice(clients.indexOf('{{ client_id }}'), 1);
+                            if (clients.length === 0) {
+                                document.getElementById('continue').style.display = 'block';
+                            }
+                        });
+
+                        document.getElementById('{{ client_id }}').addEventListener('error', () => {
+                            document.getElementById('{{ client_id }}_indicator').innerText = '👎';
+                            clients.splice(clients.indexOf('{{ client_id }}'), 1);
+                            if (clients.length === 0) {
+                                document.getElementById('continue').style.display = 'block';
+                            }
+                        });
+                    </script>
+                {% endfor %}
+            </ul>
+            <div style="display: none" id="continue">
+                <p>
+                    All relaying parties have been contacted. You will be redirected in <span id="timer">5</span> seconds.
+                </p>
+                <p>
+                    Click <a href="{{ target_uri }}">Continue</a> if you want to proceed.
+                </p>
+            </div>
+            <script>
+                let countdown = 5;
+                const timer = document.getElementById('timer');
+                const targetUri = {{ target_uri|json_encode|raw }};
+
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    timer.innerText = countdown;
+
+                    if (countdown === 0) {
+                        clearInterval(countdownInterval);
+                        window.location.href = targetUri;
+                    }
+                }, 1000);
+            </script>
+        </dialog>
+    </body>
+</html>

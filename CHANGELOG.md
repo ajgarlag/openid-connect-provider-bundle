@@ -11,10 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add a new `$clientClass` parameter to `Driver` to support custom clients
 - Add `kid` value in JWKS
+- Add `SessionSidManager` class
+- Add Front-Channel Logout support
 
 ### Changed
 
 - Change the position of the `$tablePrefix` parameter in the `Driver` class
+
+### Removed
+
+- Remove `SessionSidTrait`
 
 ## [0.2.6] - 2026-07-08
 

@@ -57,11 +57,11 @@ final class FixtureFactory
             $relyingPartyManager->save(self::createRelyingParty($client));
         }
 
-        foreach (self::createAccessTokens($scopeManager, $clientManager) as $accessToken) {
+        foreach (self::createAccessTokens() as $accessToken) {
             $accessTokenManager->save($accessToken);
         }
 
-        foreach (self::createRefreshTokens($accessTokenManager) as $refreshToken) {
+        foreach (self::createRefreshTokens() as $refreshToken) {
             $refreshTokenManager->save($refreshToken);
         }
 
@@ -73,21 +73,17 @@ final class FixtureFactory
     /**
      * @return AccessToken[]
      */
-    private static function createAccessTokens(ScopeManagerInterface $scopeManager, ClientManagerInterface $clientManager): array
+    private static function createAccessTokens(): array
     {
-        $accessTokens = [];
-
-        return $accessTokens;
+        return [];
     }
 
     /**
      * @return RefreshToken[]
      */
-    private static function createRefreshTokens(AccessTokenManagerInterface $accessTokenManager): array
+    private static function createRefreshTokens(): array
     {
-        $refreshTokens = [];
-
-        return $refreshTokens;
+        return [];
     }
 
     /**
@@ -140,8 +136,6 @@ final class FixtureFactory
      */
     private static function createScopes(): array
     {
-        $scopes = [];
-
-        return $scopes;
+        return [];
     }
 }

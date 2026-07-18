@@ -12,7 +12,7 @@ final class AuthorizationServer extends LeagueAuthorizationServer
     /**
      * @var non-empty-string[]
      */
-    private $responseTypesSupported = [];
+    private array $responseTypesSupported = [];
 
     public function enableGrantType(GrantTypeInterface $grantType, ?\DateInterval $accessTokenTTL = null): void
     {

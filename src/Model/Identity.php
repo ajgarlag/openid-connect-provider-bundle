@@ -15,7 +15,7 @@ final class Identity implements UserEntityInterface, ClaimSetInterface
     /**
      * @var array<non-empty-string, mixed>
      */
-    private $claims = [];
+    private array $claims = [];
 
     /**
      * @return array<non-empty-string, mixed>

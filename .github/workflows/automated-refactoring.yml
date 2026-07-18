@@ -1,4 +1,4 @@
-name: automated refactorings
+name: automated refactoring
 
 on:
   pull_request: ~
@@ -9,14 +9,9 @@ on:
   workflow_dispatch: ~
 
 jobs:
-  automated-refactorings:
-    name: automated-refactorings
+  automated-refactoring:
+    name: automated-refactoring
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        symfony: ['8.0.*']
 
     steps:
       - name: checkout
@@ -25,7 +20,7 @@ jobs:
       - name: set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 'latest'
+          php-version: '8.2'
           tools: composer, flex
 
       - name: enable Symfony Flex plugin
@@ -33,9 +28,11 @@ jobs:
 
       - name: install composer dependencies
         env:
-          SYMFONY_REQUIRE: ${{ matrix.symfony }}
+          SYMFONY_REQUIRE: '6.4.*'
           COMPOSER_PREFER_STABLE: 1
         uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: "lowest"
 
       - name: check automated refactorings
         run: vendor/bin/rector --dry-run --ansi

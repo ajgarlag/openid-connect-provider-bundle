@@ -44,7 +44,7 @@ final readonly class Driver implements MappingDriver
     /**
      * @param ORMClassMetadata<RelyingParty> $metadata
      */
-    private function buildRelyingPartyMetadata(ORMClassMetadata $metadata): void
+    private function buildRelyingPartyMetadata(ORMClassMetadata&ClassMetadata $metadata): void
     {
         (new ClassMetadataBuilder($metadata))
             ->setTable($this->tablePrefix . 'relying_party')

@@ -7,7 +7,6 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\CryptKeyInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 final readonly class JwksController
 {
@@ -19,7 +18,7 @@ final readonly class JwksController
         $this->publicKey = \is_string($publicKey) ? new CryptKey($publicKey) : $publicKey;
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(): JsonResponse
     {
         $openSslAsymmetricKey = openssl_pkey_get_public($this->publicKey->getKeyContents());
         if (false === $openSslAsymmetricKey) {

@@ -14,7 +14,7 @@ final class RelyingPartyManager implements RelyingPartyManagerInterface
     /**
      * @var array<string, RelyingPartyInterface>
      */
-    private $relyingParties = [];
+    private array $relyingParties = [];
 
     public function get(ClientInterface $client): RelyingPartyInterface
     {

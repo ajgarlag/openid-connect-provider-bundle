@@ -28,7 +28,6 @@ final class SaveRelyingPartyCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Saves an OpenID Connect relying party')
 
             ->addOption('add-post-logout-redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Add allowed post logout redirect uri to the client.', [])
             ->addOption('remove-post-logout-redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Remove allowed post logout redirect uri to the client.', [])
@@ -81,6 +80,6 @@ final class SaveRelyingPartyCommand extends Command
         $filtered = array_filter($actual, static fn ($model): bool => !\in_array((string) $model, $toRemove));
 
         /** @var list<T> */
-        return array_merge($filtered, array_map(static fn (string $value) => new $modelFqcn($value), $toAdd));
+        return array_merge($filtered, array_map(static fn (string $value): object => new $modelFqcn($value), $toAdd));
     }
 }

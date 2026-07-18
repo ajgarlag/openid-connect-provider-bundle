@@ -29,6 +29,7 @@ final class FixtureFactory
     public const FIXTURE_AUTH_CODE_OPENID_CONNECT = 'aaa70e8152259988b3c8e9e8cff604019bb986eb226bd126da189829b95a2be631e2506042064e12';
 
     public const FIXTURE_CLIENT_OPENID_CONNECT = 'client_openid_connect';
+    public const FIXTURE_CLIENT_OPENID_CONNECT_SECRET = '$2y$13$v.2bbj.dM7vkLDt1m9vFiOr1R6VDUb/OgAIWKOJ0ily3N6aJD6Idq';
 
     public const FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI = 'https://example.org/openid_connect/redirect-uri';
 
@@ -114,7 +115,7 @@ final class FixtureFactory
     {
         $clients = [];
 
-        $clients[] = (new Client('name', self::FIXTURE_CLIENT_OPENID_CONNECT, 'secret_openid_connect'))
+        $clients[] = (new Client('name', self::FIXTURE_CLIENT_OPENID_CONNECT, self::FIXTURE_CLIENT_OPENID_CONNECT_SECRET))
             ->setRedirectUris(new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI))
             ->setScopes(new Scope(self::FIXTURE_SCOPE_OPENID));
 

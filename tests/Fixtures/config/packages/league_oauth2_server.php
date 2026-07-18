@@ -11,6 +11,8 @@ return static function (ContainerConfigurator $container): void {
         'authorization_server' => [
             'private_key' => '%kernel.project_dir%/private.key',
             'encryption_key' => TestHelper::ENCRYPTION_KEY,
+            'enable_password_grant' => false,
+            'enable_implicit_grant' => true,
         ],
         'resource_server' => [
             'public_key' => '%kernel.project_dir%/public.key',
@@ -25,6 +27,9 @@ return static function (ContainerConfigurator $container): void {
         ],
         'persistence' => [
             'in_memory' => null,
+        ],
+        'client' => [
+            'allow_plaintext_secrets' => false,
         ],
     ]);
 };

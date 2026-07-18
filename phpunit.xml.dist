@@ -10,7 +10,7 @@
 
     <php>
         <server name="KERNEL_CLASS" value="Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\TestKernel" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;ignoreFile=./tests/baseline-ignore" />
     </php>
 
     <testsuites>

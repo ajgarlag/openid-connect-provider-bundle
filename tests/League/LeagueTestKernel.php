@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\League;
 
-use League\Bundle\OAuth2ServerBundle\Tests\TestKernel;
+use League\Bundle\OAuth2ServerBundle\Tests\Fixtures\TestKernel;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;

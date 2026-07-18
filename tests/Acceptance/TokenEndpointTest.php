@@ -58,7 +58,7 @@ final class TokenEndpointTest extends AbstractAcceptanceTestCase
 
     public function testClientCredentialsFlowOmitsIdToken(): void
     {
-        $client = self::createClient();
+        $client = self::createClient(['environment' => 'password_grant_enabled']);
 
         $client->request('POST', '/token', [
             'client_id' => 'client_openid_connect',

@@ -10,6 +10,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\DiscoveryController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\EndSessionController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Controller\JwksController;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\PostLogoutRedirectListener;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\EventListener\RefreshTokenOfflineAccessExpiryListener;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\CachePostLogoutRedirectUriStorage;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStorageInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
@@ -56,6 +57,14 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('kernel.event_subscriber')
         ->alias(PostLogoutRedirectListener::class, 'ajgarlag.openid_connect_provider.listener.post_logout_redirect')
+
+        ->set('ajgarlag.openid_connect_provider.listener.refresh_token_offline_access_expiry', RefreshTokenOfflineAccessExpiryListener::class)
+            ->args([
+                '%ajgarlag_openid_connect_provider.authorization_server.refresh_token_require_offline_access_scope%',
+                service('clock'),
+            ])
+            ->tag('kernel.event_subscriber')
+        ->alias(RefreshTokenOfflineAccessExpiryListener::class, 'ajgarlag.openid_connect_provider.listener.refresh_token_offline_access_expiry')
 
         ->set('ajgarlag.openid_connect_provider.command.show_relying_party', ShowRelyingPartyCommand::class)
             ->args([

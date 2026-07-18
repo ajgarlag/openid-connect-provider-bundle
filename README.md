@@ -30,6 +30,8 @@ AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenI
 
     ```yaml
     ajgarlag_openid_connect_provider:
+        authorization_server:
+            refresh_token_require_offline_access_scope: false
         discovery:
             authorization_endpoint_route: 'oauth2_authorize'
             token_endpoint_route: 'oauth2_token'

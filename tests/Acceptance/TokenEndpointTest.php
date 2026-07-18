@@ -44,6 +44,7 @@ final class TokenEndpointTest extends AbstractAcceptanceTestCase
         $this->assertSame('Bearer', $jsonResponse['token_type']);
         $this->assertEqualsWithDelta(3600, $jsonResponse['expires_in'], 1.0);
         $this->assertNotEmpty($jsonResponse['access_token']);
+        $this->assertNotEmpty($jsonResponse['refresh_token']);
 
         $this->assertNotEmpty($jsonResponse['id_token']);
         $token = (new Parser(new JoseEncoder()))->parse($jsonResponse['id_token']);
@@ -54,6 +55,42 @@ final class TokenEndpointTest extends AbstractAcceptanceTestCase
         $this->assertNotEmpty($token->claims()->get('aud'));
         $this->assertNotEmpty($token->claims()->get('exp'));
         $this->assertNotEmpty($token->claims()->get('iat'));
+    }
+
+    /**
+     * @group time-sensitive
+     */
+    public function testSuccessfulIdTokenRequestDoesNotIncludeRefreshTokenWhenOfflineAccessIsRequired(): void
+    {
+        $client = self::createClient(['environment' => 'require_offline_access']);
+
+        $authCodeOpenID = $client
+            ->getContainer()
+            ->get(AuthorizationCodeManagerInterface::class)
+            ->find(FixtureFactory::FIXTURE_AUTH_CODE_OPENID_CONNECT)
+        ;
+
+        $client->request('POST', '/token', [
+            'client_id' => 'client_openid_connect',
+            'client_secret' => 'secret_openid_connect',
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => 'https://example.org/openid_connect/redirect-uri',
+            'code' => TestHelper::generateEncryptedAuthCodePayload($authCodeOpenID, 'n0nc3'),
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));
+
+        $jsonResponse = json_decode($response->getContent(), true);
+
+        $this->assertSame('Bearer', $jsonResponse['token_type']);
+        $this->assertEqualsWithDelta(3600, $jsonResponse['expires_in'], 1.0);
+        $this->assertNotEmpty($jsonResponse['access_token']);
+        $this->assertArrayNotHasKey('refresh_token', $jsonResponse);
+
+        $this->assertNotEmpty($jsonResponse['id_token']);
     }
 
     public function testClientCredentialsFlowOmitsIdToken(): void

@@ -19,5 +19,8 @@ final class OpenIdScopeCompilerPass implements CompilerPassInterface
         $scopeManagerDefinition->addMethodCall('save', [
             new Definition(Scope::class, ['openid']),
         ]);
+        $scopeManagerDefinition->addMethodCall('save', [
+            new Definition(Scope::class, ['offline_access']),
+        ]);
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2;
 
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\SessionSidTrait;
+use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Grant\AuthCodeGrant as LeagueAuthCodeGrant;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
@@ -26,8 +28,21 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
         private readonly RequestStack $requestStack,
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly UriFactoryInterface $uriFactory,
+        private readonly bool $refreshTokenRequireOfflineAccess = true,
     ) {
         parent::__construct($authCodeRepository, $refreshTokenRepository, $authCodeTTL);
+    }
+
+    protected function issueRefreshToken(AccessTokenEntityInterface $accessToken): ?RefreshTokenEntityInterface
+    {
+        if (
+            $this->refreshTokenRequireOfflineAccess
+            && !$this->hasScope($accessToken, 'offline_access')
+        ) {
+            return null;
+        }
+
+        return parent::issueRefreshToken($accessToken);
     }
 
     public function completeAuthorizationRequest(AuthorizationRequestInterface $authorizationRequest): ResponseTypeInterface
@@ -65,5 +80,16 @@ final class AuthCodeGrant extends LeagueAuthCodeGrant
         $response->setRedirectUri($psr7Uri->withQuery(http_build_query($queryParams))->__toString());
 
         return $response;
+    }
+
+    private function hasScope(AccessTokenEntityInterface $accessToken, string $scopeIdentifier): bool
+    {
+        foreach ($accessToken->getScopes() as $scope) {
+            if ($scopeIdentifier === $scope->getIdentifier()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

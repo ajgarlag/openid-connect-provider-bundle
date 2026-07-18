@@ -17,6 +17,7 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode->append($this->createDiscoveryNode());
         $rootNode->append($this->createEndSessionNode());
+        $rootNode->append($this->createAuthorizationServerNode());
 
         return $treeBuilder;
     }
@@ -62,6 +63,24 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('cancel_logout_default_path')
                     ->info('URL or route names to redirect user on session ending if no post logout redirect URI is given.')
                     ->defaultValue('/')
+                ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function createAuthorizationServerNode(): NodeDefinition
+    {
+        $treeBuilder = new TreeBuilder('authorization_server');
+        $node = $treeBuilder->getRootNode();
+
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->booleanNode('refresh_token_require_offline_access_scope')
+                    ->info('Whether refresh tokens require the offline_access scope to be requested. If true, refresh tokens will not be issued or will be issued with immediate expiry if offline_access is not requested.')
+                    ->defaultFalse()
                 ->end()
             ->end()
         ;

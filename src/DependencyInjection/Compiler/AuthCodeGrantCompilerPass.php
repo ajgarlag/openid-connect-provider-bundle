@@ -21,6 +21,7 @@ final class AuthCodeGrantCompilerPass implements CompilerPassInterface
             ->setArgument(3, new Reference(RequestStack::class))
             ->setArgument(4, new Reference(ResponseFactoryInterface::class))
             ->setArgument(5, new Reference(UriFactoryInterface::class))
+            ->setArgument(6, '%ajgarlag_openid_connect_provider.authorization_server.refresh_token_require_offline_access_scope%')
         ;
     }
 }

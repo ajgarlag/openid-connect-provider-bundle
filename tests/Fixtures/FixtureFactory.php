@@ -29,6 +29,7 @@ final class FixtureFactory
     public const FIXTURE_AUTH_CODE_OPENID_CONNECT = 'aaa70e8152259988b3c8e9e8cff604019bb986eb226bd126da189829b95a2be631e2506042064e12';
 
     public const FIXTURE_CLIENT_OPENID_CONNECT = 'client_openid_connect';
+    public const FIXTURE_CLIENT_OPENID_CONNECT_SECRET = '$2y$13$v.2bbj.dM7vkLDt1m9vFiOr1R6VDUb/OgAIWKOJ0ily3N6aJD6Idq';
 
     public const FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI = 'https://example.org/openid_connect/redirect-uri';
 
@@ -56,11 +57,11 @@ final class FixtureFactory
             $relyingPartyManager->save(self::createRelyingParty($client));
         }
 
-        foreach (self::createAccessTokens($scopeManager, $clientManager) as $accessToken) {
+        foreach (self::createAccessTokens() as $accessToken) {
             $accessTokenManager->save($accessToken);
         }
 
-        foreach (self::createRefreshTokens($accessTokenManager) as $refreshToken) {
+        foreach (self::createRefreshTokens() as $refreshToken) {
             $refreshTokenManager->save($refreshToken);
         }
 
@@ -72,21 +73,17 @@ final class FixtureFactory
     /**
      * @return AccessToken[]
      */
-    private static function createAccessTokens(ScopeManagerInterface $scopeManager, ClientManagerInterface $clientManager): array
+    private static function createAccessTokens(): array
     {
-        $accessTokens = [];
-
-        return $accessTokens;
+        return [];
     }
 
     /**
      * @return RefreshToken[]
      */
-    private static function createRefreshTokens(AccessTokenManagerInterface $accessTokenManager): array
+    private static function createRefreshTokens(): array
     {
-        $refreshTokens = [];
-
-        return $refreshTokens;
+        return [];
     }
 
     /**
@@ -114,7 +111,7 @@ final class FixtureFactory
     {
         $clients = [];
 
-        $clients[] = (new Client('name', self::FIXTURE_CLIENT_OPENID_CONNECT, 'secret_openid_connect'))
+        $clients[] = (new Client('name', self::FIXTURE_CLIENT_OPENID_CONNECT, self::FIXTURE_CLIENT_OPENID_CONNECT_SECRET))
             ->setRedirectUris(new RedirectUri(self::FIXTURE_CLIENT_OPENID_CONNECT_REDIRECT_URI))
             ->setScopes(new Scope(self::FIXTURE_SCOPE_OPENID));
 
@@ -139,8 +136,6 @@ final class FixtureFactory
      */
     private static function createScopes(): array
     {
-        $scopes = [];
-
-        return $scopes;
+        return [];
     }
 }

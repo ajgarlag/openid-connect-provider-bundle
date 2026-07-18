@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change the position of the `$tablePrefix` parameter in the `Driver` class
 
+## [0.2.7] - 2026-07-18
+
+### Removed
+
+- Remove support for `league/oauth2-server:<1.2`
+
 ## [0.2.6] - 2026-07-08
 
 ### Fixed
@@ -85,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.x...0.3.x
+[0.2.7]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.7
 [0.2.6]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.6
 [0.2.5]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.5
 [0.2.4]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.4

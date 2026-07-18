@@ -1,0 +1,35 @@
+name: league integration tests
+
+on:
+  pull_request: ~
+  push: ~
+  schedule:
+      # Do not make it the first of the month and/or midnight since it is a very busy time
+      - cron: '42 10 5 * *'
+  workflow_dispatch: ~
+
+jobs:
+  league-integration-tests:
+    name: league integration tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: set up php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: latest
+          tools: composer, flex
+
+      - name: enable Symfony Flex plugin
+        run: composer global config --no-interaction allow-plugins.symfony/flex true
+
+      - name: install composer dependencies
+        env:
+          COMPOSER_PREFER_STABLE: 1
+        uses: ramsey/composer-install@v3
+
+      - name: run league integration tests
+        run: vendor/bin/simple-phpunit --colors=always -c phpunit.league.xml

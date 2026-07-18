@@ -28,8 +28,6 @@ final class ShowRelyingPartyCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Show OpenID Connect relying party')
-
             ->addArgument('identifier', InputArgument::REQUIRED, 'The client identifier')
         ;
     }

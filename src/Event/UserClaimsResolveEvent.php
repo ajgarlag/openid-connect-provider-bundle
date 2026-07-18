@@ -11,7 +11,7 @@ final class UserClaimsResolveEvent extends Event
     /**
      * @var array<non-empty-string, mixed>
      */
-    private $claims = [];
+    private array $claims = [];
 
     public function __construct(
         private readonly string $identifier,

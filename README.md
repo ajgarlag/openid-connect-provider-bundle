@@ -3,7 +3,7 @@
 [![unit tests](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/unit-tests.yml)
 [![static analysis](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/static-analysis.yml)
 [![coding standards](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/coding-standards.yml)
-[![automated refactorings](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/automated-refactorings.yml/badge.svg)](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/automated-refactorings.yml)
+[![automated refactoring](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/automated-refactoring.yml/badge.svg)](https://github.com/ajgarlag/openid-connect-provider-bundle/actions/workflows/automated-refactoring.yml)
 [![stable version](https://poser.pugx.org/ajgarlag/openid-connect-provider-bundle/v/stable)](https://packagist.org/packages/ajgarlag/openid-connect-provider-bundle)
 
 AjgarlagOpenIDConnectProviderBundle is a Symfony bundle that integrates an OpenID Connect Provider (OP) into Symfony applications, extending the capabilities of the [league/oauth2-server-bundle](https://github.com/thephpleague/oauth2-server-bundle) to provides endpoints and utilities to implement a standards-compliant OpenID Connect Provider.

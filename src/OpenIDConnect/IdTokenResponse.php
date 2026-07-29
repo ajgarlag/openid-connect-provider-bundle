@@ -23,10 +23,11 @@ final class IdTokenResponse extends BaseIdTokenResponse
     public function __construct(
         IdentityProviderInterface $identityProvider,
         ClaimExtractor $claimExtractor,
+        string|\Stringable $keyIdentifier,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly RequestStack $requestStack,
     ) {
-        parent::__construct($identityProvider, $claimExtractor);
+        parent::__construct($identityProvider, $claimExtractor, (string) $keyIdentifier);
     }
 
     protected function getBuilder(AccessTokenEntityInterface $accessToken, UserEntityInterface $userEntity): Builder

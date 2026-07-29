@@ -15,6 +15,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Logout\PostLogoutRedirectUriStor
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Manager\RelyingPartyManagerInterface;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OAuth2\IdTokenGrant;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\IdTokenResponse;
+use Ajgarlag\Bundle\OpenIDConnectProviderBundle\OpenIDConnect\KidSha256Generator;
 use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Repository\IdentityProvider;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use OpenIDConnectServer\ClaimExtractor;
@@ -37,6 +38,7 @@ return static function (ContainerConfigurator $container): void {
             ->args([
                 service('ajgarlag.openid_connect_provider.repository.identity_provider'),
                 service('ajgarlag.openid_connect_provider.openid_connect.claim_extractor'),
+                service('ajgarlag.openid_connect_provider.kid'),
                 service('event_dispatcher'),
                 service('request_stack'),
             ])
@@ -103,6 +105,7 @@ return static function (ContainerConfigurator $container): void {
         ->set('ajgarlag.openid_connect_provider.controller.jwks', JwksController::class)
             ->args([
                 null,
+                service('ajgarlag.openid_connect_provider.kid'),
             ])
             ->tag('controller.service_arguments')
         ->alias(JwksController::class, 'ajgarlag.openid_connect_provider.controller.jwks')
@@ -114,5 +117,11 @@ return static function (ContainerConfigurator $container): void {
             ])
         ->alias(CachePostLogoutRedirectUriStorage::class, 'ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache')
         ->alias(PostLogoutRedirectUriStorageInterface::class, 'ajgarlag.openid_connect_provider.logout.post_logout_redirect_storage.cache')
+
+        ->set('ajgarlag.openid_connect_provider.kid', KidSha256Generator::class)
+            ->args([
+                null,
+            ])
+        ->alias(KidSha256Generator::class, 'ajgarlag.openid_connect_provider.kid')
     ;
 };

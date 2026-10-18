@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change the position of the `$tablePrefix` parameter in the `Driver` class
 
+### Removed
+
+- Remove support for `symfony/*:8.0.*`
+
 ## [0.2.7] - 2026-07-18
 
 ### Removed

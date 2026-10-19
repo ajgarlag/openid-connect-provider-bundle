@@ -43,7 +43,7 @@ final class SaveRelyingPartyCommand extends Command
         if (null === $client = $this->clientManager->find($input->getArgument('identifier'))) {
             $io->error(\sprintf('OAuth2 client identified as "%s" does not exist.', $input->getArgument('identifier')));
 
-            return 1;
+            return Command::FAILURE;
         }
 
         $relyingParty = $this->relyingPartyManager->get($client);
@@ -54,7 +54,7 @@ final class SaveRelyingPartyCommand extends Command
 
         $io->success('OpenID Connect relying party saved successfully.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -77,7 +77,7 @@ final class SaveRelyingPartyCommand extends Command
             throw new \RuntimeException(\sprintf('Cannot specify "%s" in either "--%s" and "--%s".', implode('", "', $colliding), $addArgument, $removeArgument));
         }
 
-        $filtered = array_filter($actual, static fn ($model): bool => !\in_array((string) $model, $toRemove));
+        $filtered = array_filter($actual, static fn (\Stringable $model): bool => !\in_array((string) $model, $toRemove));
 
         /** @var list<T> */
         return array_merge($filtered, array_map(static fn (string $value): object => new $modelFqcn($value), $toAdd));

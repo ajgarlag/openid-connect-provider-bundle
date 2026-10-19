@@ -39,14 +39,14 @@ final class ShowRelyingPartyCommand extends Command
         if (null === $client = $this->clientManager->find($input->getArgument('identifier'))) {
             $io->error(\sprintf('OAuth2 client identified as "%s" does not exist.', $input->getArgument('identifier')));
 
-            return 1;
+            return Command::FAILURE;
         }
 
         $relyingParty = $this->relyingPartyManager->get($client);
 
         $this->drawTable($io, $relyingParty);
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function drawTable(OutputStyle $io, RelyingPartyInterface $relyingParty): void

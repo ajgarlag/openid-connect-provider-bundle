@@ -11,10 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add a new `$clientClass` parameter to `Driver` to support custom clients
 - Add `kid` value in JWKS
+- Add support for `league/oauth2-server-bundle:^2`
 
 ### Changed
 
 - Change the position of the `$tablePrefix` parameter in the `Driver` class
+
+### Removed
+
+- Remove support for `symfony/*:8.0.*`
 
 ## [0.2.7] - 2026-07-18
 

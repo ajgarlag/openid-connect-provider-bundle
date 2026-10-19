@@ -13,9 +13,6 @@ use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
 
 final class TokenEndpointTest extends AbstractAcceptanceTestCase
 {
-    /**
-     * @group time-sensitive
-     */
     public function testSuccessfulIdTokenRequest(): void
     {
         $client = self::createClient();

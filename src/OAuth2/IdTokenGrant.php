@@ -146,7 +146,7 @@ final class IdTokenGrant extends AbstractAuthorizeGrant
                           ?? $this->getClientRedirectUri($authorizationRequest->getClient());
 
         // The user approved the client, redirect them back with an access token
-        if (true === $authorizationRequest->isAuthorizationApproved()) {
+        if ($authorizationRequest->isAuthorizationApproved()) {
             // Finalize the requested scopes
             $finalizedScopes = $this->scopeRepository->finalizeScopes(
                 $authorizationRequest->getScopes(),

@@ -25,13 +25,13 @@
     "require-dev": {
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*",
-        "dg/bypass-finals": "^1.9",
+        "dg/bypass-finals": "^1.11",
         "doctrine/doctrine-bundle": "^2.11.0|^3.2",
         "doctrine/orm": "^2.14|^3.0",
         "php-cs-fixer/shim": "^3.38",
-        "phpstan/phpstan": "^2",
-        "phpstan/phpstan-symfony": "^2",
-        "rector/rector": "^2.1",
+        "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-symfony": "^2.1",
+        "rector/rector": "^2.7",
         "symfony/browser-kit": "^6.4|^7.4|^8.1",
         "symfony/phpunit-bridge": "^8.1"
     },

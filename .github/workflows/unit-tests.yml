@@ -71,4 +71,4 @@ jobs:
           dependency-versions: ${{ matrix.dependency-versions }}
 
       - name: run tests
-        run: vendor/bin/simple-phpunit --colors=always || ${{ matrix.experimental }}
+        run: vendor/bin/simple-phpunit || ${{ matrix.experimental }}

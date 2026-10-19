@@ -9,6 +9,7 @@ use Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\FixtureFactory;
 use League\Bundle\OAuth2ServerBundle\Event\AuthorizationRequestResolveEvent;
 use League\Bundle\OAuth2ServerBundle\OAuth2Events;
 use League\Bundle\OAuth2ServerBundle\Tests\TestHelper;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AuthorizationEndpointTest extends AbstractAcceptanceTestCase
 {
@@ -54,9 +55,7 @@ final class AuthorizationEndpointTest extends AbstractAcceptanceTestCase
         $this->assertEquals('foobar', $query['state']);
     }
 
-    /**
-     * @group time-sensitive
-     */
+    #[Group('time-sensitive')]
     public function testSuccessfulImplicitRequest(): void
     {
         $client = self::createClient();

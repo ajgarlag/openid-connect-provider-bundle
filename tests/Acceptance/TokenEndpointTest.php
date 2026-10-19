@@ -10,12 +10,11 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use League\Bundle\OAuth2ServerBundle\Manager\AuthorizationCodeManagerInterface;
+use PHPUnit\Framework\Attributes\Group;
 
 final class TokenEndpointTest extends AbstractAcceptanceTestCase
 {
-    /**
-     * @group time-sensitive
-     */
+    #[Group('time-sensitive')]
     public function testSuccessfulIdTokenRequest(): void
     {
         $client = self::createClient();

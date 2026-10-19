@@ -31,9 +31,13 @@
         "php-cs-fixer/shim": "^3.38",
         "phpstan/phpstan": "^2.3",
         "phpstan/phpstan-symfony": "^2.1",
+        "phpunit/phpunit": "^11.5",
         "rector/rector": "^2.7",
         "symfony/browser-kit": "^6.4|^7.4|^8.1",
         "symfony/phpunit-bridge": "^8.1"
+    },
+    "conflict": {
+        "symfony/error-handler": "<6.4.44 | >= 7.0.0 <7.4.17"
     },
     "autoload": {
         "psr-4": { "Ajgarlag\\Bundle\\OpenIDConnectProviderBundle\\": "src/" }

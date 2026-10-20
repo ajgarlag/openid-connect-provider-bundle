@@ -64,4 +64,12 @@ There is a special test suite to ensure that the original behavior of the `leagu
 vendor/bin/simple-phpunit -c phpunit.league.xml
 ```
 
+### Backward Compatibility Check
+
+You can check for backward compatibility breaks using the [Roave Backward Compatibility Check](https://github.com/Roave/BackwardCompatibilityCheck) tool:
+
+```sh
+vendor/bin/roave-backward-compatibility-check --install-development-dependencies
+```
+
 **Happy coding**!

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-20
+
 ### Added
 
 - Add a new `$clientClass` parameter to `Driver` to support custom clients
@@ -95,7 +97,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenID Connect Discovery
 
 
-[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.2.x...0.3.x
+[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.3.0...0.3.x
+[0.3.0]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.3.0
 [0.2.7]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.7
 [0.2.6]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.6
 [0.2.5]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.5

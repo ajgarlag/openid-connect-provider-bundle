@@ -13,10 +13,6 @@ jobs:
     name: static analysis
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        symfony: ['8.0.*']
-
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -32,7 +28,6 @@ jobs:
 
       - name: install composer dependencies
         env:
-          SYMFONY_REQUIRE: ${{ matrix.symfony }}
           COMPOSER_PREFER_STABLE: 1
         uses: ramsey/composer-install@v3
 

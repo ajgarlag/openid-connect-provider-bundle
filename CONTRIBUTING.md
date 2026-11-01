@@ -23,7 +23,7 @@ You need an environment with PHP 8.2 or higher with Composer to develop this bun
 Download all the needed packages required to develop the project:
 
 ```sh
-composer update --prefer-stable
+composer update
 ```
 
 ### Code linting

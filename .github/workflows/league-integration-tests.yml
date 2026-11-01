@@ -27,8 +27,6 @@ jobs:
         run: composer global config --no-interaction allow-plugins.symfony/flex true
 
       - name: install composer dependencies
-        env:
-          COMPOSER_PREFER_STABLE: 1
         uses: ramsey/composer-install@v3
 
       - name: run league integration tests

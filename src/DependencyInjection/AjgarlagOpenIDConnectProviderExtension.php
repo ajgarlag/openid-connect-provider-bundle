@@ -7,13 +7,23 @@ namespace Ajgarlag\Bundle\OpenIDConnectProviderBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
-final class AjgarlagOpenIDConnectProviderExtension extends Extension
+final class AjgarlagOpenIDConnectProviderExtension extends Extension implements PrependExtensionInterface
 {
     public function getAlias(): string
     {
         return 'ajgarlag_openid_connect_provider';
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $container->prependExtensionConfig('league_oauth2_server', [
+            'scopes' => [
+                'available' => ['openid'],
+            ],
+        ]);
     }
 
     public function load(array $configs, ContainerBuilder $container): void
@@ -32,11 +42,21 @@ final class AjgarlagOpenIDConnectProviderExtension extends Extension
      */
     private function configureDiscovery(ContainerBuilder $container, array $config): void
     {
-        $container->getDefinition('ajgarlag.openid_connect_provider.controller.discovery')
-            ->replaceArgument(2, $config['authorization_endpoint_route'])
-            ->replaceArgument(3, $config['token_endpoint_route'])
-            ->replaceArgument(4, $config['jwks_endpoint_route'])
-            ->replaceArgument(5, $config['end_session_endpoint_route'])
+        $container->getDefinition('ajgarlag.openid_connect_provider.provider_metadata_listener.core_required')
+            ->replaceArgument(1, $config['authorization_endpoint_route'])
+            ->replaceArgument(2, $config['token_endpoint_route'])
+            ->replaceArgument(3, $config['jwks_endpoint_route'])
+        ;
+
+        $container->getDefinition('ajgarlag.openid_connect_provider.provider_metadata_listener.core_recommended')
+            ->replaceArgument(2, array_unique(array_merge([
+                'iss', 'sub', 'aud', 'exp', 'iat', 'azp', 'nonce', 'sid',
+            ], $config['extra_supported_claims'])))
+            ->replaceArgument(3, $config['userinfo_endpoint_route'])
+        ;
+
+        $container->getDefinition('ajgarlag.openid_connect_provider.provider_metadata_listener.rp_initiated_logout')
+            ->replaceArgument(1, $config['end_session_endpoint_route'])
         ;
     }
 

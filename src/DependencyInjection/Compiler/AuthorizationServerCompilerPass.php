@@ -21,6 +21,7 @@ final class AuthorizationServerCompilerPass implements CompilerPassInterface
             ->setArgument(5, new Reference('ajgarlag.openid_connect_provider.openid_connect.response'))
             ->addMethodCall('enableGrantType', [
                 new Reference('ajgarlag.openid_connect_provider.grant.id_token'),
-            ]);
+            ])
+        ;
     }
 }

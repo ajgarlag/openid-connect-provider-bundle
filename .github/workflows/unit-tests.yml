@@ -10,7 +10,7 @@ on:
 
 jobs:
   unit-tests:
-    name: PHP ${{ matrix.php }} - Doctrine ${{ matrix.doctrine-orm }} - Symfony ${{ matrix.symfony }}
+    name: PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony }}
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
 
@@ -19,19 +19,16 @@ jobs:
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
         symfony: ['7.4.*', '8.1.*']
-        doctrine-orm: ['^2.14', '^3.0']
         dependency-versions: ['highest']
         composer-stable: ['1']
         experimental: [false]
         include:
           - php: '8.2'
             symfony: '7.4.*'
-            doctrine-orm: '^2.14'
             dependency-versions: 'lowest'
             experimental: false
           - php: 'latest'
             symfony: '8.2.*'
-            doctrine-orm: '^3.0'
             dependency-versions: 'highest'
             composer-stable: '0'
             experimental: true
@@ -39,8 +36,6 @@ jobs:
           - php: '8.2'
             symfony: '8.1.*'
           - php: '8.3'
-            symfony: '8.1.*'
-          - doctrine-orm: '^2.14'
             symfony: '8.1.*'
 
     steps:
@@ -55,12 +50,6 @@ jobs:
 
       - name: enable Symfony Flex plugin
         run: composer global config --no-interaction allow-plugins.symfony/flex true
-
-      - name: require specific Doctrine ORM version
-        env:
-          SYMFONY_REQUIRE: ${{ matrix.symfony }}
-          COMPOSER_PREFER_STABLE: ${{ matrix.composer-stable }}
-        run: composer require --no-scripts --no-install --dev doctrine/orm:${{ matrix.doctrine-orm }} --ansi
 
       - name: install composer dependencies
         env:

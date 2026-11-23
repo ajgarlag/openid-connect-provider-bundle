@@ -28,7 +28,7 @@ jobs:
 
       - name: install composer dependencies
         env:
-          SYMFONY_REQUIRE: '6.4.*'
+          SYMFONY_REQUIRE: '7.4.*'
           COMPOSER_PREFER_STABLE: 1
         uses: ramsey/composer-install@v3
         with:

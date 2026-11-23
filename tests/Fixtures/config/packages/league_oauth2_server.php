@@ -28,8 +28,5 @@ return static function (ContainerConfigurator $container): void {
         'persistence' => [
             'in_memory' => null,
         ],
-        'client' => [
-            'allow_plaintext_secrets' => false,
-        ],
     ]);
 };

@@ -39,10 +39,11 @@ final readonly class PostLogoutRedirectListener implements EventSubscriberInterf
         $event->setResponse(new RedirectResponse($redirectUri));
     }
 
+    /**
+     * @deprecated
+     */
     public static function getSubscribedEvents(): array
     {
-        return [
-            LogoutEvent::class => 'onLogout',
-        ];
+        return [];
     }
 }

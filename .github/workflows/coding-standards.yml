@@ -20,7 +20,7 @@ jobs:
       - name: set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: latest
+          php-version: '8.5'
           tools: composer, flex
 
       - name: enable Symfony Flex plugin

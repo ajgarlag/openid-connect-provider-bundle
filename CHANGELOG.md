@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove support for Symfony 6.4
 - Remove support for Doctrine ORM <3.0
+- Remove support for League OAuth2 Server Bundle <2.0
 
 ## [0.3.0] - 2026-10-20
 

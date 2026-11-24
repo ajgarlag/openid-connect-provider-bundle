@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-24
+
 ### Deprecated
 
 - Deprecate `PostLogoutRedirectListener::getSubscribedEvents` method. `PostLogoutRedirectListener` will not implement `EventSubscriberInterface` in 0.4
@@ -107,7 +109,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenID Connect Discovery
 
 
-[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.3.0...0.3.x
+[unreleased]: https://github.com/ajgarlag/openid-connect-provider-bundle/compare/0.3.1...0.3.x
+[0.3.1]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.3.1
 [0.3.0]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.3.0
 [0.2.7]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.7
 [0.2.6]: https://github.com/ajgarlag/openid-connect-provider-bundle/releases/tag/0.2.6

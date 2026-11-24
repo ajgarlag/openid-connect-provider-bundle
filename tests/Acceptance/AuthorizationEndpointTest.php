@@ -54,9 +54,6 @@ final class AuthorizationEndpointTest extends AbstractAcceptanceTestCase
         $this->assertEquals('foobar', $query['state']);
     }
 
-    /**
-     * @group time-sensitive
-     */
     public function testSuccessfulImplicitRequest(): void
     {
         $client = self::createClient();

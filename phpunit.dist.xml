@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         backupGlobals="false"
-         colors="true"
-         bootstrap="vendor/autoload.php"
-         convertDeprecationsToExceptions="false"
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+    colors="true"
+    bootstrap="vendor/autoload.php"
+    failOnAllIssues="true"
 >
-
     <php>
         <server name="KERNEL_CLASS" value="Ajgarlag\Bundle\OpenIDConnectProviderBundle\Tests\Fixtures\TestKernel" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;ignoreFile=./tests/baseline-ignore" />
     </php>
-
     <testsuites>
         <!-- <testsuite name="unit">
             <directory>./tests/Unit</directory>
@@ -27,17 +23,14 @@
             <directory>./tests/Integration</directory>
         </testsuite>
     </testsuites>
-
-    <coverage processUncoveredFiles="true">
+    <source ignoreSuppressionOfDeprecations="true" ignoreIndirectDeprecations="true">
+        <deprecationTrigger>
+            <function>trigger_deprecation</function>
+            <method>Doctrine\Deprecations\Deprecation::trigger</method>
+            <method>Doctrine\Deprecations\Deprecation::triggerIfCalledFromOutside</method>
+        </deprecationTrigger>
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
-
-    <extensions>
-    </extensions>
+    </source>
 </phpunit>

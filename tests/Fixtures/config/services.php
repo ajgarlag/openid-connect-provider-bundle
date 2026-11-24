@@ -8,6 +8,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\EventDispatcher\ScopedEventDispatcher;
 
 return static function (ContainerConfigurator $container): void {
     $container->services()
@@ -17,4 +18,11 @@ return static function (ContainerConfigurator $container): void {
 
         ->set('logger', NullLogger::class)
     ;
+
+    if (class_exists(ScopedEventDispatcher::class)) {
+        $container->services()
+            ->set(ScopedEventDispatcher::class)
+                ->decorate('event_dispatcher')
+                ->args([service('.inner')]);
+    }
 };

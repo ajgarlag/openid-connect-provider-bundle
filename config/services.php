@@ -20,6 +20,7 @@ use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use OpenIDConnectServer\ClaimExtractor;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 return static function (ContainerConfigurator $container): void {
     $container->services()
@@ -54,7 +55,7 @@ return static function (ContainerConfigurator $container): void {
                 service(PostLogoutRedirectUriStorageInterface::class),
                 service('security.helper'),
             ])
-            ->tag('kernel.event_subscriber')
+            ->tag('kernel.event_listener', ['event' => LogoutEvent::class, 'method' => 'onLogout'])
         ->alias(PostLogoutRedirectListener::class, 'ajgarlag.openid_connect_provider.listener.post_logout_redirect')
 
         ->set('ajgarlag.openid_connect_provider.command.show_relying_party', ShowRelyingPartyCommand::class)

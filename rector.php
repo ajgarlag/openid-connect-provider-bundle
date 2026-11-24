@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Symfony\CodeQuality\Rector\Class_\EventSubscriberToAttributeRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -14,4 +15,7 @@ return RectorConfig::configure()
     ->withPhpSets()
     ->withPreparedSets(typeDeclarations: true, deadCode: true)
     ->withComposerBased(symfony: true, phpunit: true, doctrine: true)
+    ->withSkip([
+        EventSubscriberToAttributeRector::class,
+    ])
 ;

@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: set up php
         uses: shivammathur/setup-php@v2
@@ -30,7 +30,7 @@ jobs:
         env:
           SYMFONY_REQUIRE: '7.4.*'
           COMPOSER_PREFER_STABLE: 1
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
         with:
           dependency-versions: "lowest"
 
